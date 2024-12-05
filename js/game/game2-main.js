@@ -4,6 +4,7 @@ var gameUIState;
 var gamePopupAudio;
 var gamePressAudio;
 var gameTrueAudio;
+var gameLoadingBar, gameLoadingBarNail;
 
 var debugLog = [];
 
@@ -12,11 +13,12 @@ function InitializeGame() {
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
         "game-true-audio": {audio:"audio/game/true.wav"},
-    }, LoadRandomScene);
+    }, null, LoadRandomScene);
     gamePopupAudio = gameSharedAssetLibrary.data["game-popup-audio"].audio;
     gamePressAudio = gameSharedAssetLibrary.data["game-press-audio"].audio;
     gameTrueAudio = gameSharedAssetLibrary.data["game-true-audio"].audio;
     InitializeGameUI();
+    ShowLoadingUI();
 
     // gameUI.addEventListener("click", function(evt) {
     //     var windowAspectRatio = window.innerWidth / window.innerHeight;
@@ -41,6 +43,67 @@ function InitializeGame() {
     // });
 }
 
+function InitializeGameUI() {
+    gameUILibrary = new UILibrary({});
+    gameUILibrary.AddUIElements({
+        // "ui-loading-bg": {transform:{left:'0%', top:'0%', width:'100%', height:'100%'}},
+        "ui-loading-title": {transform:{top:'17.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:46, letterSpacing:4, color:'#00693E', text:'「觀」官相識'}},
+        "ui-loading-img-main": {transform:{left:'37.375%', top:'24.5%', width:'25.25%', height:'35.89%'}, image:{imgSrc:"img/loading-main.png"}},
+        "ui-loading-img-compass": {transform:{left:'55.7%', top:'48.2%', width:'9.75%', height:'16.33%'}, image:{imgSrc:"img/loading-compass.png"}},
+        "ui-loading-loadingbar": {transform:{left:'28%', top:'70.5%', width:'44%', height:'1.8%'}, loadingBar:{color1: '#fff', color2: '#F97930', round: 10}},
+        "ui-loading-img-nail": {transform:{left:'27%', top:'66.5%', width:'4%', height:'7.22%'}, image:{imgSrc:"img/loading-nail.png"}},
+        "ui-loading-img-sound": {transform:{left:'39.3%', top:'77.5%', width:'2.75%', height:'5%'}, image:{imgSrc:"img/loading-sound.png"}},
+        "ui-loading-desc": {transform:{left: '1.9%', top:'78.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'請打開聲音玩遊戲'}},
+
+        "ui-question-count-ballon": {transform:{left:'81.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/questionIndexBtn.png", fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'0/5'}},
+        "ui-score-count-ballon": {transform:{left:'89.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/scoreCountBtn.png", fontFamily:'CustomFont', fontSize:27, letterSpacing:4, color:'white', text:'0'}},
+        "ui-main-bg": {transform:{left:'20.93%', top:'17.78%', width:'58.12%', height:'64.44%'}, roundRect:{color:'white', round:150}},
+        "ui-main-title": {transform:{top:'25.2%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:37, letterSpacing:4, color:'#00693E', text:''}},
+        "ui-main-desc": {transform:{top:'56%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:20, letterSpacing:4, color:'#161616', text:''}},
+        "ui-main-button1": {transform:{left:'33.1%', top:'34.78%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/questionBtn.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(1);}}},
+        "ui-main-button2": {transform:{left:'33.1%', top:'45.25%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/questionBtn.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(2);}}},
+        "ui-main-button3": {transform:{left:'33.1%', top:'55.72%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/questionBtn.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(3);}}},
+        "ui-main-button4": {transform:{left:'33.1%', top:'66.19%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/questionBtn.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(4);}}},
+        "ui-main-image-correct": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/correct.png"}},
+        "ui-main-image-wrong": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/wrong.png"}},
+        "ui-main-image-bird": {transform:{left:'42.53%', top:'29%', width:'14.94%', height:'19.83%'}, image:{imgSrc:"img/bird.png"}},
+    });
+    gameUILibrary.AddUIResizeEvent();
+    gameUILibrary.data["ui-question-count-ballon"].SetEnabled(true);
+    gameUILibrary.data["ui-score-count-ballon"].SetEnabled(true);
+    gameUIState = 0;
+    gameLoadingBar = gameUILibrary.data["ui-loading-loadingbar"];
+    gameLoadingBarNail = gameUILibrary.data["ui-loading-img-nail"];
+}
+
+function ShowLoadingUI() {
+    // gameUILibrary.data["ui-loading-bg"].SetEnabled(true);
+    gameUILibrary.data["ui-loading-title"].SetEnabled(true);
+    gameUILibrary.data["ui-loading-img-main"].SetEnabled(true);
+    gameUILibrary.data["ui-loading-img-compass"].SetEnabled(true);
+    gameUILibrary.data["ui-loading-loadingbar"].SetEnabled(true);
+    gameUILibrary.data["ui-loading-img-nail"].SetEnabled(true);
+    gameUILibrary.data["ui-loading-img-sound"].SetEnabled(true);
+    gameUILibrary.data["ui-loading-desc"].SetEnabled(true);
+}
+
+function UpdateLoadingBar(_progress) {
+    gameLoadingBar.UpdateLoadingBar(_progress);
+    gameLoadingBarNail.Update({left: (27+((_progress/100)*44))+'%'});
+}
+
+function HideLoadingUI() {
+    // gameUILibrary.data["ui-loading-bg"].SetEnabled(false);
+    gameUILibrary.data["ui-loading-title"].SetEnabled(false);
+    gameUILibrary.data["ui-loading-img-main"].SetEnabled(false);
+    gameUILibrary.data["ui-loading-img-compass"].SetEnabled(false);
+    gameUILibrary.data["ui-loading-loadingbar"].SetEnabled(false);
+    gameUILibrary.data["ui-loading-img-nail"].SetEnabled(false);
+    gameUILibrary.data["ui-loading-img-sound"].SetEnabled(false);
+    gameUILibrary.data["ui-loading-desc"].SetEnabled(false);
+    UpdateLoadingBar(0);
+}
+
 function LoadRandomScene() {
     gameSceneIndex = Math.floor(Math.random() * 4) + 1;
     switch (gameSceneIndex) {
@@ -57,28 +120,6 @@ function LoadRandomScene() {
             InitializeGameScene4();
             break;
     }
-}
-
-function InitializeGameUI() {
-    gameUILibrary = new UILibrary({});
-    gameUILibrary.AddUIElements({
-        "ui-question-count-ballon": {transform:{left:'81.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/questionIndexBtn.png", fontFamily:'openhuninn', fontSize:34, letterSpacing:4, color:'white', text:'0/5'}},
-        "ui-score-count-ballon": {transform:{left:'89.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/scoreCountBtn.png", fontFamily:'openhuninn', fontSize:27, letterSpacing:4, color:'white', text:'0'}},
-        "ui-main-bg": {transform:{left:'20.93%', top:'17.78%', width:'58.12%', height:'64.44%'}, roundRect:{color:'white', round:150}},
-        "ui-main-title": {transform:{top:'25.2%', height:'10%'}, text:{fontFamily:'openhuninn', fontSize:37, letterSpacing:4, color:'#00693E', text:''}},
-        "ui-main-desc": {transform:{top:'56%', height:'10%'}, text:{fontFamily:'openhuninn', fontSize:20, letterSpacing:4, color:'#161616', text:''}},
-        "ui-main-button1": {transform:{left:'33.1%', top:'34.78%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/questionBtn.png", round:10, fontFamily:'openhuninn', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(1);}}},
-        "ui-main-button2": {transform:{left:'33.1%', top:'45.25%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/questionBtn.png", round:10, fontFamily:'openhuninn', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(2);}}},
-        "ui-main-button3": {transform:{left:'33.1%', top:'55.72%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/questionBtn.png", round:10, fontFamily:'openhuninn', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(3);}}},
-        "ui-main-button4": {transform:{left:'33.1%', top:'66.19%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/questionBtn.png", round:10, fontFamily:'openhuninn', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(4);}}},
-        "ui-main-image-correct": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/correct.png"}},
-        "ui-main-image-wrong": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/wrong.png"}},
-        "ui-main-image-bird": {transform:{left:'42.53%', top:'29%', width:'14.94%', height:'19.83%'}, image:{imgSrc:"img/bird.png"}},
-    });
-    gameUILibrary.AddUIResizeEvent();
-    gameUILibrary.data["ui-question-count-ballon"].SetEnabled(true);
-    gameUILibrary.data["ui-score-count-ballon"].SetEnabled(true);
-    gameUIState = 0;
 }
 
 var gameAssetLibrary;
@@ -120,13 +161,13 @@ function InitializeGameScene1() {
         "game2-scene1-tortoise-leg1": {image:"img/game2/game2-scene1-tortoise-leg1-min.png"},
         "game2-scene1-tortoise-leg2": {image:"img/game2/game2-scene1-tortoise-leg2-min.png"},
         "game2-scene1-audio": {audio:"audio/game/game2scene1.mp3"},
-    }, StartGameScene1);
+    }, UpdateLoadingBar, StartGameScene1);
 }
 
 function StartGameScene1() {
 
     //console.log(JSON.stringify());
-
+    HideLoadingUI();
     InitializeGameScene1Question();
 
     gameObjectLibrary = new GameObjectLibrary({
@@ -457,10 +498,11 @@ function InitializeGameScene2() {
         "game2-scene2-seagull1": {image:"img/game2/game2-scene2-seagull1-min.png"},
         "game2-scene2-seagull2": {image:"img/game2/game2-scene2-seagull2-min.png"},
         "game2-scene2-audio": {audio:"audio/game/game2scene2.mp3"},
-    }, StartGameScene2);
+    }, UpdateLoadingBar, StartGameScene2);
 }
 
 function StartGameScene2() {
+    HideLoadingUI();
     InitializeGameScene2Question();
 
     gameObjectLibrary = new GameObjectLibrary({
@@ -667,10 +709,11 @@ function InitializeGameScene3() {
         "game2-scene3-duck": {image:"img/game2/game2-scene3-duck-min.png"},
         "game2-scene3-rabbit": {image:"img/game2/game2-scene3-rabbit-min.png"},
         "game2-scene3-audio": {audio:"audio/game/game2scene3.mp3"},
-    }, StartGameScene3);
+    }, UpdateLoadingBar, StartGameScene3);
 }
 
 function StartGameScene3() {
+    HideLoadingUI();
     InitializeGameScene3Question();
 
     gameObjectLibrary = new GameObjectLibrary({
@@ -855,10 +898,11 @@ function InitializeGameScene4() {
         "game2-scene4-bicycle": {image:"img/game2/game2-scene4-bicycle-min.png"},
         "game2-scene4-audio": {audio:"audio/game/game2scene4.mp3"},
         "game2-scene4-car-audio": {audio:"audio/game/game2scene4_car.mp3"},
-    }, StartGameScene4);
+    }, UpdateLoadingBar, StartGameScene4);
 }
 
 function StartGameScene4() {
+    HideLoadingUI();
     InitializeGameScene4Question();
 
     gameObjectLibrary = new GameObjectLibrary({
@@ -1127,7 +1171,7 @@ function InitializeGameSceneX() {
         "game2-scene4-car2": {image:"img/game2/game2-scene4-car2-min.png"},
         "game2-scene4-bicycle": {image:"img/game2/game2-scene4-bicycle-min.png"},
         "game2-scene2-audio": {audio:"audio/game/game2scene2.mp3"},
-    }, StartGameSceneX);
+    }, UpdateLoadingBar, StartGameSceneX);
 }
 function StartGameSceneX() {
     InitializeGameScene4Question();

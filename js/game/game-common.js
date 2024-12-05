@@ -17,7 +17,7 @@ function OpenGameView(_gameId) {
     gameView.style.left = '0';
     gameView.style.width = '100%';
     gameView.style.height = '100%';
-    gameView.style.backgroundColor = '#fff';
+    gameView.style.backgroundColor = '#FBF7E9';
     gameView.style.zIndex = '1000';
     gameView.style.display = 'flex';
     gameView.style.touchAction = 'none';
@@ -26,7 +26,7 @@ function OpenGameView(_gameId) {
     gameCanvas = document.createElement('canvas');
     gameCanvas.style.position = 'fixed';
     gameCanvas.style.display = 'block';
-    gameCanvas.style.backgroundColor = '#acf';
+    gameCanvas.style.backgroundColor = '#FBF7E9';
     gameView.appendChild(gameCanvas);
     gameStage = new createjs.Stage(gameCanvas);
 

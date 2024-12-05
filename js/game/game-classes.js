@@ -1,7 +1,8 @@
 class AssetLibrary {
 
-    constructor(_data, _onLoadAll) {
+    constructor(_data, _onProgressUpdate, _onLoadAll) {
         this.data = {};
+        this.onProgressUpdate = _onProgressUpdate;
         this.onLoadAll = _onLoadAll;
         for (const assetKey in _data) {
             let assetData = _data[assetKey];
@@ -32,13 +33,19 @@ class AssetLibrary {
     }
 
     CheckLoadingStatus() {
-        var isLoadAll = true;
+        let isLoadAll = true;
+        let assetCount = 0.0, loadedAssetCount = 0.0;
         for (const assetKey in this.data) {
             let asset = this.data[assetKey];
-            if (!asset.isAssetReady) {
+            if (asset.isAssetReady) {
+                loadedAssetCount += 1.0;
+            } else {
                 isLoadAll = false;
-                break;
             }
+            assetCount += 1.0;
+        }
+        if (this.onProgressUpdate != null) {
+            this.onProgressUpdate(loadedAssetCount*100.0/assetCount);
         }
         if (isLoadAll) {
             this.onLoadAll();
@@ -240,6 +247,8 @@ class UILibrary {
             uiElement.UIImage(_uiData.image);
         } else if (_uiData.ballon) {
             uiElement.UIBallon(_uiData.ballon);
+        } else if (_uiData.loadingBar) {
+            uiElement.UILoadingBar(_uiData.loadingBar);
         }
         this.data[_uiName] = uiElement;
     }
@@ -287,6 +296,9 @@ class UIElement {
         } else if (this.isBallon) {
             this.dom.style.fontSize = (gameCanvasScale * this.fontSize) + 'px';
             this.dom.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
+        } else if (this.isLoadingBar) {
+            this.dom.style.borderRadius = (gameCanvasScale * this.round) + 'px';
+            this.dom2.style.borderRadius = (gameCanvasScale * this.round * 2) + 'px';
         }
     }
 
@@ -483,6 +495,40 @@ class UIElement {
             this.library.data[this.transform.parent].dom.appendChild(this.dom);
         }
         this.SetEnabled(false);
+    }
+
+    UILoadingBar(_data) {
+        this.isLoadingBar = true;
+        this.color1 = _data.color1;
+        this.color2 = _data.color2;
+        this.round = _data.round;
+        this.dom = document.createElement('div');
+        this.dom.style.position = 'absolute';
+        this.dom.style.display = 'block';
+        this.dom.style.border = 'none';
+        this.dom.style.left = this.transform.left;
+        this.dom.style.top = this.transform.top;
+        this.dom.style.width = this.transform.width;
+        this.dom.style.height = this.transform.height;
+        this.dom.style.background = this.color1;
+        this.dom.style.borderRadius = (gameCanvasScale * this.round) + 'px';
+        if (this.transform.parent == '') {
+            gameUI.appendChild(this.dom);
+        } else {
+            this.library.data[this.transform.parent].dom.appendChild(this.dom);
+        }
+        this.dom2 = document.createElement('div');
+        this.dom2.style.width = '0%';
+        this.dom2.style.height = '100%';
+        this.dom2.style.background = this.color2;
+        this.dom2.style.borderRadius = (gameCanvasScale * this.round * 2) + 'px';
+        this.dom2.style.transition = "width 0.3s ease-in-out";
+        this.dom.appendChild(this.dom2);
+        this.SetEnabled(false);
+    }
+
+    UpdateLoadingBar(_progress) {
+        this.dom2.style.width = Math.max(0, Math.min(100, _progress)) +'%';
     }
 
 }
