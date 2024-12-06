@@ -1,6 +1,7 @@
 class AssetLibrary {
 
     constructor(_data, _onProgressUpdate, _onLoadAll) {
+        console.log("Creating Asset Library");
         this.data = {};
         this.onProgressUpdate = _onProgressUpdate;
         this.onLoadAll = _onLoadAll;
@@ -11,6 +12,7 @@ class AssetLibrary {
                 asset.isAssetReady = false;
                 asset.image = new Image();
                 asset.image.src = assetData.image;
+                console.log("Loading asset.image");
                 asset.image.onload = () => {
                     if (asset.isAssetReady) return;
                     asset.width = asset.image.naturalWidth;
@@ -23,11 +25,13 @@ class AssetLibrary {
                 asset.isAssetReady = false;
                 asset.audio = new Audio();
                 asset.audio.src = assetData.audio;
-                asset.audio.oncanplaythrough = () => {
+                console.log("Loading asset.image");
+                asset.audio.oncanplay = () => {
                     if (asset.isAssetReady) return;
                     asset.isAssetReady = true;
                     this.CheckLoadingStatus();
                 };
+                asset.audio.load();
             }
             this.data[assetKey] = asset;
         }
