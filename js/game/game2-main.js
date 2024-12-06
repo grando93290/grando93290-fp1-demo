@@ -890,6 +890,7 @@ function InitializeGameScene3Question() {
 
 // quick access / buffer
 var s4_car1, s4_car2, s4_bicycle;
+var s4_car1_audio_hasPlay;
 
 function InitializeGameScene4() {
     gameAssetLibrary = new AssetLibrary({
@@ -912,6 +913,7 @@ function StartGameScene4() {
         "s4_car1": {transform:{posX:0, posY:640, sizeX:108, sizeY:40, flip:true},bitmap:gameAssetLibrary.data["game2-scene4-car1"]},
     });
     s4_car1 = gameObjectLibrary.data["s4_car1"];
+    s4_car1_audio_hasPlay = false;
     var bicycleSpriteSheet = new createjs.SpriteSheet({ 
         images: [gameAssetLibrary.data["game2-scene4-bicycle"].image], 
         frames: {width:201, height:210},
@@ -942,6 +944,11 @@ function LoopGameScene4(_evt) {
     s4_bicycle.SetPosition({posX:2400-240*time});
     s4_bicycle.SetAnimationIndex(Math.floor((Math.abs(runTime * 4)) % 2));
     s4_car2.SetPosition({posX:2100-time*720});
+
+    if (time > 1 && !s4_car1_audio_hasPlay) {
+        PlayAudio(gameAssetLibrary.data["game2-scene4-car-audio"].audio);
+        s4_car1_audio_hasPlay = true;
+    }
 
     gameStage.update();
     if (time > 15) {
