@@ -23,11 +23,12 @@ class AssetLibrary {
                 asset.isAssetReady = false;
                 asset.audio = new Audio();
                 asset.audio.src = assetData.audio;
-                asset.audio.oncanplaythrough = () => {
+                asset.audio.oncanplay = () => {
                     if (asset.isAssetReady) return;
                     asset.isAssetReady = true;
                     this.CheckLoadingStatus();
                 };
+                asset.audio.load();
             }
             this.data[assetKey] = asset;
         }
