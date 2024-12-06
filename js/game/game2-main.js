@@ -9,6 +9,7 @@ var gameLoadingBar, gameLoadingBarNail;
 var debugLog = [];
 
 function InitializeGame() {
+    console.log("InitializeGame");
     gameSharedAssetLibrary = new AssetLibrary({
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},

@@ -10,6 +10,7 @@ var buffer_bodyStyleOverflow, buffer_documentElementStyleOverflow;
 var buffer_bodyStyleTouchAction, buffer_documentElementStyleTouchAction;
 
 function OpenGameView(_gameId) {
+    console.log("OpenGameView");
     gameId = _gameId;
     gameView = document.createElement('div');
     gameView.style.position = 'fixed';
@@ -44,6 +45,9 @@ function OpenGameView(_gameId) {
     buffer_documentElementStyleTouchAction = document.documentElement.style.touchAction;
     document.documentElement.style.touchAction = 'none';
 
+    console.log(gameView.requestFullscreen);
+    console.log(gameView.webkitRequestFullscreen);
+    console.log(gameView.msRequestFullscreen);
     if (gameView.requestFullscreen) {
         gameView.requestFullscreen();
     } else if (gameView.webkitRequestFullscreen) {
