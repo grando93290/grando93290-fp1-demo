@@ -46,7 +46,7 @@ function InitializeGame() {
 function InitializeGameUI() {
     gameUILibrary = new UILibrary({});
     gameUILibrary.AddUIElements({
-        // "ui-loading-bg": {transform:{left:'0%', top:'0%', width:'100%', height:'100%'}},
+        "ui-loading-bg": {transform:{left:'0%', top:'0%', width:'100%', height:'100%'}, image:{imgSrc:"img/gameCommon/loading-bg.png"}},
         "ui-loading-title": {transform:{top:'17.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:46, letterSpacing:4, color:'#00693E', text:'「觀」官相識'}},
         "ui-loading-img-main": {transform:{left:'37.375%', top:'24.5%', width:'25.25%', height:'35.89%'}, image:{imgSrc:"img/game2ui/loading-main.png"}},
         "ui-loading-img-compass": {transform:{left:'55.7%', top:'48.2%', width:'9.75%', height:'16.33%'}, image:{imgSrc:"img/gameCommon/loading-compass.png"}},
@@ -77,7 +77,7 @@ function InitializeGameUI() {
 function ShowLoadingUI() {
     gameUILibrary.data["ui-question-count-ballon"].SetEnabled(false);
     gameUILibrary.data["ui-score-count-ballon"].SetEnabled(false);
-    // gameUILibrary.data["ui-loading-bg"].SetEnabled(true);
+    gameUILibrary.data["ui-loading-bg"].SetEnabled(true);
     gameUILibrary.data["ui-loading-title"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-compass"].SetEnabled(true);
@@ -95,7 +95,7 @@ function UpdateLoadingBar(_progress) {
 function HideLoadingUI() {
     gameUILibrary.data["ui-question-count-ballon"].SetEnabled(true);
     gameUILibrary.data["ui-score-count-ballon"].SetEnabled(true);
-    // gameUILibrary.data["ui-loading-bg"].SetEnabled(false);
+    gameUILibrary.data["ui-loading-bg"].SetEnabled(false);
     gameUILibrary.data["ui-loading-title"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-compass"].SetEnabled(false);

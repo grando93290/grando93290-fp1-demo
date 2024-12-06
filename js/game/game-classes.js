@@ -21,7 +21,8 @@ class AssetLibrary {
             }
             if (assetData.audio) {
                 asset.isAssetReady = false;
-                asset.audio = new Audio(assetData.audio);
+                asset.audio = new Audio();
+                asset.audio.src = assetData.audio;
                 asset.audio.oncanplaythrough = () => {
                     if (asset.isAssetReady) return;
                     asset.isAssetReady = true;
@@ -44,6 +45,7 @@ class AssetLibrary {
             }
             assetCount += 1.0;
         }
+        if (assetCount <= 0.1) assetCount = 1.0;
         if (this.onProgressUpdate != null) {
             this.onProgressUpdate(loadedAssetCount*100.0/assetCount);
         }

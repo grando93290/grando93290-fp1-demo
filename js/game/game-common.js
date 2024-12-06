@@ -17,7 +17,7 @@ function OpenGameView(_gameId) {
     gameView.style.left = '0';
     gameView.style.width = '100%';
     gameView.style.height = '100%';
-    gameView.style.backgroundColor = '#FBF7E9';
+    gameView.style.backgroundColor = '#3C5942';
     gameView.style.zIndex = '1000';
     gameView.style.display = 'flex';
     gameView.style.touchAction = 'none';
@@ -26,7 +26,7 @@ function OpenGameView(_gameId) {
     gameCanvas = document.createElement('canvas');
     gameCanvas.style.position = 'fixed';
     gameCanvas.style.display = 'block';
-    gameCanvas.style.backgroundColor = '#FBF7E9';
+    gameCanvas.style.backgroundColor = '#3C5942';
     gameView.appendChild(gameCanvas);
     gameStage = new createjs.Stage(gameCanvas);
 
@@ -46,8 +46,8 @@ function OpenGameView(_gameId) {
 
     if (gameView.requestFullscreen) {
         gameView.requestFullscreen();
-    } else if (document.webkitRequestFullscreen) {
-        document.webkitRequestFullscreen();
+    } else if (gameView.webkitRequestFullscreen) {
+        gameView.webkitRequestFullscreen();
     } else if (gameView.msRequestFullscreen) {
         gameView.msRequestFullscreen();
     }
