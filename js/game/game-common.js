@@ -56,7 +56,6 @@ function OpenGameView(_gameId) {
     } else if (gameView.msRequestFullscreen) {
         gameView.msRequestFullscreen();
     }
-    window.scrollTo(0, 0);
 
     window.addEventListener('resize', ResizeGameView);
     ResizeGameView();
@@ -122,4 +121,5 @@ function ResizeGameView() {
     gameStage.scaleX = gameCanvasScale;
     gameStage.scaleY = gameCanvasScale;
     gameStage.update();
+    window.scrollTo(0, 1);
 }
