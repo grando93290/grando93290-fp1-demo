@@ -102,9 +102,15 @@ function ResizeGameView() {
         gameCanvasHeight = gameCanvasWidth / gameAspectRatio;
         borderH = (gameInnerHeight - gameCanvasHeight) * 0.5;
     }
+    
     console.log(gameInnerWidth);
     console.log(gameCanvasWidth);
     console.log(borderW);
+
+    console.log(gameInnerHeight);
+    console.log(gameCanvasHeight);
+    console.log(borderH);
+
     gameCanvasScale = gameCanvasWidth / gameOriginalWidth;
     gameCanvas.width = gameCanvasWidth;
     gameCanvas.height = gameCanvasHeight;
