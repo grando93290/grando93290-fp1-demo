@@ -45,6 +45,7 @@ function InitializeGame() {
 }
 
 function InitializeGameUI() {
+    console.log("InitializeGameUI");
     gameUILibrary = new UILibrary({});
     gameUILibrary.AddUIElements({
         "ui-loading-bg": {transform:{left:'0%', top:'0%', width:'100%', height:'100%'}, image:{imgSrc:"img/gameCommon/loading-bg.png"}},
