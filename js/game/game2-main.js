@@ -1130,6 +1130,7 @@ function OnClickUIButton(_buttonId) {
         if (_buttonId == 1) {
             gameStage.removeAllChildren();
             gameStage.clear();
+            ShowLoadingUI();
             LoadRandomScene();
             ShowPanel(0);
             PlayAudio(gamePressAudio);

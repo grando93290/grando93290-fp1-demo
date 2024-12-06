@@ -522,7 +522,7 @@ class UIElement {
         this.dom2.style.height = '100%';
         this.dom2.style.background = this.color2;
         this.dom2.style.borderRadius = (gameCanvasScale * this.round * 2) + 'px';
-        this.dom2.style.transition = "width 0.3s ease-in-out";
+        // this.dom2.style.transition = "width 0.3s ease-in-out";
         this.dom.appendChild(this.dom2);
         this.SetEnabled(false);
     }
