@@ -69,14 +69,14 @@ function InitializeGameUI() {
         "ui-main-image-bird": {transform:{left:'42.53%', top:'29%', width:'14.94%', height:'19.83%'}, image:{imgSrc:"img/bird.png"}},
     });
     gameUILibrary.AddUIResizeEvent();
-    gameUILibrary.data["ui-question-count-ballon"].SetEnabled(true);
-    gameUILibrary.data["ui-score-count-ballon"].SetEnabled(true);
     gameUIState = 0;
     gameLoadingBar = gameUILibrary.data["ui-loading-loadingbar"];
     gameLoadingBarNail = gameUILibrary.data["ui-loading-img-nail"];
 }
 
 function ShowLoadingUI() {
+    gameUILibrary.data["ui-question-count-ballon"].SetEnabled(false);
+    gameUILibrary.data["ui-score-count-ballon"].SetEnabled(false);
     // gameUILibrary.data["ui-loading-bg"].SetEnabled(true);
     gameUILibrary.data["ui-loading-title"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(true);
@@ -93,6 +93,8 @@ function UpdateLoadingBar(_progress) {
 }
 
 function HideLoadingUI() {
+    gameUILibrary.data["ui-question-count-ballon"].SetEnabled(true);
+    gameUILibrary.data["ui-score-count-ballon"].SetEnabled(true);
     // gameUILibrary.data["ui-loading-bg"].SetEnabled(false);
     gameUILibrary.data["ui-loading-title"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(false);
