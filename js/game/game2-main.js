@@ -48,25 +48,25 @@ function InitializeGameUI() {
     gameUILibrary.AddUIElements({
         // "ui-loading-bg": {transform:{left:'0%', top:'0%', width:'100%', height:'100%'}},
         "ui-loading-title": {transform:{top:'17.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:46, letterSpacing:4, color:'#00693E', text:'「觀」官相識'}},
-        "ui-loading-img-main": {transform:{left:'37.375%', top:'24.5%', width:'25.25%', height:'35.89%'}, image:{imgSrc:"img/loading-main.png"}},
-        "ui-loading-img-compass": {transform:{left:'55.7%', top:'48.2%', width:'9.75%', height:'16.33%'}, image:{imgSrc:"img/loading-compass.png"}},
+        "ui-loading-img-main": {transform:{left:'37.375%', top:'24.5%', width:'25.25%', height:'35.89%'}, image:{imgSrc:"img/game2ui/loading-main.png"}},
+        "ui-loading-img-compass": {transform:{left:'55.7%', top:'48.2%', width:'9.75%', height:'16.33%'}, image:{imgSrc:"img/gameCommon/loading-compass.png"}},
         "ui-loading-loadingbar": {transform:{left:'28%', top:'70.5%', width:'44%', height:'1.8%'}, loadingBar:{color1: '#fff', color2: '#F97930', round: 10}},
-        "ui-loading-img-nail": {transform:{left:'27%', top:'66.5%', width:'4%', height:'7.22%'}, image:{imgSrc:"img/loading-nail.png"}},
-        "ui-loading-img-sound": {transform:{left:'39.3%', top:'77.5%', width:'2.75%', height:'5%'}, image:{imgSrc:"img/loading-sound.png"}},
+        "ui-loading-img-nail": {transform:{left:'27%', top:'66.5%', width:'4%', height:'7.22%'}, image:{imgSrc:"img/gameCommon/loading-nail.png"}},
+        "ui-loading-img-sound": {transform:{left:'39.3%', top:'77.5%', width:'2.75%', height:'5%'}, image:{imgSrc:"img/gameCommon/loading-sound.png"}},
         "ui-loading-desc": {transform:{left: '1.9%', top:'78.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'請打開聲音玩遊戲'}},
 
-        "ui-question-count-ballon": {transform:{left:'81.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/questionIndexBtn.png", fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'0/5'}},
-        "ui-score-count-ballon": {transform:{left:'89.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/scoreCountBtn.png", fontFamily:'CustomFont', fontSize:27, letterSpacing:4, color:'white', text:'0'}},
+        "ui-question-count-ballon": {transform:{left:'81.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/gameCommon/greenBallon.png", fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'0/5'}},
+        "ui-score-count-ballon": {transform:{left:'89.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/gameCommon/heartBallon.png", fontFamily:'CustomFont', fontSize:27, letterSpacing:4, color:'white', text:'0'}},
         "ui-main-bg": {transform:{left:'20.93%', top:'17.78%', width:'58.12%', height:'64.44%'}, roundRect:{color:'white', round:150}},
         "ui-main-title": {transform:{top:'25.2%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:37, letterSpacing:4, color:'#00693E', text:''}},
         "ui-main-desc": {transform:{top:'56%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:20, letterSpacing:4, color:'#161616', text:''}},
-        "ui-main-button1": {transform:{left:'33.1%', top:'34.78%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/questionBtn.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(1);}}},
-        "ui-main-button2": {transform:{left:'33.1%', top:'45.25%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/questionBtn.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(2);}}},
-        "ui-main-button3": {transform:{left:'33.1%', top:'55.72%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/questionBtn.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(3);}}},
-        "ui-main-button4": {transform:{left:'33.1%', top:'66.19%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/questionBtn.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(4);}}},
-        "ui-main-image-correct": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/correct.png"}},
-        "ui-main-image-wrong": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/wrong.png"}},
-        "ui-main-image-bird": {transform:{left:'42.53%', top:'29%', width:'14.94%', height:'19.83%'}, image:{imgSrc:"img/bird.png"}},
+        "ui-main-button1": {transform:{left:'33.1%', top:'34.78%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(1);}}},
+        "ui-main-button2": {transform:{left:'33.1%', top:'45.25%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(2);}}},
+        "ui-main-button3": {transform:{left:'33.1%', top:'55.72%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(3);}}},
+        "ui-main-button4": {transform:{left:'33.1%', top:'66.19%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(4);}}},
+        "ui-main-image-correct": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/gameCommon/correct.png"}},
+        "ui-main-image-wrong": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/gameCommon/wrong.png"}},
+        "ui-main-image-bird": {transform:{left:'42.53%', top:'29%', width:'14.94%', height:'19.83%'}, image:{imgSrc:"img/game2ui/bird.png"}},
     });
     gameUILibrary.AddUIResizeEvent();
     gameUIState = 0;
@@ -1153,61 +1153,7 @@ function GetRandomNumbers(min, max, count) {
     return range.slice(0, count); // Take the first `count` elements
 }
 
-
-
-
-
-
-
-
-
-
-
-// quick access / buffer
-var sx_car1, sx_car2, sx_bicycle;
-
-function InitializeGameSceneX() {
-    gameAssetLibrary = new AssetLibrary({
-        "game2-scene4-bg": {image:"img/game2/game2-scene4-bg-min.png"},
-        "game2-scene4-props": {image:"img/game2/game2-scene4-props-min.png"},
-        "game2-scene4-car1": {image:"img/game2/game2-scene4-car1-min.png"},
-        "game2-scene4-car2": {image:"img/game2/game2-scene4-car2-min.png"},
-        "game2-scene4-bicycle": {image:"img/game2/game2-scene4-bicycle-min.png"},
-        "game2-scene2-audio": {audio:"audio/game/game2scene2.mp3"},
-    }, UpdateLoadingBar, StartGameSceneX);
-}
-function StartGameSceneX() {
-    InitializeGameScene4Question();
-    gameObjectLibrary = new GameObjectLibrary({
-        "sx_sky": {transform:{posX:0, posY:0, sizeX:1920, sizeY:1080},bitmap:gameAssetLibrary.data["game2-scene4-bg"]},
-    });
-    sx_car2 = gameObjectLibrary.AddGameObject("sx_car2", {transform:{posX:1000, posY:500, sizeX:689, sizeY:290 ,anchorX: 0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene4-car2"]});
-    gameStage.update();
-    gameTimeBuffer1 = true;
-    createjs.Ticker.timingMode = createjs.Ticker.RAF;
-    createjs.Ticker.addEventListener("tick", LoopGameSceneX);
-}
-function LoopGameSceneX(_evt) {
-    let runTime = _evt.runTime / 1000 * 0.8;
-    if (gameTimeBuffer1) {
-        gameTimeBuffer2 = runTime;
-        gameTimeBuffer1 = false;
-    }
-    let time = runTime - gameTimeBuffer2;
-    sx_car2.SetPosition({sizeX:500 * (1+Math.sin(time))});
-    gameStage.update();
-    if (time > 15) {
-        StopGameSceneX();
-    }
-}
-function StopGameSceneX() {
-    createjs.Ticker.removeEventListener("tick", LoopGameScene4);
-    ShowQuestionPanel();
-}
 function PlayAudio(_audio) {
     _audio.currentTime = 0;
     _audio.play();
 }
-
-
-

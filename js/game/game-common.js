@@ -46,8 +46,8 @@ function OpenGameView(_gameId) {
 
     if (gameView.requestFullscreen) {
         gameView.requestFullscreen();
-    } else if (gameView.webkitRequestFullscreen) {
-        gameView.webkitRequestFullscreen();
+    } else if (document.webkitRequestFullscreen) {
+        document.webkitRequestFullscreen();
     } else if (gameView.msRequestFullscreen) {
         gameView.msRequestFullscreen();
     }
