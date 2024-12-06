@@ -46,12 +46,12 @@ function OpenGameView(_gameId) {
     document.documentElement.style.touchAction = 'none';
 
     console.log(gameView.requestFullscreen);
-    console.log(gameView.webkitRequestFullscreen);
+    console.log(gameView.webkitEnterFullScreen);
     console.log(gameView.msRequestFullscreen);
     if (gameView.requestFullscreen) {
         gameView.requestFullscreen();
-    } else if (gameView.webkitRequestFullscreen) {
-        gameView.webkitRequestFullscreen();
+    } else if (gameView.webkitEnterFullScreen) {
+        gameView.webkitEnterFullScreen();
     } else if (gameView.msRequestFullscreen) {
         gameView.msRequestFullscreen();
     }
