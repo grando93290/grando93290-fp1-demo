@@ -112,6 +112,6 @@ function ResizeGameView() {
     gameStage.scaleX = gameCanvasScale;
     gameStage.scaleY = gameCanvasScale;
     gameStage.update();
-    console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQ"):
+    console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQ");
     window.scrollTo(0, 0);
 }
