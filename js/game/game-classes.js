@@ -25,7 +25,7 @@ class AssetLibrary {
                 asset.isAssetReady = false;
                 asset.audio = new Audio();
                 asset.audio.src = assetData.audio;
-                console.log("Loading asset.image");
+                console.log("Loading asset.audio");
                 asset.audio.oncanplay = () => {
                     if (asset.isAssetReady) return;
                     asset.isAssetReady = true;

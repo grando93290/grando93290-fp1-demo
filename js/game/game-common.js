@@ -46,12 +46,13 @@ function OpenGameView(_gameId) {
     document.documentElement.style.touchAction = 'none';
 
     console.log(gameView.requestFullscreen);
-    console.log(gameView.webkitEnterFullScreen);
+    console.log(gameView.webkitRequestFullscreen);
+    console.log(gameCanvas.webkitRequestFullscreen);
     console.log(gameView.msRequestFullscreen);
     if (gameView.requestFullscreen) {
         gameView.requestFullscreen();
-    } else if (gameView.webkitEnterFullScreen) {
-        gameView.webkitEnterFullScreen();
+    } else if (gameCanvas.webkitRequestFullscreen) {
+        gameCanvas.webkitRequestFullscreen();
     } else if (gameView.msRequestFullscreen) {
         gameView.msRequestFullscreen();
     }
@@ -101,6 +102,9 @@ function ResizeGameView() {
         gameCanvasHeight = gameCanvasWidth / gameAspectRatio;
         borderH = (gameInnerHeight - gameCanvasHeight) * 0.5;
     }
+    console.log(gameInnerWidth);
+    console.log(gameCanvasWidth);
+    console.log(borderW);
     gameCanvasScale = gameCanvasWidth / gameOriginalWidth;
     gameCanvas.width = gameCanvasWidth;
     gameCanvas.height = gameCanvasHeight;
