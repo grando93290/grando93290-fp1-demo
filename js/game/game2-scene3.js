@@ -1,7 +1,7 @@
 // quick access / buffer
 var s3_cloud1, s3_cloud2, s3_cloud3, s3_cloud4;
 var s3_grass, s3_mushroom1, s3_mushroom2;
-var s3_duck1, s3_duck2, s3_rabbit1, s3_rabbit2;
+var s3_duck1, s3_duck2, s3_duck3, s3_duck4, s3_rabbit1, s3_rabbit2;
 // var s3_rabbitPosX, s3_rabbitPosY;
 
 function InitializeGameScene3() {
@@ -15,7 +15,8 @@ function InitializeGameScene3() {
         "game2-scene3-grass": {image:"img/game2/game2-scene3-grass-min.png"},
         "game2-scene3-mushroom1": {image:"img/game2/game2-scene3-mushroom1-min.png"},
         "game2-scene3-mushroom2": {image:"img/game2/game2-scene3-mushroom2-min.png"},
-        "game2-scene3-duck": {image:"img/game2/game2-scene3-duck-min.png"},
+        "game2-scene3-duck1": {image:"img/game2/game2-scene3-duck1-min.png"},
+        "game2-scene3-duck2": {image:"img/game2/game2-scene3-duck2-min.png"},
         "game2-scene3-rabbit": {image:"img/game2/game2-scene3-rabbit-min.png"},
         "game2-scene3-audio": {audio:"audio/game/game2scene3.mp3"},
     }, UpdateLoadingBar, StartGameScene3);
@@ -35,8 +36,10 @@ function StartGameScene3() {
         "s3_cloud4": {transform:{posX:1350, posY:60, sizeX:501, sizeY:193},bitmap:gameAssetLibrary.data["game2-scene3-cloud4"]},
         "s3_bg": {transform:{posX:0, posY:22, sizeX:1920, sizeY:1058},bitmap:gameAssetLibrary.data["game2-scene3-bg"]},
         "s3_grass": {transform:{posX:0, posY:1080, sizeX:1920, sizeY:448, anchorX:0, anchorY:1},bitmap:gameAssetLibrary.data["game2-scene3-grass"]},
-        "s3_duck1": {transform:{posX:600, posY:830, sizeX:288, sizeY:140, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck"]},
-        "s3_duck2": {transform:{posX:1000, posY:830, sizeX:288, sizeY:140, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck"]},
+        "s3_duck4": {transform:{posX:1000, posY:830, sizeX:288, sizeY:143, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck2"]},
+        "s3_duck3": {transform:{posX:600, posY:830, sizeX:288, sizeY:147.8, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck1"]},
+        "s3_duck2": {transform:{posX:1000, posY:0, sizeX:288, sizeY:143, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck2"]},
+        "s3_duck1": {transform:{posX:600, posY:0, sizeX:288, sizeY:147.8, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck1"]},
     });
     s3_cloud1 = gameObjectLibrary.data["s3_cloud1"];
     s3_cloud2 = gameObjectLibrary.data["s3_cloud2"];
@@ -46,12 +49,30 @@ function StartGameScene3() {
     s3_mushroom1 = gameObjectLibrary.data["s3_mushroom1"];
     s3_mushroom2 = gameObjectLibrary.data["s3_mushroom2"];
     s3_duck1 = gameObjectLibrary.data["s3_duck1"];
+    s3_duck1.SetupAnimation([
+        { time: 0, x: 1053-500, y: 832+65 },
+        { time: 4, x: 694-550, y: 850+75 },
+        { time: 9, x: 325-500, y: 899+70 },
+    ]);
     s3_duck2 = gameObjectLibrary.data["s3_duck2"];
     s3_duck2.SetupAnimation([
+        { time: 0, x: 1013-500, y: 818+60 },
+        { time: 4, x: 664-500, y: 830+60 },
+        { time: 9, x: 345-500, y: 869+60 },
+    ]);
+    s3_duck3 = gameObjectLibrary.data["s3_duck3"];
+    s3_duck3.SetupAnimation([
         { time: 0, x: 1251, y: 747 },
         { time: 4, x: 1053, y: 832 },
         { time: 9, x: 694, y: 850 },
         { time: 15, x: 325, y: 899 },
+    ]);
+    s3_duck4 = gameObjectLibrary.data["s3_duck4"];
+    s3_duck4.SetupAnimation([
+        { time: 0, x: 1281, y: 727 },
+        { time: 4, x: 1013, y: 818 },
+        { time: 9, x: 664, y: 830 },
+        { time: 15, x: 345, y: 869 },
     ]);
 
     var rabbitSpriteSheet = new createjs.SpriteSheet({ 
@@ -110,17 +131,36 @@ function LoopGameScene3(_evt) {
     s3_cloud4.SetPosition({posX:1350-time*12});
 
     let s3_duck1_scale = (s3_duck1.transform.posY - 747) / (962 - 747);
-    s3_duck1_scale = 0.5 + s3_duck1_scale * s3_duck1_scale * 0.5;
-    s3_duck1.SetPosition({posX:600-time*60, posY:830+time*15, sizeX:288*s3_duck1_scale, sizeY:140*s3_duck1_scale});
+    // s3_duck1_scale = 0.5 + s3_duck1_scale * s3_duck1_scale * 0.5;
+    s3_duck1_scale = 0.5 + s3_duck1_scale * 0.5;
+    s3_duck1.transform.sizeX = 288*s3_duck1_scale;
+    s3_duck1.transform.sizeY = 147.8*s3_duck1_scale;
+    s3_duck1.PlayAnimation(time);
 
     let s3_duck2_scale = (s3_duck2.transform.posY - 747) / (962 - 747);
-    s3_duck2_scale = 0.5 + s3_duck2_scale * s3_duck2_scale * 0.5;
+    // s3_duck2_scale = 0.5 + s3_duck2_scale * s3_duck2_scale * 0.5;
+    s3_duck2_scale = 0.5 + s3_duck2_scale * 0.5;
     s3_duck2.transform.sizeX = 288*s3_duck2_scale;
-    s3_duck2.transform.sizeY = 140*s3_duck2_scale;
+    s3_duck2.transform.sizeY = 143*s3_duck2_scale;
     s3_duck2.PlayAnimation(time);
 
+    let s3_duck3_scale = (s3_duck3.transform.posY - 747) / (962 - 747);
+    // s3_duck3_scale = 0.5 + s3_duck3_scale * s3_duck3_scale * 0.5;
+    s3_duck3_scale = 0.5 + s3_duck3_scale * 0.5;
+    s3_duck3.transform.sizeX = 288*s3_duck3_scale;
+    s3_duck3.transform.sizeY = 147.8*s3_duck3_scale;
+    s3_duck3.PlayAnimation(time);
+
+    let s3_duck4_scale = (s3_duck4.transform.posY - 747) / (962 - 747);
+    // s3_duck4_scale = 0.5 + s3_duck4_scale * s3_duck4_scale * 0.5;
+    s3_duck4_scale = 0.5 + s3_duck4_scale * 0.5;
+    s3_duck4.transform.sizeX = 288*s3_duck4_scale;
+    s3_duck4.transform.sizeY = 143*s3_duck4_scale;
+    s3_duck4.PlayAnimation(time);
+
     let s3_rabbit1_scale = (s3_rabbit1.transform.posY - 700) / (1000 - 700);
-    s3_rabbit1_scale = 0.5 + s3_rabbit1_scale * s3_rabbit1_scale * 0.5;
+    // s3_rabbit1_scale = 0.5 + s3_rabbit1_scale * s3_rabbit1_scale * 0.5;
+    s3_rabbit1_scale = 0.5 + s3_rabbit1_scale * 0.5;
     s3_rabbit1.transform.sizeX = 263*s3_rabbit1_scale;
     s3_rabbit1.transform.sizeY = 180*s3_rabbit1_scale;
     s3_rabbit1.PlayAnimation(time);
@@ -132,7 +172,8 @@ function LoopGameScene3(_evt) {
     }
 
     let s3_rabbit2_scale = (s3_rabbit2.transform.posY - 700) / (1000 - 700);
-    s3_rabbit2_scale = 0.5 + s3_rabbit2_scale * s3_rabbit2_scale * 0.5;
+    // s3_rabbit2_scale = 0.5 + s3_rabbit2_scale * s3_rabbit2_scale * 0.5;
+    s3_rabbit2_scale = 0.5 + s3_rabbit2_scale * 0.5;
     s3_rabbit2.transform.sizeX = 263*s3_rabbit2_scale;
     s3_rabbit2.transform.sizeY = 180*s3_rabbit2_scale;
     s3_rabbit2.PlayAnimation(time);
