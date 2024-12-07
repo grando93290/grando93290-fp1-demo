@@ -34,6 +34,8 @@ function StartGameScene1() {
     //console.log(JSON.stringify());
     HideLoadingUI();
     InitializeGameScene1Question();
+    gameUILibrary.data["ui-question-count-ballon"].Update({text:"0/"+gameQuestionSelected.length});
+    gameUILibrary.data["ui-score-count-ballon"].Update({text:"0"});
 
     gameObjectLibrary = new GameObjectLibrary({
         "s1_sky": {transform:{posX:0, posY:0, sizeX:1920, sizeY:1080},bitmap:gameAssetLibrary.data["game2-scene1-sky"]},
@@ -324,7 +326,7 @@ function InitializeGameScene1Question() {
         "q22": {"question": "您覺得場景中最能代表「寧靜」的是甚麼？", "ans1": "微風吹拂的草地", "ans2": "靜立的大樹", "ans3": "蔚藍的天空", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
         "q23": {"question": "這個場景為您帶來甚麼情緒？", "ans1": "平和", "ans2": "愉悅", "ans3": "感恩", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
     });
-    gameQuestionSelected = GetRandomNumbers(1, 11, 3).concat(GetRandomNumbers(12, 23, 2));
+    gameQuestionSelected = isGameQuestionDebugging ? GetSequentialInteger(23) : GetRandomNumbers(1, 11, 3).concat(GetRandomNumbers(12, 23, 2));
     gameQuestionIndex = 0;
     gameQuestionScore = 0;
     gameQuestionCorrect = false;

@@ -24,6 +24,8 @@ function InitializeGameScene3() {
 function StartGameScene3() {
     HideLoadingUI();
     InitializeGameScene3Question();
+    gameUILibrary.data["ui-question-count-ballon"].Update({text:"0/"+gameQuestionSelected.length});
+    gameUILibrary.data["ui-score-count-ballon"].Update({text:"0"});
 
     gameObjectLibrary = new GameObjectLibrary({
         "s3_sky": {transform:{posX:0, posY:0, sizeX:1920, sizeY:1080},bitmap:gameAssetLibrary.data["game2-scene3-sky"]},
@@ -180,7 +182,7 @@ function InitializeGameScene3Question() {
         "q23": {"question": "這個場景為您帶來甚麼情緒？", "ans1": "平和", "ans2": "愉悅", "ans3": "感恩", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
         "q24": {"question": "您認為這個場景最能表達什麼主題？", "ans1": "生命的變遷", "ans2": "自然的美麗", "ans3": "時間的流逝", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
     });
-    gameQuestionSelected = GetRandomNumbers(1, 11, 3).concat(GetRandomNumbers(12, 24, 2));
+    gameQuestionSelected = isGameQuestionDebugging ? GetSequentialInteger(24) : GetRandomNumbers(1, 11, 3).concat(GetRandomNumbers(12, 24, 2));
     gameQuestionIndex = 0;
     gameQuestionScore = 0;
     gameQuestionCorrect = false;

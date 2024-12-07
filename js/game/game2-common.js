@@ -5,6 +5,7 @@ var gamePopupAudio;
 var gamePressAudio;
 var gameTrueAudio;
 var gameLoadingBar, gameLoadingBarNail;
+var gameLoadSceneAction;
 
 var gameAssetLibrary;
 var gameObjectLibrary;
@@ -17,15 +18,18 @@ var gameQuestionIndex;
 var gameQuestionScore;
 var gameQuestionCorrect;
 
-var debugLog = [];
+var isGameQuestionDebugging;
+
+// var debugLog = [];
 
 function InitializeGame(_data) {
-    let loadSceneAction = ('forceScene' in _data) ? (() => LoadScene(_data.forceScene)) : (() => LoadRandomScene());
+    gameLoadSceneAction = ('forceScene' in _data) ? (() => LoadScene(_data.forceScene)) : (() => LoadRandomScene());
+    isGameQuestionDebugging = 'forceScene' in _data;
     gameSharedAssetLibrary = new AssetLibrary({
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
         "game-true-audio": {audio:"audio/game/true.wav"},
-    }, null, loadSceneAction);
+    }, null, gameLoadSceneAction);
     gamePopupAudio = gameSharedAssetLibrary.data["game-popup-audio"].audio;
     gamePressAudio = gameSharedAssetLibrary.data["game-press-audio"].audio;
     gameTrueAudio = gameSharedAssetLibrary.data["game-true-audio"].audio;
@@ -67,7 +71,7 @@ function InitializeGameUI() {
         "ui-loading-img-sound": {transform:{left:'39.3%', top:'77.5%', width:'2.75%', height:'5%'}, image:{imgSrc:"img/gameCommon/loading-sound.png"}},
         "ui-loading-desc": {transform:{left: '1.9%', top:'78.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'請打開聲音玩遊戲'}},
 
-        "ui-question-count-ballon": {transform:{left:'81.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/gameCommon/greenBallon.png", fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'0/5'}},
+        "ui-question-count-ballon": {transform:{left:'81.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/gameCommon/greenBallon.png", fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'0'}},
         "ui-score-count-ballon": {transform:{left:'89.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/gameCommon/heartBallon.png", fontFamily:'CustomFont', fontSize:27, letterSpacing:4, color:'white', text:'0'}},
         "ui-main-bg": {transform:{left:'20.93%', top:'17.78%', width:'58.12%', height:'64.44%'}, roundRect:{color:'white', round:150}},
         "ui-main-title": {transform:{top:'25.2%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:37, letterSpacing:4, color:'#00693E', text:''}},
@@ -225,14 +229,15 @@ function ShowPanel(_layout) {
 function ShowQuestionPanel() {
     gameUIState = 1;
     gameQuestionIndex = 0;
-    gameUILibrary.data["ui-question-count-ballon"].Update({text:((gameQuestionIndex+1)+"/5")});
+    gameUILibrary.data["ui-question-count-ballon"].Update({text:((gameQuestionIndex+1)+"/"+gameQuestionSelected.length)});
     ShowPanel(gameQuestionLibrary.data['q'+gameQuestionSelected[gameQuestionIndex]].layout);
     PlayAudio(gamePopupAudio);
 }
 
 function OnClickUIButton(_buttonId) {
+    let gameQuestionCount = gameQuestionSelected.length;
     let question = gameQuestionLibrary.data['q'+gameQuestionSelected[gameQuestionIndex]];
-    if (gameUIState == 1 || gameUIState == 3 || gameUIState == 5 || gameUIState == 7 || gameUIState == 9) {
+    if (gameUIState > 0 && gameUIState < (gameQuestionCount * 2) && gameUIState % 2 == 1) {
         var isCorrect = question.IsCorrect(_buttonId);
         if (isCorrect && question.isEmotional) {
             gameUIState++;
@@ -251,25 +256,25 @@ function OnClickUIButton(_buttonId) {
             ShowPanel(6);
             PlayAudio(gamePressAudio);
         }
-    } else if (gameUIState == 2 || gameUIState == 4 || gameUIState == 6 || gameUIState == 8) {
+    } else if (gameUIState > 0 && gameUIState < (gameQuestionCount * 2) && gameUIState % 2 == 0) {
         gameUIState++;
         gameQuestionIndex++;
-        gameUILibrary.data["ui-question-count-ballon"].Update({text:((gameQuestionIndex+1)+"/5")});
+        gameUILibrary.data["ui-question-count-ballon"].Update({text:((gameQuestionIndex+1)+"/"+gameQuestionCount)});
         ShowPanel(gameQuestionLibrary.data['q'+gameQuestionSelected[gameQuestionIndex]].layout);
         PlayAudio(gamePressAudio);
-    } else if (gameUIState == 10) {
+    } else if (gameUIState == (gameQuestionCount * 2)) {
         gameUIState++;
         ShowPanel(8);
         PlayAudio(gamePressAudio);
-    } else if (gameUIState == 11) {
+    } else if (gameUIState == (gameQuestionCount * 2 + 1)) {
         if (_buttonId == 1) {
             gameStage.removeAllChildren();
             gameStage.clear();
             ShowLoadingUI();
-            LoadRandomScene();
+            gameLoadSceneAction();
             ShowPanel(0);
             PlayAudio(gamePressAudio);
-            gameUILibrary.data["ui-question-count-ballon"].Update({text:"0/5"});
+            gameUILibrary.data["ui-question-count-ballon"].Update({text:"0/"+gameQuestionCount});
             gameUILibrary.data["ui-score-count-ballon"].Update({text:"0"});
         } else if (_buttonId == 2) {
             ExitGameView();
@@ -289,4 +294,12 @@ function GetRandomNumbers(min, max, count) {
 function PlayAudio(_audio) {
     _audio.currentTime = 0;
     _audio.play();
+}
+
+function GetSequentialInteger(_max) {
+    const result = [];
+    for (let i = 1; i <= _max; i++) {
+        result.push(i);
+    }
+    return result;
 }

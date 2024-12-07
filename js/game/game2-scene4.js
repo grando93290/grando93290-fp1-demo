@@ -17,6 +17,8 @@ function InitializeGameScene4() {
 function StartGameScene4() {
     HideLoadingUI();
     InitializeGameScene4Question();
+    gameUILibrary.data["ui-question-count-ballon"].Update({text:"0/"+gameQuestionSelected.length});
+    gameUILibrary.data["ui-score-count-ballon"].Update({text:"0"});
 
     gameObjectLibrary = new GameObjectLibrary({
         "s4_sky": {transform:{posX:0, posY:0, sizeX:1920, sizeY:1080},bitmap:gameAssetLibrary.data["game2-scene4-bg"]},
@@ -99,7 +101,7 @@ function InitializeGameScene4Question() {
         "q23": {"question": "觀察場景後，您對時間流逝的感覺如何？", "ans1": "時間似乎停止了", "ans2": "時間過得很慢", "ans3": "時間過得很快", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
         "q24": {"question": "您認為這個場景最能表達什麼主題？", "ans1": "現代生活", "ans2": "人類文明", "ans3": "社會發展", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
     });
-    gameQuestionSelected = GetRandomNumbers(1, 12, 3).concat(GetRandomNumbers(13, 24, 2));
+    gameQuestionSelected = isGameQuestionDebugging ? GetSequentialInteger(24) : GetRandomNumbers(1, 12, 3).concat(GetRandomNumbers(13, 24, 2));
     gameQuestionIndex = 0;
     gameQuestionScore = 0;
     gameQuestionCorrect = false;
