@@ -9,8 +9,8 @@ var gameUI;
 var buffer_bodyStyleOverflow, buffer_documentElementStyleOverflow;
 var buffer_bodyStyleTouchAction, buffer_documentElementStyleTouchAction;
 
-function OpenGameView(_gameId) {
-    gameId = _gameId;
+function OpenGameView(_data) {
+    gameId = _data.gameId;
     gameView = document.createElement('div');
     gameView.style.position = 'fixed';
     gameView.style.top = '0';
@@ -55,7 +55,7 @@ function OpenGameView(_gameId) {
     window.addEventListener('resize', ResizeGameView);
     ResizeGameView();
 
-    InitializeGame();
+    InitializeGame(_data);
 }
 
 function ExitGameView() {
