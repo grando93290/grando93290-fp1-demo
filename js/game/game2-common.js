@@ -24,6 +24,7 @@ var isGameQuestionDebugging;
 
 function InitializeGame(_data) {
     gameLoadSceneAction = ('forceScene' in _data) ? (() => LoadScene(_data.forceScene)) : (() => LoadRandomScene());
+    // gameLoadSceneAction = () => {};
     isGameQuestionDebugging = 'forceScene' in _data;
     gameSharedAssetLibrary = new AssetLibrary({
         "game-popup-audio": {audio:"audio/game/popup.wav"},
@@ -68,8 +69,10 @@ function InitializeGameUI() {
         "ui-loading-img-compass": {transform:{left:'55.7%', top:'48.2%', width:'9.75%', height:'16.33%'}, image:{imgSrc:"img/gameCommon/loading-compass.png"}},
         "ui-loading-loadingbar": {transform:{left:'28%', top:'70.5%', width:'44%', height:'1.8%'}, loadingBar:{color1: '#fff', color2: '#F97930', round: 10}},
         "ui-loading-img-nail": {transform:{left:'27%', top:'66.5%', width:'4%', height:'7.22%'}, image:{imgSrc:"img/gameCommon/loading-nail.png"}},
-        "ui-loading-img-sound": {transform:{left:'39.3%', top:'77.5%', width:'2.75%', height:'5%'}, image:{imgSrc:"img/gameCommon/loading-sound.png"}},
-        "ui-loading-desc": {transform:{left: '1.9%', top:'78.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'請打開聲音玩遊戲'}},
+        "ui-loading-img-sound": {transform:{left:'17.5%', top:'77.5%', width:'2.8125%', height:'5%'}, image:{imgSrc:"img/gameCommon/loading-sound.gif"}},
+        "ui-loading-desc1": {transform:{left: '11%', top:'78.5%', width: '40%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'請打開聲音玩遊戲'}},
+        "ui-loading-img-rotate": {transform:{left:'56.5%', top:'77.5%', width:'2.8125%', height:'5%'}, image:{imgSrc:"img/gameCommon/loading-rotate.png"}},
+        "ui-loading-desc2": {transform:{left: '51.3%', top:'78.5%', width: '40%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'將你的裝置轉成橫向'}},
 
         "ui-question-count-ballon": {transform:{left:'81.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/gameCommon/greenBallon.png", fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'0'}},
         "ui-score-count-ballon": {transform:{left:'89.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/gameCommon/heartBallon.png", fontFamily:'CustomFont', fontSize:27, letterSpacing:4, color:'white', text:'0'}},
@@ -100,7 +103,9 @@ function ShowLoadingUI() {
     gameUILibrary.data["ui-loading-loadingbar"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-nail"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-sound"].SetEnabled(true);
-    gameUILibrary.data["ui-loading-desc"].SetEnabled(true);
+    gameUILibrary.data["ui-loading-desc1"].SetEnabled(true);
+    gameUILibrary.data["ui-loading-img-rotate"].SetEnabled(true);
+    gameUILibrary.data["ui-loading-desc2"].SetEnabled(true);
 }
 
 function UpdateLoadingBar(_progress) {
@@ -118,7 +123,9 @@ function HideLoadingUI() {
     gameUILibrary.data["ui-loading-loadingbar"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-nail"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-sound"].SetEnabled(false);
-    gameUILibrary.data["ui-loading-desc"].SetEnabled(false);
+    gameUILibrary.data["ui-loading-desc1"].SetEnabled(false);
+    gameUILibrary.data["ui-loading-img-rotate"].SetEnabled(false);
+    gameUILibrary.data["ui-loading-desc2"].SetEnabled(false);
     UpdateLoadingBar(0);
 }
 

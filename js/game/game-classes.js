@@ -248,6 +248,8 @@ class UILibrary {
             uiElement.UIButton(_uiData.button);
         } else if (_uiData.image) {
             uiElement.UIImage(_uiData.image);
+        } else if (_uiData.sprite) {
+            uiElement.UISprite(_uiData.sprite);
         } else if (_uiData.ballon) {
             uiElement.UIBallon(_uiData.ballon);
         } else if (_uiData.loadingBar) {
@@ -442,6 +444,29 @@ class UIElement {
 
     UIImage(_data) {
         this.isImage = true;
+        this.imgSrc = _data.imgSrc;
+        this.dom = document.createElement('div');
+        this.dom.style.position = 'absolute';
+        this.dom.style.display = 'block';
+        this.dom.style.border = 'none';
+        this.dom.style.left = this.transform.left;
+        this.dom.style.top = this.transform.top;
+        this.dom.style.width = this.transform.width;
+        this.dom.style.height = this.transform.height;
+        this.dom.style.backgroundSize = 'cover';
+        this.dom.style.backgroundPosition = 'center';
+        this.dom.style.backgroundRepeat = 'no-repeat';
+        this.dom.style.backgroundImage = "url("+this.imgSrc+")";
+        if (this.transform.parent == '') {
+            gameUI.appendChild(this.dom);
+        } else {
+            this.library.data[this.transform.parent].dom.appendChild(this.dom);
+        }
+        this.SetEnabled(false);
+    }
+
+    UISprite(_data) {
+        this.isSprite = true;
         this.imgSrc = _data.imgSrc;
         this.dom = document.createElement('div');
         this.dom.style.position = 'absolute';
