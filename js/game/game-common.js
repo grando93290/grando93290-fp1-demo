@@ -30,6 +30,10 @@ function OpenGameView(_data) {
     gameView.appendChild(gameCanvas);
     gameStage = new createjs.Stage(gameCanvas);
 
+    gameOriginalWidth = _data.width;
+    gameOriginalHeight = _data.height;
+    gameAspectRatio = gameOriginalWidth / gameOriginalHeight;
+
     gameUI = document.createElement('div');
     gameUI.style.position = 'fixed';
     gameUI.style.display = 'block';
@@ -76,9 +80,9 @@ function ExitGameView() {
 }
 
 // Resize
-var gameOriginalWidth = 1920;
-var gameOriginalHeight = 1080;
-var gameAspectRatio = gameOriginalWidth / gameOriginalHeight;
+var gameOriginalWidth;
+var gameOriginalHeight;
+var gameAspectRatio;
 var gameCanvasWidth = window.innerWidth;
 var gameCanvasHeight = window.innerHeight;
 var gameCanvasScale = 1;
