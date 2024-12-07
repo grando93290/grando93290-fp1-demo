@@ -23,8 +23,8 @@ var isGameQuestionDebugging;
 // var debugLog = [];
 
 function InitializeGame(_data) {
-    // gameLoadSceneAction = ('forceScene' in _data) ? (() => LoadScene(_data.forceScene)) : (() => LoadRandomScene());
-    gameLoadSceneAction = () => {};
+    gameLoadSceneAction = ('forceScene' in _data) ? (() => LoadScene(_data.forceScene)) : (() => LoadRandomScene());
+    // gameLoadSceneAction = () => {};
     isGameQuestionDebugging = 'forceScene' in _data;
     gameSharedAssetLibrary = new AssetLibrary({
         "game-popup-audio": {audio:"audio/game/popup.wav"},
