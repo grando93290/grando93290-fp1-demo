@@ -28,6 +28,14 @@ function InitializeGame(_data) {
     // gameLoadSceneAction = () => {};
     isGameQuestionDebugging = 'forceScene' in _data;
     gameSharedAssetLibrary = new AssetLibrary({
+        "ui-question-count-ballon": {image:"img/gameCommon/greenBallon.png"},
+        "ui-score-ballon": {image:"img/gameCommon/heartBallon.png"},
+        "ui-score-ballon2": {image:"img/gameCommon/heartBallon2.png"},
+        "ui-button": {image:"img/gameCommon/button.png"},
+        "ui-correct": {image:"img/gameCommon/correct.png"},
+        "ui-wrong": {image:"img/gameCommon/wrong.png"},
+        "ui-bird": {image:"img/game2ui/bird.png"},
+
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
         "game-true-audio": {audio:"audio/game/true.wav"},
