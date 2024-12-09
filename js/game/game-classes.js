@@ -344,19 +344,38 @@ class UIElement {
     FadeIn() {
         this.dom.style.opacity = '0%';
         this.SetEnabled(true);
-        this.fadeInAnimationValue = 0;
+        this.fadeAnimationValue = 0;
         this.fadeInAnimation = () => this.FadeInAnimation(this);
         createjs.Ticker.addEventListener("tick", this.fadeInAnimation);
     }
 
     FadeInAnimation(_uiElement) {
-        _uiElement.fadeInAnimationValue += 10;
-        if (_uiElement.fadeInAnimationValue > 100) {
+        _uiElement.fadeAnimationValue += 10;
+        if (_uiElement.fadeAnimationValue > 100) {
             _uiElement.dom.style.opacity = '100%';
             createjs.Ticker.removeEventListener("tick", _uiElement.fadeInAnimation);
             return;
         }
-        _uiElement.dom.style.opacity = _uiElement.fadeInAnimationValue +'%';
+        _uiElement.dom.style.opacity = _uiElement.fadeAnimationValue +'%';
+    }
+
+    FadeOut() {
+        this.dom.style.opacity = '100%';
+        this.SetEnabled(true);
+        this.fadeAnimationValue = 100;
+        this.fadeOutAnimation = () => this.FadeOutAnimation(this);
+        createjs.Ticker.addEventListener("tick", this.fadeOutAnimation);
+    }
+
+    FadeOutAnimation(_uiElement) {
+        _uiElement.fadeAnimationValue -= 10;
+        if (_uiElement.fadeAnimationValue < 0) {
+            this.SetEnabled(false);
+            _uiElement.dom.style.opacity = '100%';
+            createjs.Ticker.removeEventListener("tick", _uiElement.fadeOutAnimation);
+            return;
+        }
+        _uiElement.dom.style.opacity = _uiElement.fadeAnimationValue +'%';
     }
 
     Update(_data) {

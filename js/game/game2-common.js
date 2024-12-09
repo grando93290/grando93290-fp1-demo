@@ -268,13 +268,13 @@ function OnClickUIButton(_buttonId) {
         if (isCorrect && question.isEmotional) {
             gameUIState++;
             gameQuestionScore++;
-            gameScoreBallon.Update({text:gameQuestionScore});
+            gameScoreBallon.Update({text:gameQuestionScore.toString()});
             ShowPanel(7);
             PlayAudio(gameTrueAudio);
         } else if (isCorrect) {
             gameUIState++;
             gameQuestionScore++;
-            gameScoreBallon.Update({text:gameQuestionScore});
+            gameScoreBallon.Update({text:gameQuestionScore.toString()});
             ShowPanel(5);
             PlayAudio(gameTrueAudio);
         } else {
