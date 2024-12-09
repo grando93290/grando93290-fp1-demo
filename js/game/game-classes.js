@@ -77,6 +77,8 @@ class GameObjectLibrary {
             gameObject.Bitmap(_gameObjectData.bitmap);
         } else if (_gameObjectData.sprite) {
             gameObject.Sprite(_gameObjectData.sprite.spriteSheet, _gameObjectData.sprite.spriteIndices);
+        } else if (_gameObjectData.clock) {
+            gameObject.Clock(_gameObjectData.clock);
         }
         this.data[_gameObjectName] = gameObject;
         return this.data[_gameObjectName];
@@ -131,6 +133,22 @@ class GameObject {
         this.UpdatePosition();
         gameStage.addChild(this.renderer);
         return this;
+    }
+
+    Clock(_clockData) {
+        this.clockData = _clockData;
+        this.renderer = new createjs.Shape();
+        this.SetClockArc();
+        this.UpdatePosition();
+        gameStage.addChild(this.renderer);
+        return this;
+    }
+
+    SetClockArc() {
+        this.renderer.graphics.clear();
+        this.renderer.graphics.setStrokeStyle(this.clockData.thickness)
+            .beginStroke(this.clockData.color)
+            .arc(this.transform.posX, this.transform.posY, this.clockData.radius, this.clockData.startArc, this.clockData.endArc);
     }
 
     SetupAnimation(_frameData) {
@@ -254,6 +272,8 @@ class UILibrary {
             uiElement.UIBallon(_uiData.ballon);
         } else if (_uiData.loadingBar) {
             uiElement.UILoadingBar(_uiData.loadingBar);
+        } else if (_uiData.clock) {
+            uiElement.UIClock(_uiData.clock);
         }
         this.data[_uiName] = uiElement;
     }
@@ -298,12 +318,16 @@ class UIElement {
             this.dom.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
         } else if (this.isImage) {
 
+        } else if (this.isSprite) {
+
         } else if (this.isBallon) {
             this.dom.style.fontSize = (gameCanvasScale * this.fontSize) + 'px';
             this.dom.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
         } else if (this.isLoadingBar) {
             this.dom.style.borderRadius = (gameCanvasScale * this.round) + 'px';
             this.dom2.style.borderRadius = (gameCanvasScale * this.round * 2) + 'px';
+        } else if (this.isClock) {
+            this.dom.style.border = (gameCanvasScale * this.thickness) + 'px solid ' + this.color1;
         }
     }
 
@@ -334,6 +358,14 @@ class UIElement {
         if (_data.text) {
             this.text = _data.text;
             this.dom.innerHTML = this.text;
+        }
+        if (_data.fontSize) {
+            this.fontSize = _data.fontSize;
+            this.UpdateUISize();
+        }
+        if (_data.letterSpacing) {
+            this.letterSpacing = _data.letterSpacing;
+            this.UpdateUISize();
         }
         if (_data.left) {
             this.transform.left = _data.left;
@@ -392,6 +424,7 @@ class UIElement {
         this.dom.style.height = this.transform.height;
         this.dom.style.fontFamily = this.fontFamily;
         this.dom.style.fontSize = (gameCanvasScale * this.fontSize) + 'px';
+        this.dom.style.fontWeight = 100;
         this.dom.style.color = this.color;
         this.dom.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
         this.dom.innerHTML = this.text;
@@ -430,6 +463,7 @@ class UIElement {
         this.dom.style.textAlign = "center"; 
         this.dom.style.fontFamily = this.fontFamily;
         this.dom.style.fontSize = (gameCanvasScale * this.fontSize) + 'px';
+        this.dom.style.fontWeight = 100;
         this.dom.style.color = this.color;
         this.dom.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
         this.dom.innerHTML = this.text;
@@ -557,6 +591,29 @@ class UIElement {
 
     UpdateLoadingBar(_progress) {
         this.dom2.style.width = Math.max(0, Math.min(100, _progress)) +'%';
+    }
+
+    UIClock(_data) {
+        this.isClock = true;
+        this.color1 = _data.color1;
+        this.color2 = _data.color2;
+        this.thickness = _data.thickness;
+        this.dom = document.createElement('div');
+        this.dom.style.position = 'absolute';
+        this.dom.style.display = 'block';
+        this.dom.style.boxSizing = 'border-box';
+        this.dom.style.border = (gameCanvasScale * this.thickness) + 'px solid ' + this.color1;
+        this.dom.style.borderRadius = '50%';
+        this.dom.style.left = this.transform.left;
+        this.dom.style.top = this.transform.top;
+        this.dom.style.width = this.transform.width;
+        this.dom.style.height = this.transform.height;
+        if (this.transform.parent == '') {
+            gameUI.appendChild(this.dom);
+        } else {
+            this.library.data[this.transform.parent].dom.appendChild(this.dom);
+        }
+        this.SetEnabled(false);
     }
 
 }
