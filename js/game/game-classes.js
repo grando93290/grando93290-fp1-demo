@@ -431,16 +431,15 @@ class UIElement {
         this.dom.style.width = this.transform.width;
         this.dom.style.height = this.transform.height;
         this.dom.style.fontFamily = this.fontFamily;
-        this.dom.style.fontSize = (gameCanvasScale * this.fontSize) + 'px';
         this.dom.style.fontWeight = 100;
         this.dom.style.color = this.color;
-        this.dom.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
         this.dom.innerHTML = this.text;
         if (this.transform.parent == '') {
             gameUI.appendChild(this.dom);
         } else {
             this.library.data[this.transform.parent].dom.appendChild(this.dom);
         }
+        this.UpdateUISize();
         this.SetEnabled(false);
     }
 
