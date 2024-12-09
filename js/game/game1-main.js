@@ -413,7 +413,7 @@ function SetUIState() {
         case 13: // 20 sec test finish (before 1 min), wait for end game or next round
         case 18: // 30 sec test finish (before 1 min), wait for end game or next round
             gameUIClockTitle.Update({text:"你的時間 "+gameTime.toFixed(1)+"秒"}); gameUIClockTitle.SetEnabled(true);
-            gameUIClockDesc.Update({text:"目標時間 "+gameUIState==8?"15秒":gameUIState==13?"20秒":"30秒"}); gameUIClockDesc.SetEnabled(true);
+            gameUIClockDesc.Update({text:"目標時間 "+(gameUIState==8?"15秒":gameUIState==13?"20秒":"30秒")}); gameUIClockDesc.SetEnabled(true);
             gameUIClockBtn.Update({text:gameTestIndex==3?"完成":"下一輪"}); gameUIClockBtn.SetEnabled(true);
             break;
         case 9: // 15 sec test finish (after 1 min), wait for end game or next round
