@@ -5,6 +5,7 @@ var gamePopupAudio;
 var gamePressAudio;
 var gameTrueAudio;
 var gameLoadingBar, gameLoadingBarNail;
+var gameQuestionBallon, gameScoreBallon;
 var gameLoadSceneAction;
 
 var gameAssetLibrary;
@@ -91,11 +92,14 @@ function InitializeGameUI() {
     gameUIState = 0;
     gameLoadingBar = gameUILibrary.data["ui-loading-loadingbar"];
     gameLoadingBarNail = gameUILibrary.data["ui-loading-img-nail"];
+    gameQuestionBallon = gameUILibrary.data["ui-question-count-ballon"];
+    gameScoreBallon = gameUILibrary.data["ui-score-count-ballon"];
+    gameScoreBallon.AddCoveredBallon({imgSrc2:"img/gameCommon/heartBallon2.png"});
 }
 
 function ShowLoadingUI() {
-    gameUILibrary.data["ui-question-count-ballon"].SetEnabled(false);
-    gameUILibrary.data["ui-score-count-ballon"].SetEnabled(false);
+    gameQuestionBallon.SetEnabled(false);
+    gameScoreBallon.SetEnabled(false);
     gameUILibrary.data["ui-loading-bg"].SetEnabled(true);
     gameUILibrary.data["ui-loading-title"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(true);
@@ -114,8 +118,8 @@ function UpdateLoadingBar(_progress) {
 }
 
 function HideLoadingUI() {
-    gameUILibrary.data["ui-question-count-ballon"].SetEnabled(true);
-    gameUILibrary.data["ui-score-count-ballon"].SetEnabled(true);
+    gameQuestionBallon.SetEnabled(true);
+    gameScoreBallon.SetEnabled(true);
     gameUILibrary.data["ui-loading-bg"].SetEnabled(false);
     gameUILibrary.data["ui-loading-title"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(false);
@@ -236,7 +240,7 @@ function ShowPanel(_layout) {
 function ShowQuestionPanel() {
     gameUIState = 1;
     gameQuestionIndex = 0;
-    gameUILibrary.data["ui-question-count-ballon"].Update({text:((gameQuestionIndex+1)+"/"+gameQuestionSelected.length)});
+    gameQuestionBallon.Update({text:((gameQuestionIndex+1)+"/"+gameQuestionSelected.length)});
     ShowPanel(gameQuestionLibrary.data['q'+gameQuestionSelected[gameQuestionIndex]].layout);
     PlayAudio(gamePopupAudio);
 }
@@ -249,13 +253,13 @@ function OnClickUIButton(_buttonId) {
         if (isCorrect && question.isEmotional) {
             gameUIState++;
             gameQuestionScore++;
-            gameUILibrary.data["ui-score-count-ballon"].Update({text:gameQuestionScore});
+            gameScoreBallon.Update({text:gameQuestionScore});
             ShowPanel(7);
             PlayAudio(gameTrueAudio);
         } else if (isCorrect) {
             gameUIState++;
             gameQuestionScore++;
-            gameUILibrary.data["ui-score-count-ballon"].Update({text:gameQuestionScore});
+            gameScoreBallon.Update({text:gameQuestionScore});
             ShowPanel(5);
             PlayAudio(gameTrueAudio);
         } else {
@@ -266,7 +270,7 @@ function OnClickUIButton(_buttonId) {
     } else if (gameUIState > 0 && gameUIState < (gameQuestionCount * 2) && gameUIState % 2 == 0) {
         gameUIState++;
         gameQuestionIndex++;
-        gameUILibrary.data["ui-question-count-ballon"].Update({text:((gameQuestionIndex+1)+"/"+gameQuestionCount)});
+        gameQuestionBallon.Update({text:((gameQuestionIndex+1)+"/"+gameQuestionCount)});
         ShowPanel(gameQuestionLibrary.data['q'+gameQuestionSelected[gameQuestionIndex]].layout);
         PlayAudio(gamePressAudio);
     } else if (gameUIState == (gameQuestionCount * 2)) {
@@ -281,8 +285,8 @@ function OnClickUIButton(_buttonId) {
             gameLoadSceneAction();
             ShowPanel(0);
             PlayAudio(gamePressAudio);
-            gameUILibrary.data["ui-question-count-ballon"].Update({text:"0/"+gameQuestionCount});
-            gameUILibrary.data["ui-score-count-ballon"].Update({text:"0"});
+            gameQuestionBallon.Update({text:"0/"+gameQuestionCount});
+            gameScoreBallon.Update({text:"0"});
         } else if (_buttonId == 2) {
             ExitGameView();
         }

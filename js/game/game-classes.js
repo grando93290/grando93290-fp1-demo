@@ -323,6 +323,10 @@ class UIElement {
         } else if (this.isBallon) {
             this.dom.style.fontSize = (gameCanvasScale * this.fontSize) + 'px';
             this.dom.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
+            if (this.dom2) {
+                this.dom2.style.fontSize = (gameCanvasScale * this.fontSize) + 'px';
+                this.dom2.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
+            }
         } else if (this.isLoadingBar) {
             this.dom.style.borderRadius = (gameCanvasScale * this.round) + 'px';
             this.dom2.style.borderRadius = (gameCanvasScale * this.round * 2) + 'px';
@@ -358,6 +362,10 @@ class UIElement {
         if (_data.text) {
             this.text = _data.text;
             this.dom.innerHTML = this.text;
+            if (this.isBallon && this.dom2) {
+                this.dom2.innerHTML = this.text;
+                this.dom2.style.display = this.text == '0' ? 'none' : 'block';
+            }
         }
         if (_data.fontSize) {
             this.fontSize = _data.fontSize;
@@ -534,7 +542,6 @@ class UIElement {
         this.dom.style.position = 'absolute';
         this.dom.style.display = 'block';
         this.dom.style.border = 'none';
-        this.dom.style.cursor = 'pointer';
         this.dom.style.left = this.transform.left;
         this.dom.style.top = this.transform.top;
         this.dom.style.width = this.transform.width;
@@ -557,6 +564,35 @@ class UIElement {
             this.library.data[this.transform.parent].dom.appendChild(this.dom);
         }
         this.SetEnabled(false);
+    }
+
+    AddCoveredBallon(_data) {
+        this.imgSrc2 = _data.imgSrc2;
+        this.dom2 = document.createElement('div');
+        this.dom2.style.position = 'absolute';
+        this.dom2.style.display = 'none';
+        this.dom2.style.border = 'none';
+        this.dom2.style.left = this.transform.left;
+        this.dom2.style.top = this.transform.top;
+        this.dom2.style.width = this.transform.width;
+        this.dom2.style.height = this.transform.height;
+        this.dom2.style.backgroundSize = 'cover';
+        this.dom2.style.backgroundPosition = 'center';
+        this.dom2.style.backgroundRepeat = 'no-repeat';
+        this.dom2.style.backgroundImage = "url("+this.imgSrc2+")";
+        this.dom2.style.alignContent = 'center';
+        this.dom2.style.textAlign = "center";
+        this.dom2.style.borderRadius = (gameCanvasScale * this.round) + 'px';
+        this.dom2.style.fontFamily = this.fontFamily;
+        this.dom2.style.fontSize = (gameCanvasScale * this.fontSize) + 'px';
+        this.dom2.style.color = this.color;
+        this.dom2.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
+        this.dom2.innerHTML = this.text;
+        if (this.transform.parent == '') {
+            gameUI.appendChild(this.dom2);
+        } else {
+            this.library.data[this.transform.parent].dom.appendChild(this.dom2);
+        }
     }
 
     UILoadingBar(_data) {

@@ -36,8 +36,8 @@ function InitializeGameScene2() {
 function StartGameScene2() {
     HideLoadingUI();
     InitializeGameScene2Question();
-    gameUILibrary.data["ui-question-count-ballon"].Update({text:"0/"+gameQuestionSelected.length});
-    gameUILibrary.data["ui-score-count-ballon"].Update({text:"0"});
+    gameQuestionBallon.Update({text:"0/"+gameQuestionSelected.length});
+    gameScoreBallon.Update({text:"0"});
 
     gameObjectLibrary = new GameObjectLibrary({
         "s2_sky": {transform:{posX:0, posY:0, sizeX:1920, sizeY:1080},bitmap:gameAssetLibrary.data["game2-scene2-sky"]},
