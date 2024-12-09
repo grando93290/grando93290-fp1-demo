@@ -4,20 +4,30 @@ var gameView;
 var gameCanvas;
 var gameStage;
 var gameUI;
+var gameColor;
 
 // Buffer
 var buffer_bodyStyleOverflow, buffer_documentElementStyleOverflow;
 var buffer_bodyStyleTouchAction, buffer_documentElementStyleTouchAction;
 
+// Resize
+var gameOriginalWidth;
+var gameOriginalHeight;
+var gameAspectRatio;
+var gameCanvasWidth = window.innerWidth;
+var gameCanvasHeight = window.innerHeight;
+var gameCanvasScale = 1;
+
 function OpenGameView(_data) {
     gameId = _data.gameId;
+    gameColor = _data.gameColor;
     gameView = document.createElement('div');
     gameView.style.position = 'fixed';
     gameView.style.top = '0';
     gameView.style.left = '0';
     gameView.style.width = '100%';
     gameView.style.height = '100%';
-    gameView.style.backgroundColor = '#3C5942';
+    gameView.style.backgroundColor = gameColor;
     gameView.style.zIndex = '1000';
     gameView.style.display = 'flex';
     gameView.style.touchAction = 'none';
@@ -26,7 +36,7 @@ function OpenGameView(_data) {
     gameCanvas = document.createElement('canvas');
     gameCanvas.style.position = 'fixed';
     gameCanvas.style.display = 'block';
-    gameCanvas.style.backgroundColor = '#3C5942';
+    gameCanvas.style.backgroundColor = gameColor;
     gameView.appendChild(gameCanvas);
     gameStage = new createjs.Stage(gameCanvas);
 
@@ -78,14 +88,6 @@ function ExitGameView() {
     gameView = null;
     window.location.href = "game" + gameId + "finish.html";
 }
-
-// Resize
-var gameOriginalWidth;
-var gameOriginalHeight;
-var gameAspectRatio;
-var gameCanvasWidth = window.innerWidth;
-var gameCanvasHeight = window.innerHeight;
-var gameCanvasScale = 1;
 
 function ResizeGameView() {
     const gameInnerWidth = window.innerWidth;
