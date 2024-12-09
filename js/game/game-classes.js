@@ -312,6 +312,7 @@ class UIElement {
         } else if (this.isText) {
             this.dom.style.fontSize = (gameCanvasScale * this.fontSize) + 'px';
             this.dom.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
+            this.dom.style.lineHeight = (gameCanvasScale * this.lineHeight) + 'px';
         } else if (this.isButton) {
             this.dom.style.borderRadius = (gameCanvasScale * this.round) + 'px';
             this.dom.style.fontSize = (gameCanvasScale * this.fontSize) + 'px';
@@ -375,6 +376,10 @@ class UIElement {
             this.letterSpacing = _data.letterSpacing;
             this.UpdateUISize();
         }
+        if (_data.lineHeight) {
+            this.lineHeight = _data.lineHeight;
+            this.UpdateUISize();
+        }
         if (_data.left) {
             this.transform.left = _data.left;
             this.dom.style.left = this.transform.left;
@@ -422,6 +427,7 @@ class UIElement {
         this.letterSpacing = _data.letterSpacing;
         this.color = _data.color;
         this.text = _data.text;
+        this.lineHeight = _data.lineHeight;
         this.dom = document.createElement('label');
         this.dom.style.position = 'absolute';
         this.dom.style.display = 'block';

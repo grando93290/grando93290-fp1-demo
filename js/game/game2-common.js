@@ -87,7 +87,7 @@ function InitializeGameUI() {
         "ui-score-count-ballon": {transform:{left:'89.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/gameCommon/heartBallon.png", fontFamily:'CustomFont', fontSize:27, letterSpacing:4, color:'white', text:'0'}},
 
         "ui-main-bg": {transform:{left:'12.5%', top:'11.11%', width:'75%', height:'77.78%'}, roundRect:{color:'white', round:150}},
-        "ui-main-title": {transform:{top:'26%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:46, letterSpacing:4, color:'#00693E', text:''}},
+        "ui-main-title": {transform:{top:'26%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:46, letterSpacing:4, color:'#00693E', text:'', lineHeight: 70}},
         "ui-main-desc": {transform:{top:'56%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:36, letterSpacing:4, color:'#161616', text:''}},
         "ui-main-button1": {transform:{left:'33.1%', top:'34.78%', width:'33.8%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:45, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(1);}}},
         "ui-main-button2": {transform:{left:'33.1%', top:'45.25%', width:'33.8%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:45, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(2);}}},
@@ -106,7 +106,6 @@ function InitializeGameUI() {
     gameQuestionBallon = gameUILibrary.data["ui-question-count-ballon"];
     gameScoreBallon = gameUILibrary.data["ui-score-count-ballon"];
     gameScoreBallon.AddCoveredBallon({imgSrc2:"img/gameCommon/heartBallon2.png"});
-    gameUILibrary.data["ui-main-title"].dom.style.lineHeight = '40px';
 
     // gameUILibrary.data["ui-bg"].SetEnabled(true);
     // gameUILibrary.data["ui-bg"].dom.style.opacity = '50%';
