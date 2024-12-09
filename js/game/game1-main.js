@@ -12,8 +12,6 @@ var gameAssetLibrary;
 var gameObjectLibrary;
 var gameTimeBuffer1, gameTimeBuffer2;
 
-var gameScore, gameTime, gamePlayCountdown;
-
 var game1vegetable1, game1vegetable2, game1vegetable3, game1vegetable4, game1vegetable5, game1vegetable6;
 var game1ppl, game1cat;
 var game1clock, game1clock_bg, game1clock_dot, game1clock_isHide;
@@ -23,6 +21,10 @@ var gameAudioCountdown, gameAudioWin, gameAudioLose;
 var gameUIClockTitle, gameUIClockDesc, gameUIClockTimer, gameUIClockBtn;
 var gameUITalkingBox, gameUITalkingText;
 
+var gameUIMainBox, gameUIMainTitle, gameUIMainDesc, gameUIMainImage, gameUIMainButton1, gameUIMainButton2;
+
+var gameScore, gameTime, gamePlayCountdown, gameTestIndex, gamePplTalkFadeOut;
+
 function InitializeGame(_data) {
     isGameQuestionDebugging = 'forceScene' in _data;
     gameSharedAssetLibrary = new AssetLibrary({
@@ -31,6 +33,7 @@ function InitializeGame(_data) {
         "ui-score-ballon2": {image:"img/gameCommon/heartBallon2.png"},
         "ui-button": {image:"img/gameCommon/button.png"},
         "ui-talkingBubble-bg": {image:"img/game1ui/talkingBubble.png"},
+        "ui-main-image": {image:"img/game1ui/ppl.png"},
 
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
@@ -58,27 +61,24 @@ function InitializeGameUI() {
         "ui-loading-desc2": {transform:{left: '52.6%', top:'79.5%', width: '40%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'將你的裝置轉成橫向'}},
 
         "ui-question-count-ballon": {transform:{left:'79.16%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/greenBallon.png", fontFamily:'CustomFont', fontSize:30, letterSpacing:4, color:'white', text:'1/3'}},
-        "ui-score-count-ballon": {transform:{left:'86.68%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/heartBallon2.png", fontFamily:'CustomFont', fontSize:25, letterSpacing:4, color:'white', text:'0'}},
+        "ui-score-count-ballon": {transform:{left:'86.68%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/heartBallon.png", fontFamily:'CustomFont', fontSize:25, letterSpacing:4, color:'white', text:'0'}},
 
         "ui-clock-title": {transform:{top:'17.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:45, letterSpacing:4, color:'#00693E', text:'15秒感知練習'}},
-        "ui-clock-desc": {transform:{top:'24.2%', height:'15%'}, text:{fontFamily:'CustomFont', fontSize:31, letterSpacing:4, color:'#000000', text:'請專注呼吸，平靜自己的思緒，<br/>感受時間的流逝。'}},
-        "ui-clock-timer": {transform:{top:'74%', height:'15%'}, text:{fontFamily:'CustomFont', fontSize:55, letterSpacing:4, color:'#00693E', text:''}},
+        "ui-clock-desc": {transform:{top:'24.2%', height:'15%'}, text:{fontFamily:'CustomFont', fontSize:31, letterSpacing:4, color:'#000000', text:'請專注呼吸，平靜自己的思緒，<br/>感受時間的流逝。', lineHeight: 40}},
+        "ui-clock-timer": {transform:{top:'73.5%', height:'15%'}, text:{fontFamily:'CustomFont', fontSize:58, letterSpacing:4, color:'#00693E', text:''}},
         "ui-clock-btn": {transform:{left:'42.19%', top:'75%', width:'15.625%', height:'7.8%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'開始', onclick:()=>{OnClickUIButton(1);}}},
 
-        "ui-talkingBubble-bg": {transform:{left:'54%', top:'25%', width:'18.81%', height:'18.44%'}, image:{imgSrc:"img/game1ui/talkingBubble.png"}},
-        "ui-talkingBubble-text": {transform:{left: '54.5%', top:'30.5%', width: '18.81%', height:'18.44%'}, text:{fontFamily:'CustomFont', fontSize:26, letterSpacing:4, color:'#F97930', text:'已完成感知練習<br/>現在進入下一個環節'}},
+        "ui-talkingBubble-bg": {transform:{left:'55.7%', top:'30%', width:'18.81%', height:'18.44%'}, image:{imgSrc:"img/game1ui/talkingBubble.png"}},
+        "ui-talkingBubble-text": {transform:{left: '56.2%', top:'35.5%', width: '18.81%', height:'18.44%'}, text:{fontFamily:'CustomFont', fontSize:26, letterSpacing:4, color:'#F97930', text:'已完成感知練習<br/>現在進入下一個環節'}},
 
-        // "ui-main-bg": {transform:{left:'20.93%', top:'17.78%', width:'58.12%', height:'64.44%'}, roundRect:{color:'white', round:150}},
-        // "ui-main-title": {transform:{top:'25.2%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:37, letterSpacing:4, color:'#00693E', text:''}},
-        // "ui-main-desc": {transform:{top:'56%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:20, letterSpacing:4, color:'#161616', text:''}},
-        // "ui-main-button1": {transform:{left:'33.1%', top:'34.78%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(1);}}},
-        // "ui-main-button2": {transform:{left:'33.1%', top:'45.25%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(2);}}},
-        // "ui-main-button3": {transform:{left:'33.1%', top:'55.72%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(3);}}},
-        // "ui-main-button4": {transform:{left:'33.1%', top:'66.19%', width:'33.8%', height:'7.8%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(4);}}},
-        // "ui-main-image-correct": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/gameCommon/correct.png"}},
-        // "ui-main-image-wrong": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/gameCommon/wrong.png"}},
-        // "ui-main-image-bird": {transform:{left:'42.53%', top:'29%', width:'14.94%', height:'19.83%'}, image:{imgSrc:"img/game2ui/bird.png"}},
+        "ui-main-bg": {transform:{left:'15.28%', top:'11.11%', width:'69.44%', height:'77.78%'}, roundRect:{color:'white', round:150}},
+        "ui-main-title": {transform:{top:'25%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:40, letterSpacing:4, color:'#00693E', text:'完成遊戲', lineHeight: 70}},
+        "ui-main-desc": {transform:{top:'29%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:32, letterSpacing:4, color:'#F97930', text:'請進入下一輪遊戲'}},
+        "ui-main-image": {transform:{left:'43.06%', top:'34%', width:'13.88%', height:'23.33%'}, image:{imgSrc:"img/game1ui/ppl.png"}},
+        "ui-main-button1": {transform:{left:'33.1%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickUIButton(1);}}},
+        "ui-main-button2": {transform:{left:'50.9%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickUIButton(2);}}},
     });
+
     gameUILibrary.AddUIResizeEvent();
     gameUIState = 0;
     gameLoadingBar = gameUILibrary.data["ui-loading-loadingbar"];
@@ -94,6 +94,13 @@ function InitializeGameUI() {
 
     gameUITalkingBox = gameUILibrary.data["ui-talkingBubble-bg"];
     gameUITalkingText = gameUILibrary.data["ui-talkingBubble-text"];
+
+    gameUIMainBox = gameUILibrary.data["ui-main-bg"];
+    gameUIMainTitle = gameUILibrary.data["ui-main-title"];
+    gameUIMainDesc = gameUILibrary.data["ui-main-desc"];
+    gameUIMainImage = gameUILibrary.data["ui-main-image"];
+    gameUIMainButton1 = gameUILibrary.data["ui-main-button1"];
+    gameUIMainButton2 = gameUILibrary.data["ui-main-button2"];
 }
 
 function ShowLoadingUI() {
@@ -134,7 +141,7 @@ function HideLoadingUI() {
 
 function InitializeGameScene() {
     gameAssetLibrary = new AssetLibrary({
-        // "game1-bg": {image:"img/game1/2.png"},
+        // "game1-bg": {image:"img/game1ui/3.jpg"},
         "game1-dot": {image:"img/game1/game1-dot.png"},
         "game1-ppl": {image:"img/game1/game1-ppl.png"},
         "game1-cat": {image:"img/game1/game1-cat.png"},
@@ -161,9 +168,11 @@ function InitializeGameScene() {
 function StartGame() {
     gameUIState = 0;
     gameScore = 0;
+    gameTestIndex = 0;
     gamePlayCountdown = false;
+    gamePplTalkFadeOut = false;
     HideLoadingUI();
-    ShowPanel();
+    SetUIState();
 
     gameObjectLibrary = new GameObjectLibrary({
         // "bg": {transform:{posX:0, posY:0, sizeX:1728, sizeY:900},bitmap:gameAssetLibrary.data["game1-bg"]},
@@ -203,24 +212,6 @@ function StartGame() {
     createjs.Ticker.addEventListener("tick", LoopGame);
 
     PlayAudio(gameAssetLibrary.data["game1-audio-bg"].audio);
-
-    // createjs.Tween.get(game1clock.renderer, { loop: true })
-    //     .to({ colorStep: 1 }, 1000) // ColorStep goes from 0 to 1 in 1 second
-    //     .to({ colorStep: 0 }, 1000) // Then goes back to 0 in 1 second
-    //     .addEventListener("change", (e) => {
-    //     const tween = e.target;
-    //     const colorStep = tween.target.colorStep || 0; // Default to 0 if undefined
-    //     const startColor = { r: 255, g: 183, b: 130 }; // #ffb782
-    //     const endColor = { r: 249, g: 121, b: 48 }; // #f97930
-    //     const interpolatedColor = {
-    //         r: Math.round(startColor.r + (endColor.r - startColor.r) * colorStep),
-    //         g: Math.round(startColor.g + (endColor.g - startColor.g) * colorStep),
-    //         b: Math.round(startColor.b + (endColor.b - startColor.b) * colorStep),
-    //     };
-    //     game1clock.clockData.color = `rgb(${interpolatedColor.r}, ${interpolatedColor.g}, ${interpolatedColor.b})`;
-    //     game1clock.SetClockArc(); 
-    //     stage.update();
-    // });
 }
 
 function LoopGame(_evt) {
@@ -237,8 +228,8 @@ function LoopGame(_evt) {
     game1vegetable4.SetPosition({posX: 120 + Math.sin(runTime * 0.27 + 4) * 80});
     game1vegetable5.SetPosition({posX: 445 + (Math.sin(runTime * 0.25 + 5) + 1) * 30});
     game1vegetable6.SetPosition({posX: 1550 + Math.sin(runTime * 0.19 + 6) * 70});
-    game1ppl.SetPosition({posY: 460 + Math.sin(runTime * 0.6 + 5) * 20});
-    game1cat.SetPosition({posY: 460 + Math.sin(runTime * 0.75 + 8) * 25});
+    game1ppl.SetPosition({posY: 470 + Math.sin(runTime * 0.6 + 5) * 12});
+    game1cat.SetPosition({posY: 460 + Math.sin(runTime * 0.75 + 8) * 18});
 
     let colorAnim1 = { r: 255, g: 183, b: 130 }, colorAnim2 = { r: 249, g: 121, b: 48 };
     let colorStep = (Math.sin(runTime * 5) + 1) * 0.5;
@@ -249,43 +240,71 @@ function LoopGame(_evt) {
     };
     game1clock.clockData.color = `rgb(${interpolatedColor.r}, ${interpolatedColor.g}, ${interpolatedColor.b})`;
 
+    let testTime = (gameTestIndex == 0 || gameTestIndex == 1) ? 15 : gameTestIndex == 2 ? 20 : 30;
     switch (gameUIState) {
-        case 1:
-        case 2:
-            SetClock(time*100.0/15.0);
+        case 1: // feeling 15 sec
+            SetClock(time*100.0/testTime);
             gameUIClockTimer.Update({text:Math.floor(time)+"秒"});
-            if (time > 7.5) {
-                gameUIState = 2;
-                ShowPanel();
+            if (time > testTime * 0.5) {
+                gameUIState++;
+                SetUIState();
             }
-            if (time > 15) {
-                gameUIState = 3;
-                ShowPanel();
-                gameTimeBuffer1 = true;
+            break;
+        case 2: // feeling 15 sec (after half of time)
+            SetClock(time*100.0/testTime);
+            gameUIClockTimer.Update({text:Math.floor(time)+"秒"});
+            if (time > testTime) { // End of feeling 15sec
+                gameUIState++;
+                SetUIState();
                 SetClock(0);
-            }
-            break;
-        case 3:
-            if (time > 3) {
-                gameUIState = 4;
-                ShowPanel();
                 gameTimeBuffer1 = true;
             }
             break;
-        case 5:
-        case 6:
-            SetClock(time*100.0/15.0);
-            gameTime = time;
-            if (time <= 7.5) {
-                gameUIClockTimer.Update({text:Math.floor(time)+"秒"});
-                if (time >= 7.5-2.5 && !gamePlayCountdown) {
-                    gamePlayCountdown = true;
-                    PlayAudio(gameAudioCountdown);
-                }
-            } else if (time > 7.5) {
+        case 3: // ppl talk to player for 4 seconds
+        case 7: // 15 sec test finish (before 1 min), ppl talk to player for 4 seconds
+        case 12: // 20 sec test finish (before 1 min), ppl talk to player for 4 seconds
+        case 17: // 30 sec test finish (before 1 min), ppl talk to player for 4 seconds
+            if (time > 3.6 && !gamePplTalkFadeOut) {
+                gamePplTalkFadeOut = true;
+                gameUITalkingBox.FadeOut(); gameUITalkingText.FadeOut();
+            }
+            if (time > 4) {
+                if (gameTestIndex < 3) gameTestIndex++;
+                gameUIState++;
+                gameTimeBuffer1 = true;
+                gamePplTalkFadeOut = false;
+                SetUIState();
+            }
+            break;
+        case 5: // 15 sec test
+        case 10: // 20 sec test
+        case 15: // 30 sec test
+            SetClock(time*100.0/testTime);
+            gameUIClockTimer.Update({text:Math.floor(time)+"秒"});
+            if (time >= testTime * 0.5 - 2.5 && !gamePlayCountdown) {
+                gamePlayCountdown = true;
+                PlayAudio(gameAudioCountdown);
+            }
+            if (time > testTime * 0.5) {
                 game1clock_isHide = true;
-                gameUIState = 6;
-                ShowPanel();
+                gameUIState++;
+                gamePlayCountdown = false;
+                SetUIState();
+            }
+            break;
+        case 6: // 15 sec test (after half of time)
+        case 11: // 20 sec test (after half of time)
+        case 16: // 30 sec test (after half of time)
+            gameTime = time;
+            SetClock(time*100.0/testTime);
+            if (time > 60) {
+                gameUIState+=3;
+                if (gameTestIndex < 3) gameTestIndex++;
+                PlayAudio(gameAudioLose);
+                gameTimeBuffer1 = true;
+                game1clock_isHide = false;
+                SetClock(0);
+                SetUIState();
             }
             break;
     }
@@ -317,153 +336,158 @@ function SetClock(_progress) {
     }
 }
 
-function ShowPanel() {
+function SetUIState() {
+    // UI Ballon
+    if (gameUIState >= 4) {
+        gameQuestionBallon.Update({text:gameTestIndex+"/3"});
+        gameQuestionBallon.SetEnabled(true);
+        gameScoreBallon.Update({text:gameScore.toString()});
+        gameScoreBallon.SetEnabled(true);
+    } else {
+        gameQuestionBallon.SetEnabled(false);
+        gameScoreBallon.SetEnabled(false);
+    }
+
+    gameUIClockTitle.SetEnabled(false);
+    gameUIClockDesc.SetEnabled(false);
+    gameUIClockBtn.SetEnabled(false);
+    gameUIClockTimer.SetEnabled(false);
+    gameUITalkingBox.SetEnabled(false);
+    gameUITalkingText.SetEnabled(false);
+
+    gameUIMainBox.SetEnabled(false);
+    gameUIMainTitle.SetEnabled(false);
+    gameUIMainDesc.SetEnabled(false);
+    gameUIMainImage.SetEnabled(false);
+    gameUIMainButton1.SetEnabled(false);
+    gameUIMainButton2.SetEnabled(false);
+
+    let testTime = (gameTestIndex == 0 || gameTestIndex == 1) ? 15 : gameTestIndex == 2 ? 20 : 30;
+
     switch (gameUIState) {
-        case 0:
-            gameQuestionBallon.SetEnabled(false);
-            gameScoreBallon.SetEnabled(false);
-            gameUIClockTitle.Update({text:"15秒感知小練習"});
-            gameUIClockTitle.SetEnabled(true);
-            gameUIClockDesc.Update({text:"感受時間節拍 讓思緒代入時鐘"});
-            gameUIClockDesc.SetEnabled(true);
-            gameUIClockBtn.Update({text:"開始"});
-            gameUIClockBtn.SetEnabled(true);
-            gameUIClockTimer.SetEnabled(false);
-
-            gameUITalkingBox.SetEnabled(false);
-            gameUITalkingText.SetEnabled(false);
+        case 0: // Start Game (Waiting for feeling 15 sec)
+            gameUIClockTitle.Update({text:"15秒感知練習"}); gameUIClockTitle.SetEnabled(true);
+            gameUIClockDesc.Update({text:"請專注呼吸，平靜自己的思緒，<br/>感受時間的流逝。"}); gameUIClockDesc.SetEnabled(true);
+            gameUIClockBtn.Update({text:"開始"}); gameUIClockBtn.SetEnabled(true);
             break;
-        case 1:
-            gameQuestionBallon.SetEnabled(false);
-            gameScoreBallon.SetEnabled(false);
-            gameUIClockTitle.Update({text:"15秒感知小練習"});
-            gameUIClockTitle.SetEnabled(true);
-            gameUIClockDesc.Update({text:"感受時間節拍 讓思緒代入時鐘"});
-            gameUIClockDesc.SetEnabled(true);
-            gameUIClockBtn.SetEnabled(false);
-            gameUIClockTimer.Update({text:""});
+        case 1: // feeling 15 sec
+            gameUIClockTitle.Update({text:"15秒感知練習"}); gameUIClockTitle.SetEnabled(true);
+            gameUIClockDesc.Update({text:"請專注呼吸，平靜自己的思緒，<br/>感受時間的流逝。"}); gameUIClockDesc.SetEnabled(true);
+            gameUIClockTimer.Update({text:""}); gameUIClockTimer.SetEnabled(true);
+            break;
+        case 2: // feeling 15 sec (after half of time)
+            gameUIClockTitle.Update({text:"15秒感知練習"}); gameUIClockTitle.SetEnabled(true);
+            gameUIClockDesc.Update({text:"練習即將完成"}); gameUIClockDesc.SetEnabled(true);
             gameUIClockTimer.SetEnabled(true);
-
-            gameUITalkingBox.SetEnabled(false);
-            gameUITalkingText.SetEnabled(false);
             break;
-        case 2:
-            gameQuestionBallon.SetEnabled(false);
-            gameScoreBallon.SetEnabled(false);
-            gameUIClockTitle.Update({text:"15秒感知小練習"});
-            gameUIClockTitle.SetEnabled(true);
-            gameUIClockDesc.Update({text:"練習即將完成"});
-            gameUIClockDesc.SetEnabled(true);
-            gameUIClockBtn.SetEnabled(false);
-            // gameUIClockTimer.Update({text:""});
-            gameUIClockTimer.SetEnabled(true);
-
-            gameUITalkingBox.SetEnabled(false);
-            gameUITalkingText.SetEnabled(false);
+        case 3: // ppl talk to player for 4 seconds
+            gameUITalkingBox.FadeIn();
+            gameUITalkingText.Update({text:"已完成感知練習<br/>現在進入下一個環節", top: '35.5%'}); gameUITalkingText.FadeIn();
             break;
-        case 3:
-            gameQuestionBallon.Update({text:"1/3"});
-            gameQuestionBallon.SetEnabled(true);
-            gameScoreBallon.Update({text:gameScore.toString()});
-            gameScoreBallon.SetEnabled(true);
-            gameUIClockTitle.SetEnabled(false);
-            gameUIClockDesc.SetEnabled(false);
-            gameUIClockBtn.SetEnabled(false);
-            gameUIClockTimer.SetEnabled(false);
-
-            gameUITalkingBox.SetEnabled(true);
-            gameUITalkingText.Update({text:"已完成感知練習<br/>現在進入下一個環節"});
-            gameUITalkingText.SetEnabled(true);
+        case 4: // waiting for start test
+            gameUIClockTitle.Update({text:"進入自我覺察環節"}); gameUIClockTitle.SetEnabled(true);
+            gameUIClockDesc.Update({text:"目標時間15秒"}); gameUIClockDesc.SetEnabled(true);
+            gameUIClockBtn.Update({text:"開始"}); gameUIClockBtn.SetEnabled(true);
             break;
-        case 4:
-            gameQuestionBallon.Update({text:"1/3"});
-            gameQuestionBallon.SetEnabled(true);
-            gameScoreBallon.Update({text:gameScore.toString()});
-            gameScoreBallon.SetEnabled(true);
-            gameUIClockTitle.Update({text:"進入自我覺察環節"});
-            gameUIClockTitle.SetEnabled(true);
-            gameUIClockDesc.Update({text:"目標時間15秒", fontSize:31});
-            gameUIClockDesc.SetEnabled(true);
-            gameUIClockBtn.Update({text:"開始"});
-            gameUIClockBtn.SetEnabled(true);
-            gameUIClockTimer.SetEnabled(false);
-
-            gameUITalkingBox.SetEnabled(false);
-            gameUITalkingText.SetEnabled(false);
+        case 5: // 15 sec test
+        case 10: // 20 sec test
+        case 15: // 30 sec test
+            gameUIClockTitle.Update({text:"進入自我覺察環節"}); gameUIClockTitle.SetEnabled(true);
+            gameUIClockDesc.Update({text:"畫面的倒數即將消失，請判斷<br/>何時過了"+testTime+"秒"}); gameUIClockDesc.SetEnabled(true);
+            gameUIClockTimer.Update({text:""}); gameUIClockTimer.SetEnabled(true);
             break;
-        case 5:
-            gameQuestionBallon.Update({text:"1/3"});
-            gameQuestionBallon.SetEnabled(true);
-            gameScoreBallon.Update({text:gameScore.toString()});
-            gameScoreBallon.SetEnabled(true);
-            gameUIClockTitle.Update({text:"進入自我覺察環節"});
-            gameUIClockTitle.SetEnabled(true);
-            gameUIClockDesc.Update({text:"畫面倒數即將消失，請你感受時間的流逝", fontSize:27});
-            gameUIClockDesc.SetEnabled(true);
-            gameUIClockBtn.SetEnabled(false);
-            gameUIClockTimer.Update({text:""});
-            gameUIClockTimer.SetEnabled(true);
-
-            gameUITalkingBox.SetEnabled(false);
-            gameUITalkingText.SetEnabled(false);
+        case 6: // 15 sec test (after half of time)
+        case 11: // sec test (after half of time)
+        case 16: // sec test (after half of time)
+            gameUIClockTitle.Update({text:"進入自我覺察環節"}); gameUIClockTitle.SetEnabled(true);
+            gameUIClockDesc.Update({text:"當你認為時間到了，請按下「時間<br/>到」按鈕，看看與真實時間的差異"}); gameUIClockDesc.SetEnabled(true);
+            gameUIClockBtn.Update({text:"時間到"}); gameUIClockBtn.SetEnabled(true);
             break;
-        case 6:
-            gameQuestionBallon.Update({text:"1/3"});
-            gameQuestionBallon.SetEnabled(true);
-            gameScoreBallon.Update({text:gameScore.toString()});
-            gameScoreBallon.SetEnabled(true);
-            gameUIClockTitle.Update({text:"進入自我覺察環節"});
-            gameUIClockTitle.SetEnabled(true);
-            gameUIClockDesc.Update({text:"若你認為時間到，請按下完成按鈕，核對你的判斷", fontSize:22});
-            gameUIClockDesc.SetEnabled(true);
-            gameUIClockBtn.Update({text:"時間到"});
-            gameUIClockBtn.SetEnabled(true);
-            gameUIClockTimer.SetEnabled(false);
-
-            gameUITalkingBox.SetEnabled(false);
-            gameUITalkingText.SetEnabled(false);
+        case 7: // 15 sec test finish (before 1 min), ppl talk to player for 4 seconds
+        case 12: // 20 sec test finish (before 1 min), ppl talk to player for 4 seconds
+        case 17: // 20 sec test finish (before 1 min), ppl talk to player for 4 seconds
+            gameUITalkingBox.FadeIn();
+            gameUITalkingText.Update({text:(gameTime <= testTime + 1 && gameTime >= testTime - 1) ? "你做得很好!" : "你可以做得更好!", top: '37.5%'}); gameUITalkingText.FadeIn();
             break;
-        case 7:
-            gameQuestionBallon.Update({text:"1/3"});
-            gameQuestionBallon.SetEnabled(true);
-            gameScoreBallon.Update({text:gameScore.toString()});
-            gameScoreBallon.SetEnabled(true);
-            gameUIClockTitle.Update({text:"你的時間 "+gameTime.toFixed(1)+"秒"});
-            gameUIClockTitle.SetEnabled(true);
-            gameUIClockDesc.Update({text:"目標時間 15秒", fontSize:31});
-            gameUIClockDesc.SetEnabled(true);
-            gameUIClockBtn.SetEnabled(false);
-            gameUIClockTimer.SetEnabled(false);
-
-            gameUITalkingBox.SetEnabled(true);
-            gameUITalkingText.Update({text:(gameTime > 16 || gameTime < 14) ? "你可以做得更好" : "你做得很好"});
-            gameUITalkingText.SetEnabled(true);
+        case 8: // 15 sec test finish (before 1 min), wait for end game or next round
+        case 13: // 20 sec test finish (before 1 min), wait for end game or next round
+        case 18: // 30 sec test finish (before 1 min), wait for end game or next round
+            gameUIClockTitle.Update({text:"你的時間 "+gameTime.toFixed(1)+"秒"}); gameUIClockTitle.SetEnabled(true);
+            gameUIClockDesc.Update({text:"目標時間 "+gameUIState==8?"15秒":gameUIState==13?"20秒":"30秒"}); gameUIClockDesc.SetEnabled(true);
+            gameUIClockBtn.Update({text:gameTestIndex==3?"完成":"下一輪"}); gameUIClockBtn.SetEnabled(true);
+            break;
+        case 9: // 15 sec test finish (after 1 min), wait for end game or next round
+        case 14: // 20 sec test finish (after 1 min), wait for end game or next round
+        case 19: // 30 sec test finish (after 1 min), wait for end game or next round
+            gameUIMainBox.SetEnabled(true);
+            gameUIMainTitle.Update({text:"本輪遊戲結束", top:'21%'}); gameUIMainTitle.SetEnabled(true);
+            gameUIMainDesc.SetEnabled(true);
+            gameUIMainImage.Update({top:'38%'}); gameUIMainImage.SetEnabled(true);
+            gameUIMainButton1.Update({text:gameTestIndex==3?"完成":"下一輪", left:'42%', top:'67.5%', width:'16%'}); gameUIMainButton1.SetEnabled(true);
+            gameUIMainButton2.SetEnabled(false);
+            break;
+        case 20: // End game
+            gameUIMainBox.SetEnabled(true);
+            gameUIMainTitle.Update({text:"完成遊戲", top:'25%'}); gameUIMainTitle.SetEnabled(true);
+            gameUIMainDesc.SetEnabled(false);
+            gameUIMainImage.Update({top:'34%'}); gameUIMainImage.SetEnabled(true);
+            gameUIMainButton1.Update({text:"再玩一次", left:'33.1%', top:'61.5%', width:'16%'}); gameUIMainButton1.SetEnabled(true);
+            gameUIMainButton2.SetEnabled(true);
             break;
     }
 }
 
 function OnClickUIButton(_buttonId) {
+    let testTime = (gameTestIndex == 0 || gameTestIndex == 1) ? 15 : gameTestIndex == 2 ? 20 : 30;
     switch (gameUIState) {
-        case 0:
-            gameUIState = 1;
-            ShowPanel();
+        case 0: // Start Game (Waiting for feeling 15 sec)
+        case 4: // waiting for start test
             gameTimeBuffer1 = true;
+            gameUIState++;
+            SetUIState();
+            PlayAudio(gamePressAudio);
             break;
-        case 4:
-            gameUIState = 5;
-            ShowPanel();
-            gameTimeBuffer1 = true;
-            gamePlayCountdown = false;
-            break;
-        case 6:
-            gameUIState = 7;
-            if (gameTime <= 16 && gameTime >= 14) {
-                gameScore+=1;
+        case 6: // 15 sec test (after half of time)
+        case 11: // 20 sec test (after half of time)
+        case 16: // 30 sec test (after half of time)
+            gameUIState++;
+            if (gameTime <= testTime + 1 && gameTime >= testTime - 1) {
+                gameScore++;
+                PlayAudio(gameAudioWin);
+            } else {
+                PlayAudio(gameAudioLose);
             }
-            ShowPanel();
             gameTimeBuffer1 = true;
             game1clock_isHide = false;
             SetClock(0);
+            SetUIState();
+            break;
+        case 8: // 15 sec test finish (before 1 min), wait for end game or next round
+        case 13: // 20 sec test finish (before 1 min), wait for end game or next round
+        case 18: // 30 sec test finish (before 1 min), wait for end game or next round
+            gameUIState+=2;
+            gameTimeBuffer1 = true;
+            gamePlayCountdown = false;
+            SetUIState();
+            PlayAudio(gamePressAudio);
+            break;
+        case 9: // 15 sec test finish (after 1 min), wait for end game or next round
+        case 14: // 20 sec test finish (after 1 min), wait for end game or next round
+        case 19: // 30 sec test finish (after 1 min), wait for end game or next round
+            gameUIState++;
+            gameTimeBuffer1 = true;
+            gamePlayCountdown = false;
+            SetUIState();
+            PlayAudio(gamePressAudio);
+            break;
+        case 20: // End game
+            if (_buttonId == 1) {
+                gameStage.removeAllChildren();
+                gameStage.clear();
+                InitializeGameScene();
+            } else {
+                ExitGameView();
+            }
             break;
     }
 }
