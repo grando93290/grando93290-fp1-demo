@@ -304,7 +304,7 @@ function InitializeGameScene1Question() {
     gameQuestionLibrary = new Game2QuestionLibrary({
         "q1": {"question": "天空中有太陽出現嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[2], "isEmotional":false, "layout":2},
         "q2": {"question": "天空中有幾朵雲？", "ans1": "0朵", "ans2": "3朵", "ans3": "5朵", "ans4": "", "correct":[2], "isEmotional":false, "layout":3},
-        "q3": {"question": "天空中有幾隻鳥飛過？", "ans1": "3隻", "ans2": "6隻", "ans3": "8隻", "ans4": "", "correct":[2], "isEmotional":false, "layout":3},
+        "q3": {"question": "有多少隻鳥兒站在樹上？", "ans1": "1隻", "ans2": "2隻", "ans3": "3隻", "ans4": "", "correct":[1], "isEmotional":false, "layout":3},
         "q4": {"question": "鳥兒飛向甚麼方向？", "ans1": "往左", "ans2": "往右", "ans3": "向上", "ans4": "", "correct":[2], "isEmotional":false, "layout":3},
         "q5": {"question": "地面上有甚麼？", "ans1": "水", "ans2": "沙", "ans3": "草", "ans4": "以上皆有", "correct":[3], "isEmotional":false, "layout":4},
         "q6": {"question": "草地上出現了甚麼動物？", "ans1": "鳥兒", "ans2": "魚", "ans3": "烏龜", "ans4": "以上皆有", "correct":[3], "isEmotional":false, "layout":4},

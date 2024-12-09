@@ -221,7 +221,7 @@ function ShowPanel(_layout) {
             btn1.SetEnabled(true); btn2.SetEnabled(false); btn3.SetEnabled(false); btn4.SetEnabled(false);
             title.Update({text: "答案正確", left:'0', top:'47%', width:'100%', height:'15%'});
             imgC.Update({left:'45.31%', top:'27%', width:'9.375%', height:'16.67%'});
-            desc.Update({text: question["ans"+question.correct[0]], left:'0', top:'56%', width:'100%', height:'10%'});
+            desc.Update({text: question["ans"+question.correct[question.correct.length - 1]], left:'0', top:'56%', width:'100%', height:'10%'});
             btn1.Update({text: "確定", left:'41.55%', top:'64%', width:'16.9%', height:'9.36%'});
             break;
         case 6: // wrong answer
@@ -230,7 +230,7 @@ function ShowPanel(_layout) {
             btn1.SetEnabled(true); btn2.SetEnabled(false); btn3.SetEnabled(false); btn4.SetEnabled(false);
             title.Update({text: "答案不正確", left:'0', top:'47%', width:'100%', height:'15%'});
             imgW.Update({left:'45.31%', top:'27%', width:'9.375%', height:'16.67%'});
-            desc.Update({text: question["ans"+question.correct[0]], left:'0', top:'56%', width:'100%', height:'10%'});
+            desc.Update({text: question["ans"+question.correct[question.correct.length - 1]], left:'0', top:'56%', width:'100%', height:'10%'});
             btn1.Update({text: "確定", left:'41.55%', top:'64%', width:'16.9%', height:'9.36%'});
             break;
         case 7: // correct emotional answer
