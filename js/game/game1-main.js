@@ -5,6 +5,7 @@ var gamePopupAudio;
 var gamePressAudio;
 var gameTrueAudio;
 var gameLoadingBar, gameLoadingBarNail;
+var gameQuestionBallon, gameScoreBallon;
 var gameLoadSceneAction;
 
 var gameAssetLibrary;
@@ -19,13 +20,18 @@ var game1clock, game1clock_bg, game1clock_dot, game1clock_isHide;
 
 var gameAudioCountdown, gameAudioWin, gameAudioLose;
 
-var gameUIQuestionCountBallon, gameUIScoreCountBallon;
 var gameUIClockTitle, gameUIClockDesc, gameUIClockTimer, gameUIClockBtn;
 var gameUITalkingBox, gameUITalkingText;
 
 function InitializeGame(_data) {
     isGameQuestionDebugging = 'forceScene' in _data;
     gameSharedAssetLibrary = new AssetLibrary({
+        "ui-question-count-ballon": {image:"img/gameCommon/greenBallon.png"},
+        "ui-score-ballon": {image:"img/gameCommon/heartBallon.png"},
+        "ui-score-ballon2": {image:"img/gameCommon/heartBallon2.png"},
+        "ui-button": {image:"img/gameCommon/button.png"},
+        "ui-talkingBubble-bg": {image:"img/game1ui/talkingBubble.png"},
+
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
         "game-true-audio": {audio:"audio/game/true.wav"},
@@ -41,18 +47,18 @@ function InitializeGameUI() {
     gameUILibrary = new UILibrary({});
     gameUILibrary.AddUIElements({
         "ui-loading-bg": {transform:{left:'0%', top:'0%', width:'100%', height:'100%'}, image:{imgSrc:"img/gameCommon/loading-bg.png"}},
-        "ui-loading-title": {transform:{top:'17.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:46, letterSpacing:4, color:'#00693E', text:'「靜」之感知'}},
-        "ui-loading-img-main": {transform:{left:'37.375%', top:'24.5%', width:'25.25%', height:'35.89%'}, image:{imgSrc:"img/game1ui/loading-main.png"}},
-        "ui-loading-img-compass": {transform:{left:'55.7%', top:'48.2%', width:'9.75%', height:'16.33%'}, image:{imgSrc:"img/gameCommon/loading-compass.png"}},
-        "ui-loading-loadingbar": {transform:{left:'28%', top:'70.5%', width:'44%', height:'1.8%'}, loadingBar:{color1: '#fff', color2: '#F97930', round: 10}},
-        "ui-loading-img-nail": {transform:{left:'27%', top:'66.5%', width:'4%', height:'7.22%'}, image:{imgSrc:"img/gameCommon/loading-nail.png"}},
-        "ui-loading-img-sound": {transform:{left:'17.5%', top:'77.5%', width:'2.8125%', height:'5%'}, image:{imgSrc:"img/gameCommon/loading-sound.gif"}},
-        "ui-loading-desc1": {transform:{left: '11%', top:'78.5%', width: '40%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'請打開聲音玩遊戲'}},
-        "ui-loading-img-rotate": {transform:{left:'55.89%', top:'76.42%', width:'4.03125%', height:'7.16666%'}, image:{imgSrc:"img/gameCommon/loading-rotate.gif"}},
-        "ui-loading-desc2": {transform:{left: '51.3%', top:'78.5%', width: '40%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'將你的裝置轉成橫向'}},
+        "ui-loading-title": {transform:{top:'15.4%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#00693E', text:'「靜」之感知'}},
+        "ui-loading-img-main": {transform:{left:'40.16%', top:'25.5%', width:'19.68%', height:'30.11%'}, image:{imgSrc:"img/game5ui/loading-main.png"}},
+        "ui-loading-img-compass": {transform:{left:'53.2%', top:'43.4%', width:'9.03%', height:'16.33%'}, image:{imgSrc:"img/gameCommon/loading-compass.png"}},
+        "ui-loading-loadingbar": {transform:{left:'30%', top:'64%', width:'40%', height:'1.8%'}, loadingBar:{color1: '#fff', color2: '#F97930', round: 10}},
+        "ui-loading-img-nail": {transform:{left:'28%', top:'60%', width:'4%', height:'7.22%'}, image:{imgSrc:"img/gameCommon/loading-nail.png"}},
+        "ui-loading-img-sound": {transform:{left:'17.5%', top:'77.5%', width:'3.47%', height:'6.67%'}, image:{imgSrc:"img/gameCommon/loading-sound.gif"}},
+        "ui-loading-desc1": {transform:{left: '12%', top:'79.5%', width: '40%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'請打開聲音玩遊戲'}},
+        "ui-loading-img-rotate": {transform:{left:'55.89%', top:'76.42%', width:'4.98%', height:'9.55%'}, image:{imgSrc:"img/gameCommon/loading-rotate.gif"}},
+        "ui-loading-desc2": {transform:{left: '52.6%', top:'79.5%', width: '40%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'將你的裝置轉成橫向'}},
 
-        "ui-question-count-ballon": {transform:{left:'79.16%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/greenBallon.png", fontFamily:'CustomFont', fontSize:30, letterSpacing:4, color:'white', text:''}},
-        "ui-score-count-ballon": {transform:{left:'86.68%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/heartBallon2.png", fontFamily:'CustomFont', fontSize:25, letterSpacing:4, color:'white', text:''}},
+        "ui-question-count-ballon": {transform:{left:'79.16%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/greenBallon.png", fontFamily:'CustomFont', fontSize:30, letterSpacing:4, color:'white', text:'1/3'}},
+        "ui-score-count-ballon": {transform:{left:'86.68%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/heartBallon2.png", fontFamily:'CustomFont', fontSize:25, letterSpacing:4, color:'white', text:'0'}},
 
         "ui-clock-title": {transform:{top:'17.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:45, letterSpacing:4, color:'#00693E', text:'15秒感知練習'}},
         "ui-clock-desc": {transform:{top:'24.2%', height:'15%'}, text:{fontFamily:'CustomFont', fontSize:31, letterSpacing:4, color:'#000000', text:'請專注呼吸，平靜自己的思緒，<br/>感受時間的流逝。'}},
@@ -74,11 +80,12 @@ function InitializeGameUI() {
         // "ui-main-image-bird": {transform:{left:'42.53%', top:'29%', width:'14.94%', height:'19.83%'}, image:{imgSrc:"img/game2ui/bird.png"}},
     });
     gameUILibrary.AddUIResizeEvent();
+    gameUIState = 0;
     gameLoadingBar = gameUILibrary.data["ui-loading-loadingbar"];
     gameLoadingBarNail = gameUILibrary.data["ui-loading-img-nail"];
-
-    gameUIQuestionCountBallon = gameUILibrary.data["ui-question-count-ballon"];
-    gameUIScoreCountBallon = gameUILibrary.data["ui-score-count-ballon"];
+    gameQuestionBallon = gameUILibrary.data["ui-question-count-ballon"];
+    gameScoreBallon = gameUILibrary.data["ui-score-count-ballon"];
+    gameScoreBallon.AddCoveredBallon({imgSrc2:"img/gameCommon/heartBallon2.png"});
 
     gameUIClockTitle = gameUILibrary.data["ui-clock-title"];
     gameUIClockDesc = gameUILibrary.data["ui-clock-desc"];
@@ -127,12 +134,6 @@ function HideLoadingUI() {
 
 function InitializeGameScene() {
     gameAssetLibrary = new AssetLibrary({
-        "ui-question-count-ballon": {image:"img/gameCommon/greenBallon.png"},
-        "ui-score-ballon": {image:"img/gameCommon/heartBallon.png"},
-        "ui-score-ballon2": {image:"img/gameCommon/heartBallon2.png"},
-        "ui-button": {image:"img/gameCommon/button.png"},
-        "ui-talkingBubble-bg": {image:"img/game1ui/talkingBubble.png"},
-
         // "game1-bg": {image:"img/game1/2.png"},
         "game1-dot": {image:"img/game1/game1-dot.png"},
         "game1-ppl": {image:"img/game1/game1-ppl.png"},
@@ -277,7 +278,7 @@ function LoopGame(_evt) {
             gameTime = time;
             if (time <= 7.5) {
                 gameUIClockTimer.Update({text:Math.floor(time)+"秒"});
-                if (time >= 7.5-3 && !gamePlayCountdown) {
+                if (time >= 7.5-2.5 && !gamePlayCountdown) {
                     gamePlayCountdown = true;
                     PlayAudio(gameAudioCountdown);
                 }
@@ -319,8 +320,8 @@ function SetClock(_progress) {
 function ShowPanel() {
     switch (gameUIState) {
         case 0:
-            gameUIQuestionCountBallon.SetEnabled(false);
-            gameUIScoreCountBallon.SetEnabled(false);
+            gameQuestionBallon.SetEnabled(false);
+            gameScoreBallon.SetEnabled(false);
             gameUIClockTitle.Update({text:"15秒感知小練習"});
             gameUIClockTitle.SetEnabled(true);
             gameUIClockDesc.Update({text:"感受時間節拍 讓思緒代入時鐘"});
@@ -333,8 +334,8 @@ function ShowPanel() {
             gameUITalkingText.SetEnabled(false);
             break;
         case 1:
-            gameUIQuestionCountBallon.SetEnabled(false);
-            gameUIScoreCountBallon.SetEnabled(false);
+            gameQuestionBallon.SetEnabled(false);
+            gameScoreBallon.SetEnabled(false);
             gameUIClockTitle.Update({text:"15秒感知小練習"});
             gameUIClockTitle.SetEnabled(true);
             gameUIClockDesc.Update({text:"感受時間節拍 讓思緒代入時鐘"});
@@ -347,8 +348,8 @@ function ShowPanel() {
             gameUITalkingText.SetEnabled(false);
             break;
         case 2:
-            gameUIQuestionCountBallon.SetEnabled(false);
-            gameUIScoreCountBallon.SetEnabled(false);
+            gameQuestionBallon.SetEnabled(false);
+            gameScoreBallon.SetEnabled(false);
             gameUIClockTitle.Update({text:"15秒感知小練習"});
             gameUIClockTitle.SetEnabled(true);
             gameUIClockDesc.Update({text:"練習即將完成"});
@@ -361,10 +362,10 @@ function ShowPanel() {
             gameUITalkingText.SetEnabled(false);
             break;
         case 3:
-            gameUIQuestionCountBallon.Update({text:"1/3"});
-            gameUIQuestionCountBallon.SetEnabled(true);
-            gameUIScoreCountBallon.Update({text:gameScore});
-            gameUIScoreCountBallon.SetEnabled(true);
+            gameQuestionBallon.Update({text:"1/3"});
+            gameQuestionBallon.SetEnabled(true);
+            gameScoreBallon.Update({text:gameScore.toString()});
+            gameScoreBallon.SetEnabled(true);
             gameUIClockTitle.SetEnabled(false);
             gameUIClockDesc.SetEnabled(false);
             gameUIClockBtn.SetEnabled(false);
@@ -375,10 +376,10 @@ function ShowPanel() {
             gameUITalkingText.SetEnabled(true);
             break;
         case 4:
-            gameUIQuestionCountBallon.Update({text:"1/3"});
-            gameUIQuestionCountBallon.SetEnabled(true);
-            gameUIScoreCountBallon.Update({text:gameScore});
-            gameUIScoreCountBallon.SetEnabled(true);
+            gameQuestionBallon.Update({text:"1/3"});
+            gameQuestionBallon.SetEnabled(true);
+            gameScoreBallon.Update({text:gameScore.toString()});
+            gameScoreBallon.SetEnabled(true);
             gameUIClockTitle.Update({text:"進入自我覺察環節"});
             gameUIClockTitle.SetEnabled(true);
             gameUIClockDesc.Update({text:"目標時間15秒", fontSize:31});
@@ -391,10 +392,10 @@ function ShowPanel() {
             gameUITalkingText.SetEnabled(false);
             break;
         case 5:
-            gameUIQuestionCountBallon.Update({text:"1/3"});
-            gameUIQuestionCountBallon.SetEnabled(true);
-            gameUIScoreCountBallon.Update({text:gameScore});
-            gameUIScoreCountBallon.SetEnabled(true);
+            gameQuestionBallon.Update({text:"1/3"});
+            gameQuestionBallon.SetEnabled(true);
+            gameScoreBallon.Update({text:gameScore.toString()});
+            gameScoreBallon.SetEnabled(true);
             gameUIClockTitle.Update({text:"進入自我覺察環節"});
             gameUIClockTitle.SetEnabled(true);
             gameUIClockDesc.Update({text:"畫面倒數即將消失，請你感受時間的流逝", fontSize:27});
@@ -407,10 +408,10 @@ function ShowPanel() {
             gameUITalkingText.SetEnabled(false);
             break;
         case 6:
-            gameUIQuestionCountBallon.Update({text:"1/3"});
-            gameUIQuestionCountBallon.SetEnabled(true);
-            gameUIScoreCountBallon.Update({text:gameScore});
-            gameUIScoreCountBallon.SetEnabled(true);
+            gameQuestionBallon.Update({text:"1/3"});
+            gameQuestionBallon.SetEnabled(true);
+            gameScoreBallon.Update({text:gameScore.toString()});
+            gameScoreBallon.SetEnabled(true);
             gameUIClockTitle.Update({text:"進入自我覺察環節"});
             gameUIClockTitle.SetEnabled(true);
             gameUIClockDesc.Update({text:"若你認為時間到，請按下完成按鈕，核對你的判斷", fontSize:22});
@@ -423,10 +424,10 @@ function ShowPanel() {
             gameUITalkingText.SetEnabled(false);
             break;
         case 7:
-            gameUIQuestionCountBallon.Update({text:"1/3"});
-            gameUIQuestionCountBallon.SetEnabled(true);
-            gameUIScoreCountBallon.Update({text:gameScore});
-            gameUIScoreCountBallon.SetEnabled(true);
+            gameQuestionBallon.Update({text:"1/3"});
+            gameQuestionBallon.SetEnabled(true);
+            gameScoreBallon.Update({text:gameScore.toString()});
+            gameScoreBallon.SetEnabled(true);
             gameUIClockTitle.Update({text:"你的時間 "+gameTime.toFixed(1)+"秒"});
             gameUIClockTitle.SetEnabled(true);
             gameUIClockDesc.Update({text:"目標時間 15秒", fontSize:31});
@@ -456,6 +457,9 @@ function OnClickUIButton(_buttonId) {
             break;
         case 6:
             gameUIState = 7;
+            if (gameTime <= 16 && gameTime >= 14) {
+                gameScore+=1;
+            }
             ShowPanel();
             gameTimeBuffer1 = true;
             game1clock_isHide = false;
