@@ -7,6 +7,14 @@ var s1_tortoisePosX, s1_tortoisePosY;
 
 function InitializeGameScene1() {
     gameAssetLibrary = new AssetLibrary({
+        "ui-question-count-ballon": {image:"img/gameCommon/greenBallon.png"},
+        "ui-score-ballon": {image:"img/gameCommon/heartBallon.png"},
+        "ui-score-ballon2": {image:"img/gameCommon/heartBallon2.png"},
+        "ui-button": {image:"img/gameCommon/button.png"},
+        "ui-correct": {image:"img/gameCommon/correct.png"},
+        "ui-wrong": {image:"img/gameCommon/wrong.png"},
+        "ui-bird": {image:"img/game2ui/bird.png"},
+
         "game2-scene1-bird": {image:"img/game2/game2-scene1-bird-min.png"},
         "game2-scene1-brush": {image:"img/game2/game2-scene1-brush-min.png"},
         "game2-scene1-butterfly": {image:"img/game2/game2-scene1-butterfly-min.png"},

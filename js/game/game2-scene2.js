@@ -8,6 +8,14 @@ var s2_seagull1, s2_seagull2, s2_crab, s2_crab_scale;
 
 function InitializeGameScene2() {
     gameAssetLibrary = new AssetLibrary({
+        "ui-question-count-ballon": {image:"img/gameCommon/greenBallon.png"},
+        "ui-score-ballon": {image:"img/gameCommon/heartBallon.png"},
+        "ui-score-ballon2": {image:"img/gameCommon/heartBallon2.png"},
+        "ui-button": {image:"img/gameCommon/button.png"},
+        "ui-correct": {image:"img/gameCommon/correct.png"},
+        "ui-wrong": {image:"img/gameCommon/wrong.png"},
+        "ui-bird": {image:"img/game2ui/bird.png"},
+
         "game2-scene2-sky": {image:"img/game2/game2-scene2-sky-min.png"},
         "game2-scene2-bg": {image:"img/game2/game2-scene2-bg-min.png"},
         "game2-scene2-tree": {image:"img/game2/game2-scene2-tree-min.png"},

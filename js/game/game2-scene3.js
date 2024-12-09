@@ -6,6 +6,14 @@ var s3_duck1, s3_duck2, s3_duck3, s3_duck4, s3_rabbit1, s3_rabbit2;
 
 function InitializeGameScene3() {
     gameAssetLibrary = new AssetLibrary({
+        "ui-question-count-ballon": {image:"img/gameCommon/greenBallon.png"},
+        "ui-score-ballon": {image:"img/gameCommon/heartBallon.png"},
+        "ui-score-ballon2": {image:"img/gameCommon/heartBallon2.png"},
+        "ui-button": {image:"img/gameCommon/button.png"},
+        "ui-correct": {image:"img/gameCommon/correct.png"},
+        "ui-wrong": {image:"img/gameCommon/wrong.png"},
+        "ui-bird": {image:"img/game2ui/bird.png"},
+        
         "game2-scene3-sky": {image:"img/game2/game2-scene3-sky-min.png"},
         "game2-scene3-bg": {image:"img/game2/game2-scene3-bg-min.png"},
         "game2-scene3-cloud1": {image:"img/game2/game2-scene3-cloud1-min.png"},

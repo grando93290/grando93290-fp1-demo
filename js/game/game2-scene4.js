@@ -4,6 +4,14 @@ var s4_car1_audio_hasPlay;
 
 function InitializeGameScene4() {
     gameAssetLibrary = new AssetLibrary({
+        "ui-question-count-ballon": {image:"img/gameCommon/greenBallon.png"},
+        "ui-score-ballon": {image:"img/gameCommon/heartBallon.png"},
+        "ui-score-ballon2": {image:"img/gameCommon/heartBallon2.png"},
+        "ui-button": {image:"img/gameCommon/button.png"},
+        "ui-correct": {image:"img/gameCommon/correct.png"},
+        "ui-wrong": {image:"img/gameCommon/wrong.png"},
+        "ui-bird": {image:"img/game2ui/bird.png"},
+        
         "game2-scene4-bg": {image:"img/game2/game2-scene4-bg-min.png"},
         "game2-scene4-props": {image:"img/game2/game2-scene4-props-min.png"},
         "game2-scene4-car1": {image:"img/game2/game2-scene4-car1-min.png"},

@@ -127,6 +127,12 @@ function HideLoadingUI() {
 
 function InitializeGameScene() {
     gameAssetLibrary = new AssetLibrary({
+        "ui-question-count-ballon": {image:"img/gameCommon/greenBallon.png"},
+        "ui-score-ballon": {image:"img/gameCommon/heartBallon.png"},
+        "ui-score-ballon2": {image:"img/gameCommon/heartBallon2.png"},
+        "ui-button": {image:"img/gameCommon/button.png"},
+        "ui-talkingBubble-bg": {image:"img/game1ui/talkingBubble.png"},
+
         // "game1-bg": {image:"img/game1/2.png"},
         "game1-dot": {image:"img/game1/game1-dot.png"},
         "game1-ppl": {image:"img/game1/game1-ppl.png"},
