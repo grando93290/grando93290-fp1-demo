@@ -1,6 +1,6 @@
 // quick access / buffer
 var s3_cloud1, s3_cloud2, s3_cloud3, s3_cloud4;
-var s3_grass, s3_mushroom1, s3_mushroom2;
+var s3_grass, s3_mushroom1, s3_mushroom2 ,s3_flower1, s3_flower3, s3_flower4;
 var s3_duck1, s3_duck2, s3_duck3, s3_duck4, s3_rabbit1, s3_rabbit2;
 // var s3_rabbitPosX, s3_rabbitPosY;
 
@@ -8,6 +8,7 @@ function InitializeGameScene3() {
     gameAssetLibrary = new AssetLibrary({
         "game2-scene3-sky": {image:"img/game2/game2-scene3-sky-min.png"},
         "game2-scene3-bg": {image:"img/game2/game2-scene3-bg-min.png"},
+        "game2-scene3-river1": {image:"img/game2/game2-scene3-river1-min.png"},
         "game2-scene3-cloud1": {image:"img/game2/game2-scene3-cloud1-min.png"},
         "game2-scene3-cloud2": {image:"img/game2/game2-scene3-cloud2-min.png"},
         "game2-scene3-cloud3": {image:"img/game2/game2-scene3-cloud3-min.png"},
@@ -15,6 +16,11 @@ function InitializeGameScene3() {
         "game2-scene3-grass": {image:"img/game2/game2-scene3-grass-min.png"},
         "game2-scene3-mushroom1": {image:"img/game2/game2-scene3-mushroom1-min.png"},
         "game2-scene3-mushroom2": {image:"img/game2/game2-scene3-mushroom2-min.png"},
+
+        "game2-scene1-flower1": {image:"img/game2/game2-scene1-flower1-min.png"},
+        "game2-scene1-flower3": {image:"img/game2/game2-scene1-flower3-min.png"},
+        "game2-scene1-flower4": {image:"img/game2/game2-scene1-flower4-min.png"},
+
         "game2-scene3-duck1": {image:"img/game2/game2-scene3-duck1-min.png"},
         "game2-scene3-duck2": {image:"img/game2/game2-scene3-duck2-min.png"},
         "game2-scene3-rabbit": {image:"img/game2/game2-scene3-rabbit-min.png"},
@@ -29,13 +35,15 @@ function StartGameScene3() {
     gameScoreBallon.Update({text:"0"});
 
     gameObjectLibrary = new GameObjectLibrary({
-        "s3_sky": {transform:{posX:0, posY:0, sizeX:1920, sizeY:1080},bitmap:gameAssetLibrary.data["game2-scene3-sky"]},
+        "s3_sky": {transform:{posX:0, posY:0, sizeX:1920, sizeY:500},bitmap:gameAssetLibrary.data["game2-scene3-sky"]},
         "s3_cloud1": {transform:{posX:60, posY:75, sizeX:617, sizeY:254},bitmap:gameAssetLibrary.data["game2-scene3-cloud1"]},
         "s3_cloud2": {transform:{posX:737, posY:0, sizeX:504, sizeY:88},bitmap:gameAssetLibrary.data["game2-scene3-cloud2"]},
         "s3_cloud3": {transform:{posX:710, posY:232, sizeX:728, sizeY:263},bitmap:gameAssetLibrary.data["game2-scene3-cloud3"]},
         "s3_cloud4": {transform:{posX:1350, posY:60, sizeX:501, sizeY:193},bitmap:gameAssetLibrary.data["game2-scene3-cloud4"]},
-        "s3_bg": {transform:{posX:0, posY:22, sizeX:1920, sizeY:1058},bitmap:gameAssetLibrary.data["game2-scene3-bg"]},
+        "s3_river1": {transform:{posX:0, posY:630, sizeX:1920, sizeY:450},bitmap:gameAssetLibrary.data["game2-scene3-river1"]},
+        "s3_bg": {transform:{posX:0, posY:0, sizeX:1920, sizeY:1080},bitmap:gameAssetLibrary.data["game2-scene3-bg"]},
         "s3_grass": {transform:{posX:0, posY:1080, sizeX:1920, sizeY:448, anchorX:0, anchorY:1},bitmap:gameAssetLibrary.data["game2-scene3-grass"]},
+        "s3_flower1": {transform:{posX:142, posY:728+110, sizeX:480, sizeY:110, anchorX: 0, anchorY: 1},bitmap:gameAssetLibrary.data["game2-scene1-flower1"]},
         "s3_duck4": {transform:{posX:1000, posY:830, sizeX:288, sizeY:143, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck2"]},
         "s3_duck3": {transform:{posX:600, posY:830, sizeX:288, sizeY:147.8, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck1"]},
         "s3_duck2": {transform:{posX:1000, posY:0, sizeX:288, sizeY:143, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck2"]},
@@ -46,8 +54,6 @@ function StartGameScene3() {
     s3_cloud3 = gameObjectLibrary.data["s3_cloud3"];
     s3_cloud4 = gameObjectLibrary.data["s3_cloud4"];
     s3_grass = gameObjectLibrary.data["s3_grass"];
-    s3_mushroom1 = gameObjectLibrary.data["s3_mushroom1"];
-    s3_mushroom2 = gameObjectLibrary.data["s3_mushroom2"];
     s3_duck1 = gameObjectLibrary.data["s3_duck1"];
     s3_duck1.SetupAnimation([
         { time: 0, x: 1053-500, y: 832+65 },
@@ -78,12 +84,15 @@ function StartGameScene3() {
     var rabbitSpriteSheet = new createjs.SpriteSheet({ 
         images: [gameAssetLibrary.data["game2-scene3-rabbit"].image], 
         frames: {width:263, height:180},
-        animations: {'a0':0,'a1':1}
+        animations: {'a0':0,'a1':1, 'a2':2}
     });
 
     s3_mushroom1 = gameObjectLibrary.AddGameObject("s3_mushroom1", {transform:{posX:1492, posY:783, sizeX:140, sizeY:63, anchorX:0, anchorY:1},bitmap:gameAssetLibrary.data["game2-scene3-mushroom1"]});
 
-    s3_rabbit2 = gameObjectLibrary.AddGameObject("s3_rabbit1", {transform:{posX:1654, posY:768, sizeX:263, sizeY:180, anchorX: 0.5, anchorY:0.5, flip:true}, sprite:{spriteSheet:rabbitSpriteSheet, spriteIndices:[0,1]}});
+    s3_flower1 = gameObjectLibrary.data["s3_flower1"];
+    s3_flower3 = gameObjectLibrary.AddGameObject("s3_flower3", {transform:{posX:1700, posY:718+72, sizeX:170, sizeY:72, anchorX: 0, anchorY: 1},bitmap:gameAssetLibrary.data["game2-scene1-flower3"]});
+
+    s3_rabbit2 = gameObjectLibrary.AddGameObject("s3_rabbit1", {transform:{posX:1654, posY:768, sizeX:263, sizeY:180, anchorX: 0.5, anchorY:0.5, flip:true}, sprite:{spriteSheet:rabbitSpriteSheet, spriteIndices:[0,1,2]}});
     s3_rabbit2.SetupAnimation([
         { time: 1, x: 1654, y: 768 },
         { time: 3, x: 1840, y: 781 },
@@ -95,7 +104,7 @@ function StartGameScene3() {
 
     s3_mushroom2 = gameObjectLibrary.AddGameObject("s3_mushroom2", {transform:{posX:1621, posY:916, sizeX:133, sizeY:98, anchorX:0, anchorY:1},bitmap:gameAssetLibrary.data["game2-scene3-mushroom2"]});
 
-    s3_rabbit1 = gameObjectLibrary.AddGameObject("s3_rabbit1", {transform:{posX:2100, posY:780, sizeX:263, sizeY:180, anchorX: 0.5, anchorY:0.5}, sprite:{spriteSheet:rabbitSpriteSheet, spriteIndices:[0,1]}});
+    s3_rabbit1 = gameObjectLibrary.AddGameObject("s3_rabbit1", {transform:{posX:2100, posY:780, sizeX:263, sizeY:180, anchorX: 0.5, anchorY:0.5}, sprite:{spriteSheet:rabbitSpriteSheet, spriteIndices:[0,1,2]}});
     s3_rabbit1.SetupAnimation([
         { time: 3, x: 2100, y: 880 },
         { time: 5, x: 1400, y: 940 },
@@ -104,6 +113,8 @@ function StartGameScene3() {
         { time: 13, x: 1750, y: 1010 },
         { time: 14.5, x: 2100, y: 810 },
     ]);
+
+    s3_flower4 = gameObjectLibrary.AddGameObject("s3_flower4", {transform:{posX:800, posY:1070, sizeX:545, sizeY:190, anchorX: 0, anchorY: 1},bitmap:gameAssetLibrary.data["game2-scene1-flower4"]});
 
     gameStage.update();
 
@@ -122,13 +133,17 @@ function LoopGameScene3(_evt) {
     }
     let time = runTime - gameTimeBuffer2;
 
-    s3_grass.renderer.skewX = Math.sin(time * 0.8) * 3;
-    s3_mushroom1.renderer.skewX = Math.sin(time * 0.6 + 1) * 8;
-    s3_mushroom2.renderer.skewX = Math.sin(time * 0.8 + 2) * 4;
+    s3_grass.renderer.skewX = Math.sin(time * 0.8) * 7;
+    s3_mushroom1.renderer.skewX = Math.sin(time * 0.6 + 1) * 28;
+    s3_mushroom2.renderer.skewX = Math.sin(time * 0.8 + 2) * 12;
     s3_cloud1.SetPosition({posX:60-time*7});
     s3_cloud2.SetPosition({posX:737-time*3});
     s3_cloud3.SetPosition({posX:710-time*5});
     s3_cloud4.SetPosition({posX:1350-time*12});
+
+    s3_flower1.renderer.skewX = Math.sin(time * 0.6 + 1) * 14;
+    s3_flower3.renderer.skewX = Math.sin(time * 0.3 + 3) * 25;
+    s3_flower4.renderer.skewX = Math.sin(time * 0.5 + 4) * 16;
 
     let s3_duck1_scale = (s3_duck1.transform.posY - 747) / (962 - 747);
     // s3_duck1_scale = 0.5 + s3_duck1_scale * s3_duck1_scale * 0.5;
@@ -166,6 +181,8 @@ function LoopGameScene3(_evt) {
     s3_rabbit1.PlayAnimation(time);
     if ((time >= 3 && time <= 5) || (time >= 9 && time <= 11) || (time >= 13)) {
         s3_rabbit1.SetAnimationIndex(Math.floor((Math.abs(time * 5)) % 2));
+    } else {
+        s3_rabbit1.SetAnimationIndex(2);
     }
     if (time >= 9 && !s3_rabbit1.transform.flip) {
         s3_rabbit1.SetPosition({flip:true});
@@ -179,6 +196,8 @@ function LoopGameScene3(_evt) {
     s3_rabbit2.PlayAnimation(time);
     if ((time >= 1 && time <= 3) || (time >= 7 && time <= 9) || (time >= 13.5)) {
         s3_rabbit2.SetAnimationIndex(Math.floor((Math.abs(time * 5)) % 2));
+    } else {
+        s3_rabbit2.SetAnimationIndex(2);
     }
     if (time >= 7 && s3_rabbit2.transform.flip) {
         s3_rabbit2.SetPosition({flip:false});

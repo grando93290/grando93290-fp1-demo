@@ -1,6 +1,6 @@
 // quick access / buffer
-var s4_car1, s4_car2, s4_bicycle;
-var s4_car1_audio_hasPlay;
+var s4_bicycle, s4_car1, s4_car2, s4_bus, s4_pedestrian1, s4_pedestrian2, s4_pedestrian3;
+var s4_car1_audio_hasPlay, s4_car2_audio_hasPlay, s4_bus_audio_hasPlay;
 
 function InitializeGameScene4() {
     gameAssetLibrary = new AssetLibrary({
@@ -9,6 +9,11 @@ function InitializeGameScene4() {
         "game2-scene4-car1": {image:"img/game2/game2-scene4-car1-min.png"},
         "game2-scene4-car2": {image:"img/game2/game2-scene4-car2-min.png"},
         "game2-scene4-bicycle": {image:"img/game2/game2-scene4-bicycle-min.png"},
+        "game2-scene4-bus": {image:"img/game2/game2-scene4-bus-min.png"},
+        "game2-scene4-pedestrian1": {image:"img/game2/game2-scene4-pedestrian1-min.png"},
+        "game2-scene4-pedestrian2": {image:"img/game2/game2-scene4-pedestrian2-min.png"},
+        "game2-scene4-pedestrian3": {image:"img/game2/game2-scene4-pedestrian3-min.png"},
+        "game2-scene4-rubbishbin": {image:"img/game2/game2-scene4-rubbishbin-min.png"},
         "game2-scene4-audio": {audio:"audio/game/game2scene4.mp3"},
         "game2-scene4-car-audio": {audio:"audio/game/game2scene4_car.mp3"},
     }, UpdateLoadingBar, StartGameScene4);
@@ -21,21 +26,36 @@ function StartGameScene4() {
     gameScoreBallon.Update({text:"0"});
 
     gameObjectLibrary = new GameObjectLibrary({
-        "s4_sky": {transform:{posX:0, posY:0, sizeX:1920, sizeY:1080},bitmap:gameAssetLibrary.data["game2-scene4-bg"]},
-        "s4_car1": {transform:{posX:0, posY:640, sizeX:108, sizeY:40, flip:true},bitmap:gameAssetLibrary.data["game2-scene4-car1"]},
+        "s4_bg": {transform:{posX:0, posY:0, sizeX:1920, sizeY:1080},bitmap:gameAssetLibrary.data["game2-scene4-bg"]},
+        // "s4_car1": {transform:{posX:0, posY:640, sizeX:108, sizeY:40, flip:true},bitmap:gameAssetLibrary.data["game2-scene4-car1"]},
+        // "s4_car2": {transform:{posX:0, posY:640, sizeX:108, sizeY:40, flip:true},bitmap:gameAssetLibrary.data["game2-scene4-car2"]},
     });
-    s4_car1 = gameObjectLibrary.data["s4_car1"];
-    s4_car1_audio_hasPlay = false;
+
     var bicycleSpriteSheet = new createjs.SpriteSheet({ 
         images: [gameAssetLibrary.data["game2-scene4-bicycle"].image], 
-        frames: {width:201, height:210},
+        frames: {width:48, height:50},
         animations: {'a0':0,'a1':1,}
     });
+    s4_bicycle = gameObjectLibrary.AddGameObject("s4_bicycle", {transform:{posX:0, posY:630, sizeX:48, sizeY:50}, sprite:{spriteSheet:bicycleSpriteSheet, spriteIndices:[0,1]}});
+
     gameObjectLibrary.AddGameObject("s4_props", {transform:{posX:0, posY:0, sizeX:1920, sizeY:1080},bitmap:gameAssetLibrary.data["game2-scene4-props"]});
-    s4_bicycle = gameObjectLibrary.AddGameObject("s4_bicycle", {transform:{posX:2400, posY:808, sizeX:201, sizeY:210, flip:true}, sprite:{spriteSheet:bicycleSpriteSheet, spriteIndices:[0,1]}});
+
+    s4_bus = gameObjectLibrary.AddGameObject("s4_bus", {transform:{posX:785, posY:762, sizeX:239, sizeY:400, anchorX:0.5, anchorY:1},bitmap:gameAssetLibrary.data["game2-scene4-bus"]});
+
+    s4_pedestrian1 = gameObjectLibrary.AddGameObject("s4_pedestrian1", {transform:{posX:0, posY:540, sizeX:1920, sizeY:350},bitmap:gameAssetLibrary.data["game2-scene4-pedestrian1"]});
+    s4_pedestrian2 = gameObjectLibrary.AddGameObject("s4_pedestrian2", {transform:{posX:0, posY:540, sizeX:1920, sizeY:350},bitmap:gameAssetLibrary.data["game2-scene4-pedestrian2"]});
+    s4_pedestrian3 = gameObjectLibrary.AddGameObject("s4_pedestrian3", {transform:{posX:0, posY:540, sizeX:1920, sizeY:350},bitmap:gameAssetLibrary.data["game2-scene4-pedestrian3"]});
+
+    gameObjectLibrary.AddGameObject("s4_rubbishbin", {transform:{posX:1658, posY:710, sizeX:94, sizeY:137},bitmap:gameAssetLibrary.data["game2-scene4-rubbishbin"]});
+
+    s4_car1 = gameObjectLibrary.AddGameObject("s4_car1", {transform:{posX:2100, posY:750, sizeX:689, sizeY:290},bitmap:gameAssetLibrary.data["game2-scene4-car1"]});
     s4_car2 = gameObjectLibrary.AddGameObject("s4_car2", {transform:{posX:2100, posY:750, sizeX:689, sizeY:290},bitmap:gameAssetLibrary.data["game2-scene4-car2"]});
 
     gameStage.update();
+
+    s4_car1_audio_hasPlay = false;
+    s4_car2_audio_hasPlay = false;
+    s4_bus_audio_hasPlay = false;
 
     gameTimeBuffer1 = true;
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
@@ -52,15 +72,73 @@ function LoopGameScene4(_evt) {
     }
     let time = runTime - gameTimeBuffer2;
 
-    s4_car1.SetPosition({posX:240*time});
-    s4_bicycle.SetPosition({posX:2400-240*time});
-    s4_bicycle.SetAnimationIndex(Math.floor((Math.abs(runTime * 4)) % 2));
-    s4_car2.SetPosition({posX:2100-time*720});
-
-    if (time > 1 && !s4_car1_audio_hasPlay) {
-        PlayAudio(gameAssetLibrary.data["game2-scene4-car-audio"].audio);
-        s4_car1_audio_hasPlay = true;
+    if (time < 5) {
+        let s4_bus_targetPosY = 680;
+        let s4_bus_posY = 762 - Math.sqrt(time/5.0) * (762 - s4_bus_targetPosY);
+        let s4_bus_scale = (s4_bus_posY - s4_bus_targetPosY) / (762 - s4_bus_targetPosY);
+        s4_bus_scale = 0.2 + s4_bus_scale * 0.8;
+        s4_bus.SetPosition({posX: 785 + time/5.0*120, posY: s4_bus_posY, sizeX:239 * s4_bus_scale, sizeY:400 * s4_bus_scale});
+    } else if (time < 6) {
+        s4_bus.renderer.alpha = 1.0 - (time - 5.0);
     }
+
+    if (time > 2.5 && time < 6) {
+        s4_car1.SetPosition({posX:1920 - (time - 2.5) * 1080});
+        if (time > 3 && !s4_car1_audio_hasPlay) {
+            PlayAudio(gameAssetLibrary.data["game2-scene4-car-audio"].audio);
+            s4_car1_audio_hasPlay = true;
+        }
+    }
+
+    if (time > 9.5 && time < 12) {
+        s4_car2.SetPosition({posX:1920 - (time - 9.5) * 1380});
+        if (time > 10 && !s4_car2_audio_hasPlay) {
+            PlayAudio(gameAssetLibrary.data["game2-scene4-car-audio"].audio);
+            s4_car2_audio_hasPlay = true;
+        }
+    }
+
+    if (time > 6 && time < 15) {
+        s4_bicycle.SetPosition({posX:660 + (time - 6) * 100});
+        s4_bicycle.SetAnimationIndex(Math.floor((Math.abs(runTime * 4)) % 2));
+    }
+
+    let t = time % 3;
+    function lerp(a, b, fraction) {
+        return a + (b - a) * fraction;
+    }
+    let alpha1 = 0, alpha2 = 0, alpha3 = 0;
+    if (t < 0.8) {
+        alpha1 = 1;
+        alpha2 = 0;
+        alpha3 = 0;
+    } else if (t < 1) {
+        const progress = (t - 0.8) / 0.2;
+        alpha1 = lerp(1, 0, progress);
+        alpha2 = lerp(0, 1, progress);
+        alpha3 = 0;
+    } else if (t < 1.8) {
+        alpha1 = 0;
+        alpha2 = 1;
+        alpha3 = 0;
+    } else if (t < 2) {
+        const progress = (t - 1.8) / 0.2;
+        alpha1 = 0;
+        alpha2 = lerp(1, 0, progress);
+        alpha3 = lerp(0, 1, progress);
+    } else if (t < 2.8) {
+        alpha1 = 0;
+        alpha2 = 0;
+        alpha3 = 1;
+    } else if (t < 3) {
+        const progress = (t - 2.8) / 0.2;
+        alpha1 = lerp(0, 1, progress);
+        alpha2 = 0;
+        alpha3 = lerp(1, 0, progress);
+    }
+    s4_pedestrian1.renderer.alpha = alpha1;
+    s4_pedestrian2.renderer.alpha = alpha2;
+    s4_pedestrian3.renderer.alpha = alpha3;
 
     gameStage.update();
     if (time > 15) {
