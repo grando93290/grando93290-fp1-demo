@@ -25,6 +25,8 @@ var gameUIMainBox, gameUIMainTitle, gameUIMainDesc, gameUIMainImage, gameUIMainB
 
 var gameScore, gameTime, gamePlayCountdown, gameTestIndex, gamePplTalkFadeOut;
 
+var gameUIDebug;
+
 function InitializeGame(_data) {
     isGameQuestionDebugging = 'forceScene' in _data;
     gameSharedAssetLibrary = new AssetLibrary({
@@ -77,6 +79,8 @@ function InitializeGameUI() {
         "ui-main-image": {transform:{left:'43.06%', top:'34%', width:'13.88%', height:'23.33%'}, image:{imgSrc:"img/game1ui/ppl.png"}},
         "ui-main-button1": {transform:{left:'33.1%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickUIButton(1);}}},
         "ui-main-button2": {transform:{left:'50.9%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickUIButton(2);}}},
+
+        "ui-debug": {transform:{top:'10%', left: '0%', width:'20%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:40, letterSpacing:4, color:'#FF0000', text:'0'}},
     });
 
     gameUILibrary.AddUIResizeEvent();
@@ -101,6 +105,9 @@ function InitializeGameUI() {
     gameUIMainImage = gameUILibrary.data["ui-main-image"];
     gameUIMainButton1 = gameUILibrary.data["ui-main-button1"];
     gameUIMainButton2 = gameUILibrary.data["ui-main-button2"];
+
+    gameUIDebug = gameUILibrary.data["ui-debug"];
+    gameUIDebug.SetEnabled(true);
 }
 
 function ShowLoadingUI() {
@@ -300,7 +307,7 @@ function LoopGame(_evt) {
             if (time > 60) {
                 gameUIState+=3;
                 if (gameTestIndex < 3) gameTestIndex++;
-                PlayAudio(gameAudioLose);
+                PlayAudio(gameAudioWin);
                 gameTimeBuffer1 = true;
                 game1clock_isHide = false;
                 SetClock(0);
@@ -308,6 +315,8 @@ function LoopGame(_evt) {
             }
             break;
     }
+
+    gameUIDebug.Update({text:time.toFixed(1)});
 
     gameStage.update();
 
@@ -455,7 +464,7 @@ function OnClickUIButton(_buttonId) {
                 gameScore++;
                 PlayAudio(gameAudioWin);
             } else {
-                PlayAudio(gameAudioLose);
+                PlayAudio(gameAudioWin);
             }
             gameTimeBuffer1 = true;
             game1clock_isHide = false;
