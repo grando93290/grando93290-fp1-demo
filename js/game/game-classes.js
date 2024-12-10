@@ -97,6 +97,7 @@ class GameObject {
         if (!this.transform.sizeX) this.transform.sizeX = 0;
         if (!this.transform.sizeY) this.transform.sizeY = 0;
         if (!this.transform.flip) this.transform.flip = false;
+        if (!this.transform.rotation) this.transform.rotation = 0;
         return this;
     }
 
@@ -109,6 +110,7 @@ class GameObject {
         this.renderer.regY = this.transform.anchorY * this.transform.height;
         this.renderer.scaleX = scaleX * (this.transform.flip ? -1 : 1);
         this.renderer.scaleY = scaleY;
+        this.renderer.rotation = this.transform.rotation;
         return this;
     }
 
@@ -189,6 +191,9 @@ class GameObject {
         }
         if ('flip' in _data) {
             this.transform.flip = _data.flip;
+        }
+        if (_data.rotation) {
+            this.transform.rotation = _data.rotation;
         }
         this.UpdatePosition();
         return this;
