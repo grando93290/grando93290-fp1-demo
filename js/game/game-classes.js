@@ -171,28 +171,28 @@ class GameObject {
     }
 
     SetPosition(_data) {
-        if (_data.posX) {
+        if ('posX' in _data) {
             this.transform.posX = _data.posX;
         }
-        if (_data.posY) {
+        if ('posY' in _data) {
             this.transform.posY = _data.posY;
         }
-        if (_data.sizeX) {
+        if ('sizeX' in _data) {
             this.transform.sizeX = _data.sizeX;
         }
-        if (_data.sizeY) {
+        if ('sizeY' in _data) {
             this.transform.sizeY = _data.sizeY;
         }
-        if (_data.anchorX) {
+        if ('anchorX' in _data) {
             this.transform.anchorX = _data.anchorX;
         }
-        if (_data.anchorY) {
+        if ('anchorY' in _data) {
             this.transform.anchorY = _data.anchorY;
         }
         if ('flip' in _data) {
             this.transform.flip = _data.flip;
         }
-        if (_data.rotation) {
+        if ('rotation' in _data) {
             this.transform.rotation = _data.rotation;
         }
         this.UpdatePosition();
@@ -384,7 +384,7 @@ class UIElement {
     }
 
     Update(_data) {
-        if (_data.text) {
+        if ('text' in _data) {
             this.text = _data.text;
             this.dom.innerHTML = this.text;
             if (this.isBallon && this.dom2) {
@@ -392,31 +392,31 @@ class UIElement {
                 this.dom2.style.display = this.text == '0' ? 'none' : 'block';
             }
         }
-        if (_data.fontSize) {
+        if ('fontSize' in _data) {
             this.fontSize = _data.fontSize;
             this.UpdateUISize();
         }
-        if (_data.letterSpacing) {
+        if ('letterSpacing' in _data) {
             this.letterSpacing = _data.letterSpacing;
             this.UpdateUISize();
         }
-        if (_data.lineHeight) {
+        if ('lineHeight' in _data) {
             this.lineHeight = _data.lineHeight;
             this.UpdateUISize();
         }
-        if (_data.left) {
+        if ('left' in _data) {
             this.transform.left = _data.left;
             this.dom.style.left = this.transform.left;
         }
-        if (_data.top) {
+        if ('top' in _data) {
             this.transform.top = _data.top;
             this.dom.style.top = this.transform.top;
         }
-        if (_data.width) {
+        if ('width' in _data) {
             this.transform.width = _data.width;
             this.dom.style.width = this.transform.width;
         }
-        if (_data.height) {
+        if ('height' in _data) {
             this.transform.height = _data.height;
             this.dom.style.height = this.transform.height;
         }

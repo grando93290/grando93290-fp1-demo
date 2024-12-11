@@ -491,6 +491,7 @@ function OnClickUIButton(_buttonId) {
             break;
         case 20: // End game
             if (_buttonId == 1) {
+                createjs.Ticker.removeEventListener("tick", LoopGame);
                 gameStage.removeAllChildren();
                 gameStage.clear();
                 InitializeGameScene();
