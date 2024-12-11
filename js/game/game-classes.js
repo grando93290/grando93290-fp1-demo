@@ -344,6 +344,9 @@ class UIElement {
     SetEnabled(_enabled) {
         this.enabled = _enabled;
         this.dom.style.display = this.enabled ? "block" : "none";
+        if (this.dom2) {
+            this.dom2.style.display = this.enabled ? "block" : "none";
+        }
     }
 
     FadeIn() {

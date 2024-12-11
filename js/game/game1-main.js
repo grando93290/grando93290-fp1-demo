@@ -111,8 +111,6 @@ function InitializeGameUI() {
 }
 
 function ShowLoadingUI() {
-    gameUILibrary.data["ui-question-count-ballon"].SetEnabled(false);
-    gameUILibrary.data["ui-score-count-ballon"].SetEnabled(false);
     gameUILibrary.data["ui-loading-bg"].SetEnabled(true);
     gameUILibrary.data["ui-loading-title"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(true);
@@ -131,8 +129,6 @@ function UpdateLoadingBar(_progress) {
 }
 
 function HideLoadingUI() {
-    gameUILibrary.data["ui-question-count-ballon"].SetEnabled(true);
-    gameUILibrary.data["ui-score-count-ballon"].SetEnabled(true);
     gameUILibrary.data["ui-loading-bg"].SetEnabled(false);
     gameUILibrary.data["ui-loading-title"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(false);
@@ -218,6 +214,7 @@ function StartGame() {
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", LoopGame);
 
+    gameAssetLibrary.data["game1-audio-bg"].audio.loop = true;
     PlayAudio(gameAssetLibrary.data["game1-audio-bg"].audio);
 }
 
@@ -276,7 +273,7 @@ function LoopGame(_evt) {
                 gameUITalkingBox.FadeOut(); gameUITalkingText.FadeOut();
             }
             if (time > 4) {
-                if (gameTestIndex < 3) gameTestIndex++;
+                gameTestIndex++;
                 gameUIState++;
                 gameTimeBuffer1 = true;
                 gamePplTalkFadeOut = false;
@@ -306,7 +303,7 @@ function LoopGame(_evt) {
             SetClock(time*100.0/testTime);
             if (time > 60) {
                 gameUIState+=3;
-                if (gameTestIndex < 3) gameTestIndex++;
+                gameTestIndex++;
                 PlayAudio(gameAudioWin);
                 gameTimeBuffer1 = true;
                 game1clock_isHide = false;
@@ -348,7 +345,7 @@ function SetClock(_progress) {
 function SetUIState() {
     // UI Ballon
     if (gameUIState >= 4) {
-        gameQuestionBallon.Update({text:gameTestIndex+"/3"});
+        gameQuestionBallon.Update({text:Math.min(gameTestIndex, 3)+"/3"});
         gameQuestionBallon.SetEnabled(true);
         gameScoreBallon.Update({text:gameScore.toString()});
         gameScoreBallon.SetEnabled(true);
@@ -423,7 +420,7 @@ function SetUIState() {
         case 18: // 30 sec test finish (before 1 min), wait for end game or next round
             gameUIClockTitle.Update({text:"你的時間 "+gameTime.toFixed(1)+"秒"}); gameUIClockTitle.SetEnabled(true);
             gameUIClockDesc.Update({text:"目標時間 "+(gameUIState==8?"15秒":gameUIState==13?"20秒":"30秒")}); gameUIClockDesc.SetEnabled(true);
-            gameUIClockBtn.Update({text:gameTestIndex==3?"完成":"下一輪"}); gameUIClockBtn.SetEnabled(true);
+            gameUIClockBtn.Update({text:gameTestIndex>3?"完成":"下一輪"}); gameUIClockBtn.SetEnabled(true);
             break;
         case 9: // 15 sec test finish (after 1 min), wait for end game or next round
         case 14: // 20 sec test finish (after 1 min), wait for end game or next round
@@ -432,7 +429,7 @@ function SetUIState() {
             gameUIMainTitle.Update({text:"本輪遊戲結束", top:'21%'}); gameUIMainTitle.SetEnabled(true);
             gameUIMainDesc.SetEnabled(true);
             gameUIMainImage.Update({top:'38%'}); gameUIMainImage.SetEnabled(true);
-            gameUIMainButton1.Update({text:gameTestIndex==3?"完成":"下一輪", left:'42%', top:'67.5%', width:'16%'}); gameUIMainButton1.SetEnabled(true);
+            gameUIMainButton1.Update({text:gameTestIndex>3?"完成":"下一輪", left:'42%', top:'67.5%', width:'16%'}); gameUIMainButton1.SetEnabled(true);
             gameUIMainButton2.SetEnabled(false);
             break;
         case 20: // End game
@@ -494,7 +491,7 @@ function OnClickUIButton(_buttonId) {
                 createjs.Ticker.removeEventListener("tick", LoopGame);
                 gameStage.removeAllChildren();
                 gameStage.clear();
-                InitializeGameScene();
+                StartGame();
             } else {
                 ExitGameView();
             }
