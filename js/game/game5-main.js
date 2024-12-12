@@ -323,6 +323,7 @@ function InitializeGameScene() {
         "game5-arrow2": {image:"img/game5ui/arrow2-min.png"},
         "game5-ballon": {image:"img/game5ui/ballon-min.png"},
         "ui-question-count-ballon": {image:"img/gameCommon/greenBallon-min.png"},
+        "ui-button": {image:"img/gameCommon/button-min.png"},
 
         "game5-card": {image:"img/game5/card-min.png"},
         "game5-card-a1": {image:"img/game5/card_a1-min.png"},
