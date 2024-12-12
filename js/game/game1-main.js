@@ -30,12 +30,12 @@ var gameUIDebug;
 function InitializeGame(_data) {
     isGameQuestionDebugging = 'forceScene' in _data;
     gameSharedAssetLibrary = new AssetLibrary({
-        "ui-question-count-ballon": {image:"img/gameCommon/greenBallon.png"},
-        "ui-score-ballon": {image:"img/gameCommon/heartBallon.png"},
-        "ui-score-ballon2": {image:"img/gameCommon/heartBallon2.png"},
-        "ui-button": {image:"img/gameCommon/button.png"},
-        "ui-talkingBubble-bg": {image:"img/game1ui/talkingBubble.png"},
-        "ui-main-image": {image:"img/game1ui/ppl.png"},
+        "ui-question-count-ballon": {image:"img/gameCommon/greenBallon-min.png"},
+        "ui-score-ballon": {image:"img/gameCommon/heartBallon-min.png"},
+        "ui-score-ballon2": {image:"img/gameCommon/heartBallon2-min.png"},
+        "ui-button": {image:"img/gameCommon/button-min.png"},
+        "ui-talkingBubble-bg": {image:"img/game1ui/talkingBubble-min.png"},
+        "ui-main-image": {image:"img/game1ui/ppl-min.png"},
 
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
@@ -51,34 +51,34 @@ function InitializeGame(_data) {
 function InitializeGameUI() {
     gameUILibrary = new UILibrary({});
     gameUILibrary.AddUIElements({
-        "ui-loading-bg": {transform:{left:'0%', top:'0%', width:'100%', height:'100%'}, image:{imgSrc:"img/gameCommon/loading-bg.png"}},
+        "ui-loading-bg": {transform:{left:'0%', top:'0%', width:'100%', height:'100%'}, image:{imgSrc:"img/gameCommon/loading-bg-min.png"}},
         "ui-loading-title": {transform:{top:'15.4%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#00693E', text:'「靜」之感知'}},
-        "ui-loading-img-main": {transform:{left:'40.16%', top:'25.5%', width:'19.68%', height:'30.11%'}, image:{imgSrc:"img/game5ui/loading-main.png"}},
-        "ui-loading-img-compass": {transform:{left:'53.2%', top:'43.4%', width:'9.03%', height:'16.33%'}, image:{imgSrc:"img/gameCommon/loading-compass.png"}},
+        "ui-loading-img-main": {transform:{left:'40.16%', top:'25.5%', width:'19.68%', height:'30.11%'}, image:{imgSrc:"img/game5ui/loading-main-min.png"}},
+        "ui-loading-img-compass": {transform:{left:'53.2%', top:'43.4%', width:'9.03%', height:'16.33%'}, image:{imgSrc:"img/gameCommon/loading-compass-min.png"}},
         "ui-loading-loadingbar": {transform:{left:'30%', top:'64%', width:'40%', height:'1.8%'}, loadingBar:{color1: '#fff', color2: '#F97930', round: 10}},
-        "ui-loading-img-nail": {transform:{left:'28%', top:'60%', width:'4%', height:'7.22%'}, image:{imgSrc:"img/gameCommon/loading-nail.png"}},
+        "ui-loading-img-nail": {transform:{left:'28%', top:'60%', width:'4%', height:'7.22%'}, image:{imgSrc:"img/gameCommon/loading-nail-min.png"}},
         "ui-loading-img-sound": {transform:{left:'17.5%', top:'77.5%', width:'3.47%', height:'6.67%'}, image:{imgSrc:"img/gameCommon/loading-sound.gif"}},
         "ui-loading-desc1": {transform:{left: '12%', top:'79.5%', width: '40%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'請打開聲音玩遊戲'}},
         "ui-loading-img-rotate": {transform:{left:'55.89%', top:'76.42%', width:'4.98%', height:'9.55%'}, image:{imgSrc:"img/gameCommon/loading-rotate.gif"}},
         "ui-loading-desc2": {transform:{left: '52.6%', top:'79.5%', width: '40%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'將你的裝置轉成橫向'}},
 
-        "ui-question-count-ballon": {transform:{left:'79.16%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/greenBallon.png", fontFamily:'CustomFont', fontSize:30, letterSpacing:4, color:'white', text:'1/3'}},
-        "ui-score-count-ballon": {transform:{left:'86.68%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/heartBallon.png", fontFamily:'CustomFont', fontSize:25, letterSpacing:4, color:'white', text:'0'}},
+        "ui-question-count-ballon": {transform:{left:'79.16%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/greenBallon-min.png", fontFamily:'CustomFont', fontSize:30, letterSpacing:4, color:'white', text:'1/3'}},
+        "ui-score-count-ballon": {transform:{left:'86.68%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/heartBallon-min.png", fontFamily:'CustomFont', fontSize:25, letterSpacing:4, color:'white', text:'0'}},
 
         "ui-clock-title": {transform:{top:'17.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:45, letterSpacing:4, color:'#00693E', text:'15秒感知練習'}},
         "ui-clock-desc": {transform:{top:'24.2%', height:'15%'}, text:{fontFamily:'CustomFont', fontSize:31, letterSpacing:4, color:'#000000', text:'請專注呼吸，平靜自己的思緒，<br/>感受時間的流逝。', lineHeight: 40}},
         "ui-clock-timer": {transform:{top:'73.5%', height:'15%'}, text:{fontFamily:'CustomFont', fontSize:58, letterSpacing:4, color:'#00693E', text:''}},
-        "ui-clock-btn": {transform:{left:'42.19%', top:'75%', width:'15.625%', height:'7.8%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'開始', onclick:()=>{OnClickUIButton(1);}}},
+        "ui-clock-btn": {transform:{left:'42.19%', top:'75%', width:'15.625%', height:'7.8%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'開始', onclick:()=>{OnClickUIButton(1);}}},
 
-        "ui-talkingBubble-bg": {transform:{left:'55.7%', top:'30%', width:'18.81%', height:'18.44%'}, image:{imgSrc:"img/game1ui/talkingBubble.png"}},
+        "ui-talkingBubble-bg": {transform:{left:'55.7%', top:'30%', width:'18.81%', height:'18.44%'}, image:{imgSrc:"img/game1ui/talkingBubble-min.png"}},
         "ui-talkingBubble-text": {transform:{left: '56.2%', top:'35.5%', width: '18.81%', height:'18.44%'}, text:{fontFamily:'CustomFont', fontSize:26, letterSpacing:4, color:'#F97930', text:'已完成感知練習<br/>現在進入下一個環節'}},
 
         "ui-main-bg": {transform:{left:'15.28%', top:'11.11%', width:'69.44%', height:'77.78%'}, roundRect:{color:'white', round:150}},
         "ui-main-title": {transform:{top:'25%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:40, letterSpacing:4, color:'#00693E', text:'完成遊戲', lineHeight: 70}},
         "ui-main-desc": {transform:{top:'29%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:32, letterSpacing:4, color:'#F97930', text:'請進入下一輪遊戲'}},
-        "ui-main-image": {transform:{left:'43.06%', top:'34%', width:'13.88%', height:'23.33%'}, image:{imgSrc:"img/game1ui/ppl.png"}},
-        "ui-main-button1": {transform:{left:'33.1%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickUIButton(1);}}},
-        "ui-main-button2": {transform:{left:'50.9%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickUIButton(2);}}},
+        "ui-main-image": {transform:{left:'43.06%', top:'34%', width:'13.88%', height:'23.33%'}, image:{imgSrc:"img/game1ui/ppl-min.png"}},
+        "ui-main-button1": {transform:{left:'33.1%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickUIButton(1);}}},
+        "ui-main-button2": {transform:{left:'50.9%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickUIButton(2);}}},
 
         "ui-debug": {transform:{top:'10%', left: '0%', width:'20%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:40, letterSpacing:4, color:'#FF0000', text:'0'}},
     });
@@ -89,7 +89,7 @@ function InitializeGameUI() {
     gameLoadingBarNail = gameUILibrary.data["ui-loading-img-nail"];
     gameQuestionBallon = gameUILibrary.data["ui-question-count-ballon"];
     gameScoreBallon = gameUILibrary.data["ui-score-count-ballon"];
-    gameScoreBallon.AddCoveredBallon({imgSrc2:"img/gameCommon/heartBallon2.png"});
+    gameScoreBallon.AddCoveredBallon({imgSrc2:"img/gameCommon/heartBallon2-min.png"});
 
     gameUIClockTitle = gameUILibrary.data["ui-clock-title"];
     gameUIClockDesc = gameUILibrary.data["ui-clock-desc"];
@@ -145,17 +145,17 @@ function HideLoadingUI() {
 function InitializeGameScene() {
     gameAssetLibrary = new AssetLibrary({
         // "game1-bg": {image:"img/game1ui/3.jpg"},
-        "game1-dot": {image:"img/game1/game1-dot.png"},
-        "game1-ppl": {image:"img/game1/game1-ppl.png"},
-        "game1-cat": {image:"img/game1/game1-cat.png"},
+        "game1-dot": {image:"img/game1/game1-dot-min.png"},
+        "game1-ppl": {image:"img/game1/game1-ppl-min.png"},
+        "game1-cat": {image:"img/game1/game1-cat-min.png"},
 
-        "game1-vegetation1": {image:"img/game1/game1-vegetation1.png"},
-        "game1-vegetation2": {image:"img/game1/game1-vegetation2.png"},
-        "game1-vegetation3": {image:"img/game1/game1-vegetation3.png"},
-        "game1-vegetation4": {image:"img/game1/game1-vegetation4.png"},
-        "game1-vegetation5": {image:"img/game1/game1-vegetation5.png"},
-        "game1-vegetation6": {image:"img/game1/game1-vegetation6.png"},
-        "game1-vegetation7": {image:"img/game1/game1-vegetation7.png"},
+        "game1-vegetation1": {image:"img/game1/game1-vegetation1-min.png"},
+        "game1-vegetation2": {image:"img/game1/game1-vegetation2-min.png"},
+        "game1-vegetation3": {image:"img/game1/game1-vegetation3-min.png"},
+        "game1-vegetation4": {image:"img/game1/game1-vegetation4-min.png"},
+        "game1-vegetation5": {image:"img/game1/game1-vegetation5-min.png"},
+        "game1-vegetation6": {image:"img/game1/game1-vegetation6-min.png"},
+        "game1-vegetation7": {image:"img/game1/game1-vegetation7-min.png"},
 
         "game1-audio-bg": {audio:"audio/game/game1bg.mp3"},
         "game1-audio-start": {audio:"audio/game/game1start.mp3"},
