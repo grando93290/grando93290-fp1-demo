@@ -1,5 +1,5 @@
 // quick access / buffer
-var s3_cloud1, s3_cloud2, s3_cloud3, s3_cloud4;
+var s3_cloud1, s3_cloud2, s3_cloud3, s3_cloud4, s3_river1, s3_river2, s3_river3;
 var s3_grass, s3_mushroom1, s3_mushroom2 ,s3_flower1, s3_flower3, s3_flower4;
 var s3_duck1, s3_duck2, s3_duck3, s3_duck4, s3_rabbit1, s3_rabbit2;
 // var s3_rabbitPosX, s3_rabbitPosY;
@@ -8,7 +8,10 @@ function InitializeGameScene3() {
     gameAssetLibrary = new AssetLibrary({
         "game2-scene3-sky": {image:"img/game2/game2-scene3-sky-min.png"},
         "game2-scene3-bg": {image:"img/game2/game2-scene3-bg-min.png"},
+        "game2-scene3-river": {image:"img/game2/game2-scene3-river-min.png"},
         "game2-scene3-river1": {image:"img/game2/game2-scene3-river1-min.png"},
+        "game2-scene3-river2": {image:"img/game2/game2-scene3-river2-min.png"},
+        "game2-scene3-river3": {image:"img/game2/game2-scene3-river3-min.png"},
         "game2-scene3-cloud1": {image:"img/game2/game2-scene3-cloud1-min.png"},
         "game2-scene3-cloud2": {image:"img/game2/game2-scene3-cloud2-min.png"},
         "game2-scene3-cloud3": {image:"img/game2/game2-scene3-cloud3-min.png"},
@@ -40,7 +43,10 @@ function StartGameScene3() {
         "s3_cloud2": {transform:{posX:737, posY:0, sizeX:504, sizeY:88},bitmap:gameAssetLibrary.data["game2-scene3-cloud2"]},
         "s3_cloud3": {transform:{posX:710, posY:232, sizeX:728, sizeY:263},bitmap:gameAssetLibrary.data["game2-scene3-cloud3"]},
         "s3_cloud4": {transform:{posX:1350, posY:60, sizeX:501, sizeY:193},bitmap:gameAssetLibrary.data["game2-scene3-cloud4"]},
+        "s3_river": {transform:{posX:0, posY:630, sizeX:1920, sizeY:450},bitmap:gameAssetLibrary.data["game2-scene3-river"]},
         "s3_river1": {transform:{posX:0, posY:630, sizeX:1920, sizeY:450},bitmap:gameAssetLibrary.data["game2-scene3-river1"]},
+        "s3_river2": {transform:{posX:0, posY:630, sizeX:1920, sizeY:450},bitmap:gameAssetLibrary.data["game2-scene3-river2"]},
+        "s3_river3": {transform:{posX:0, posY:630, sizeX:1920, sizeY:450},bitmap:gameAssetLibrary.data["game2-scene3-river3"]},
         "s3_bg": {transform:{posX:0, posY:0, sizeX:1920, sizeY:1080},bitmap:gameAssetLibrary.data["game2-scene3-bg"]},
         "s3_grass": {transform:{posX:0, posY:1080, sizeX:1920, sizeY:448, anchorX:0, anchorY:1},bitmap:gameAssetLibrary.data["game2-scene3-grass"]},
         "s3_flower1": {transform:{posX:142, posY:728+110, sizeX:480, sizeY:110, anchorX: 0, anchorY: 1},bitmap:gameAssetLibrary.data["game2-scene1-flower1"]},
@@ -53,6 +59,9 @@ function StartGameScene3() {
     s3_cloud2 = gameObjectLibrary.data["s3_cloud2"];
     s3_cloud3 = gameObjectLibrary.data["s3_cloud3"];
     s3_cloud4 = gameObjectLibrary.data["s3_cloud4"];
+    s3_river1 = gameObjectLibrary.data["s3_river1"];
+    s3_river2 = gameObjectLibrary.data["s3_river2"];
+    s3_river3 = gameObjectLibrary.data["s3_river3"];
     s3_grass = gameObjectLibrary.data["s3_grass"];
     s3_duck1 = gameObjectLibrary.data["s3_duck1"];
     s3_duck1.SetupAnimation([
@@ -140,6 +149,9 @@ function LoopGameScene3(_evt) {
     s3_cloud2.SetPosition({posX:737-time*3});
     s3_cloud3.SetPosition({posX:710-time*5});
     s3_cloud4.SetPosition({posX:1350-time*12});
+    s3_river1.renderer.alpha = (Math.sin(time*10) + 1) * 0.5;
+    s3_river2.renderer.alpha = (Math.sin(time*10 + Math.PI * 0.666) + 1) * 0.5;
+    s3_river2.renderer.alpha = (Math.sin(time*10 + Math.PI * 1.333) + 1) * 0.5;
 
     s3_flower1.renderer.skewX = Math.sin(time * 0.6 + 1) * 14;
     s3_flower3.renderer.skewX = Math.sin(time * 0.3 + 3) * 25;
