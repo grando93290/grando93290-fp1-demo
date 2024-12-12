@@ -233,7 +233,7 @@ function InitializeGameScene3Question() {
         "q2": {"question": "河邊有小徑嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[1], "isEmotional":false, "layout":2},
         "q3": {"question": "河邊有苔蘚生長嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[2], "isEmotional":false, "layout":2},
         "q4": {"question": "場景中有多少種動物？", "ans1": "1種", "ans2": "2種", "ans3": "3種", "ans4": "沒有", "correct":[2], "isEmotional":false, "layout":4},
-        "q5": {"question": "河邊的野花有幾種顏色？", "ans1": "1種", "ans2": "2種", "ans3": "3種", "ans4": "沒有", "correct":[4], "isEmotional":false, "layout":4},
+        "q5": {"question": "河邊的野花有幾種顏色？", "ans1": "1種", "ans2": "2種", "ans3": "3種", "ans4": "沒有", "correct":[3], "isEmotional":false, "layout":4},
         "q6": {"question": "河水流動的速度是怎樣的？", "ans1": "快", "ans2": "慢", "ans3": "", "ans4": "", "correct":[1,2], "isEmotional":false, "layout":2},
         "q7": {"question": "場景中有野兔在奔跑嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[1], "isEmotional":false, "layout":2},
         "q8": {"question": "草地是甚麼顏色？", "ans1": "綠色", "ans2": "黃色", "ans3": "紅色", "ans4": "", "correct":[1], "isEmotional":false, "layout":3},
