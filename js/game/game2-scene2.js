@@ -144,7 +144,7 @@ function LoopGameScene2(_evt) {
         s2_crab.PlayAnimation(time);
     }
 
-    if (runTime < 3) {
+    if (time < 3) {
         s2_seagull1.transform.posX = -300 + Math.sin(time / 3 * Math.PI) * 700;
         s2_seagull1.transform.posY = -300 + time * 400;
         s2_seagull1.transform.sizeX = time * 200;
@@ -153,7 +153,7 @@ function LoopGameScene2(_evt) {
         s2_seagull1.SetAnimationIndex(Math.floor((Math.abs(time * 10)) % 4));
     }
 
-    if (runTime > 5 && runTime < 9) {
+    if (time > 5 && time < 9) {
         s2_seagull2.transform.posX = 2000 - (time - 5) * 550;
         s2_seagull2.transform.posY = -50 + (time - 5) * 80;
         s2_seagull2.transform.sizeX = (1+(time - 5) / 8) * 194;
