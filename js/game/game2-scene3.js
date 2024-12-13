@@ -240,7 +240,7 @@ function InitializeGameScene3Question() {
         "q9": {"question": "草地上有蘑菇嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[1], "isEmotional":false, "layout":2},
         "q10": {"question": "楓樹的葉子是什麼顏色？", "ans1": "紅色", "ans2": "黃色", "ans3": "綠色", "ans4": "以上皆有", "correct":[1,2,3,4], "isEmotional":false, "layout":4},
         "q11": {"question": "您在場景中聽到青蛙發出的聲音嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[1], "isEmotional":false, "layout":2},
-        "q12": {"question": "您在場景中聽到甚麼聲音？", "ans1": "河水流動聲", "ans2": "青蛙的聲音", "ans3": "微風吹拂聲", "ans4": "以上皆有", "correct":[4], "isEmotional":false, "layout":4},
+        "q12": {"question": "您在場景中聽到甚麼聲音？", "ans1": "河水流動聲", "ans2": "青蛙的聲音", "ans3": "微風吹拂聲", "ans4": "以上皆有", "correct":[1,2,3,4], "isEmotional":false, "layout":4},
         "q13": {"question": "聽到河流的聲音時，您的心情如何？", "ans1": "平靜", "ans2": "愉悅", "ans3": "放鬆", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
         "q14": {"question": "看到楓葉時，您的心情如何？", "ans1": "平靜", "ans2": "愉悅", "ans3": "感嘆", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
         "q15": {"question": "秋天的氛圍為您帶來甚麼感覺？", "ans1": "溫馨", "ans2": "感慨", "ans3": "期待", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
