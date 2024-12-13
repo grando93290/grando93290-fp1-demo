@@ -27,6 +27,8 @@ var game_bird1, game_bird2;
 var game_wave;
 var game_rubbish1, game_rubbish2, game_rubbish3, game_rubbish4, game_rubbish5;
 
+const gameInitialDistance = 10.0;
+
 
 function InitializeGame(_data) {
     isGameQuestionDebugging = 'forceScene' in _data;
@@ -171,7 +173,7 @@ function StartGame() {
     gameUIState = 0;
     gameScore = 0;
     gameTestIndex = 0;
-    gameDistance = 12;
+    gameDistance = gameInitialDistance;
     gamePlayCountdown = false;
     gamePplTalkFadeOut = false;
     HideLoadingUI();
@@ -198,14 +200,14 @@ function StartGame() {
         "bird1": {transform:{posX:-100, posY:143, sizeX:72, sizeY:30, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-bird"]},
         "bird2": {transform:{posX:-100, posY:143, sizeX:72, sizeY:30, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-bird"]},
 
-        "swim": {transform:{posX:864, posY:780, sizeX:340, sizeY:421, anchorX:0.5, anchorY:0.25},sprite:{spriteSheet:swimSpriteSheet, spriteIndices:[0,1,2]}},
-
         "wave1_1": {transform:{posX:500, posY:400, sizeX:754, sizeY:118, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave1"]},
         "wave1_2": {transform:{posX:500, posY:400, sizeX:754, sizeY:118, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave1"]},
         "wave1_3": {transform:{posX:500, posY:400, sizeX:754, sizeY:118, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave1"]},
         "wave2_1": {transform:{posX:1300, posY:450, sizeX:750, sizeY:160, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave2"]},
         "wave2_2": {transform:{posX:1300, posY:450, sizeX:750, sizeY:160, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave2"]},
         "wave2_3": {transform:{posX:1300, posY:450, sizeX:750, sizeY:160, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave2"]},
+
+        "swim": {transform:{posX:864, posY:780, sizeX:340, sizeY:421, anchorX:0.5, anchorY:0.25},sprite:{spriteSheet:swimSpriteSheet, spriteIndices:[0,1,2]}},
 
         "rubbish1": {transform:{posX:-300, posY:450, sizeX:300, sizeY:139, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-rubbish1"]},
         "rubbish2": {transform:{posX:-500, posY:550, sizeX:60, sizeY:75, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-rubbish2"]},
@@ -233,9 +235,9 @@ function StartGame() {
     game_wave = [gameObjectLibrary.data["wave1_1"], gameObjectLibrary.data["wave1_2"], gameObjectLibrary.data["wave1_3"], gameObjectLibrary.data["wave2_1"], gameObjectLibrary.data["wave2_2"], gameObjectLibrary.data["wave2_3"]];
     for (let i = 0; i < game_wave.length; i++) {
         let wave = game_wave[i];
-        wave.wavePos = 12 - 0.5 * (i+1.0) / game_wave.length;
+        wave.wavePos = gameInitialDistance - 0.5 * (i+1.0) / game_wave.length;
         wave.waveSpd = Math.random() - 0.5;
-        wave.waveSpd = wave.waveSpd > 0 ? (50 + 200 * wave.waveSpd) : (-50 + 200 * wave.waveSpd);
+        wave.waveSpd = wave.waveSpd > 0 ? (50 + 100 * wave.waveSpd) : (-50 + 100 * wave.waveSpd);
         wave.transform.posX = 432 + Math.random() * 864;
     }
 
@@ -247,7 +249,7 @@ function StartGame() {
 
     const colorFilter = new createjs.ColorFilter(1, 0, 0, 1); // Red channel boosted
     game_cloud4.renderer.filters = [colorFilter];
-    // game_cloud4.renderer.cache(0, 0, 100, 100);
+    game_cloud4.renderer.cache(0, 0, 100, 100);
 
     gameStage.update();
 
@@ -271,7 +273,7 @@ function LoopGame(_evt) {
     gameDistanceBallon_lowerText.Update({text:gameDistance.toFixed(2)});
 
     // island;
-    let islandScale = (12.0 - gameDistance) / 12.0;
+    let islandScale = (gameInitialDistance - gameDistance) / gameInitialDistance;
     islandScale = islandScale * islandScale;
     islandScale = 1 + 9 * islandScale;
     game_island.SetPosition({sizeX:407*islandScale, sizeY:91*islandScale});
@@ -332,8 +334,8 @@ function LoopGame(_evt) {
         } else if (distance < -0.04) {
             wave.wavePos -= 0.5 - Math.random() * 0.01;
             wave.waveSpd = Math.random() - 0.5;
-            wave.waveSpd = wave.waveSpd > 0 ? (50 + 200 * wave.waveSpd) : (-50 + 200 * wave.waveSpd);
-            wave.transform.posX = 432 + Math.random() * 864;
+            wave.waveSpd = wave.waveSpd > 0 ? (50 + 100 * wave.waveSpd) : (-50 + 100 * wave.waveSpd);
+            wave.transform.posX = 648 + Math.random() * 432;
         }
         let sinTime = Math.sin(time * 6 + i);
         let cosTime = Math.cos(time * 3 + i);
@@ -351,6 +353,8 @@ function LoopGame(_evt) {
         wave.transform.sizeY = wave.transform.height * scale;
         wave.UpdatePosition();
     }
+
+    game_swim.SetAnimationIndex( Math.floor(time* 4 % 2) + 1 );
 
     gameStage.update();
 
