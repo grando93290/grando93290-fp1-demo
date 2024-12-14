@@ -198,7 +198,9 @@ function StartGame() {
     gameDistance = gameInitialDistance;
     gameSpeed = 0;
     gameTargetSpeed = 0;
+    gameIsRubbishFlow = false;
     gameRubbishFlowedCount = 0;
+    gameBtnPressedCount = 0
     HideLoadingUI();
     SetUIState();
 
@@ -340,9 +342,13 @@ function LoopGame(_evt) {
     }
 
     if (gameIsPenaltyTime) {
-        let penaltyTime = time - gamePenaltyTimeBuffer;
-        if (penaltyTime > gamePenaltyTimeInterval) {
+        let penaltyTime = (time - gamePenaltyTimeBuffer) / gamePenaltyTimeInterval;
+        // penalty effect
+        let blinkTime = Math.floor(penaltyTime * 12);
+        game_swim.renderer.alpha = blinkTime % 2;
+        if (penaltyTime > 1) {
             gameIsPenaltyTime = false;
+            game_swim.renderer.alpha = 1;
         }
     }
 
