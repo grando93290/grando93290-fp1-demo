@@ -273,7 +273,7 @@ function StartGame() {
     redColorFilter = new createjs.ColorFilter(1, 1, 1, 1);
     blueColorFilter = new createjs.ColorFilter(1, 1, 1, 1);
     game_swim.renderer.filters = [redColorFilter, blueColorFilter];
-    game_swim.renderer.cache(-game_swim.transform.sizeX * 0.5, -game_swim.transform.sizeY * 0.5, game_swim.transform.sizeX, game_swim.transform.sizeY);
+    game_swim.renderer.cache(0, 0, game_swim.transform.sizeX, game_swim.transform.sizeY);
 
     gameStage.update();
 
