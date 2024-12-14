@@ -345,7 +345,11 @@ class UIElement {
         this.enabled = _enabled;
         this.dom.style.display = this.enabled ? "block" : "none";
         if (this.dom2) {
-            this.dom2.style.display = this.enabled ? "block" : "none";
+            if (this.isBallon) {
+                this.dom2.style.display = this.enabled ? (this.text == '0' ? 'none' : 'block') : 'block';
+            } else {
+                this.dom2.style.display = this.enabled ? "block" : "none";
+            }
         }
     }
 

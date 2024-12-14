@@ -22,6 +22,7 @@ var game_island, game_island1, game_island2, game_sea;
 var game_bird1, game_bird2;
 var game_wave;
 var game_rubbish;
+var game_swim, game_swim_blur, game_swim_wave;
 
 const gameInitialDistance = 10.0, gameBtnPressedCountInterval = 0.5, gameBtnLongPressInterval = 0.25, gameAcceleration = 0.03;
 const gameDivingInterval = 1.8, gameDivingCDInterval = 1.0;
@@ -33,8 +34,6 @@ var gameIsDiving = false, gameIsDivingCD = false, gameDivingTimeBuffer = 0;
 const gameRubbishFlowInterval = 2.5, gamePenaltyTimeInterval = 1.5;
 var gameRubbishFlowedCount, gameIsRubbishFlow = false, gameRubbishTimeBuffer, gameRubbishDirection, gameRubbishIsCheckCollide;
 var gameIsPenaltyTime = false, gamePenaltyTimeBuffer = 0;
-
-var redColorFilter, blurColorFilter;
 
 function InitializeGame(_data) {
     isGameQuestionDebugging = 'forceScene' in _data;
@@ -114,7 +113,7 @@ function InitializeGameUI() {
     // gameScoreBallon.Update({text:'0'});
 
     gameMainButton = gameUILibrary.data["ui-button-main"];
-    gameMainButton.SetEnabled(true);
+    // gameMainButton.SetEnabled(true);
     gameMainButton.dom.addEventListener("pointerdown", OnKeyDownGameBtnOrSpace);
     document.addEventListener("pointerup", OnKeyUpGameBtnOrSpace);
     document.addEventListener("keydown", (e) => {
@@ -179,6 +178,8 @@ function InitializeGameScene() {
         "game3-island2": {image:"img/game3/game3-island2-min.png"},
         "game3-sea": {image:"img/game3/game3-sea-min.png"},
         "game3-swim": {image:"img/game3/game3-swim-min.png"},
+        "game3-swim-blur": {image:"img/game3/game3-swim-blur-min.png"},
+        "game3-swim-wave": {image:"img/game3/game3-swim-wave-min.png"},
         "game3-bird": {image:"img/game3/game3-bird-min.png"},
         "game3-wave1": {image:"img/game3/game3-wave1-min.png"},
         "game3-wave2": {image:"img/game3/game3-wave2-min.png"},
@@ -191,7 +192,7 @@ function InitializeGameScene() {
 }
 
 function StartGame() {
-    gameUIState = 0;
+    gameUIState = 1;
     gameScore = 0;
     gameTestIndex = 0;
     gameDistance = gameInitialDistance;
@@ -230,6 +231,8 @@ function StartGame() {
         "wave2_3": {transform:{posX:1300, posY:450, sizeX:750, sizeY:160, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave2"]},
 
         "swim": {transform:{posX:864, posY:850, sizeX:340, sizeY:421, anchorX:0.5, anchorY:0.5},sprite:{spriteSheet:swimSpriteSheet, spriteIndices:[0,1,2]}},
+        "swim_blur": {transform:{posX:864, posY:850, sizeX:360, sizeY:441, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-swim-blur"]},
+        "swim_wave": {transform:{posX:864, posY:900, sizeX:360, sizeY:140, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-swim-wave"]},
 
         "rubbish1": {transform:{posX:-300, posY:450, sizeX:300, sizeY:139, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-rubbish1"]},
         "rubbish2": {transform:{posX:-500, posY:550, sizeX:60, sizeY:75, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-rubbish2"]},
@@ -241,6 +244,10 @@ function StartGame() {
 
     game_swim = gameObjectLibrary.data["swim"];
     game_swim.SetAnimationIndex(0);
+    game_swim_blur = gameObjectLibrary.data["swim_blur"];
+    game_swim_blur.renderer.alpha = 0;
+    game_swim_wave = gameObjectLibrary.data["swim_wave"];
+    game_swim_wave.renderer.alpha = 0.65;
 
     game_cloud1 = gameObjectLibrary.data["cloud1"];
     game_cloud2 = gameObjectLibrary.data["cloud2"];
@@ -270,10 +277,10 @@ function StartGame() {
     // game_cloud4.renderer.filters = [colorFilter];
     // game_cloud4.renderer.cache(0, 0, 100, 100);
 
-    redColorFilter = new createjs.ColorFilter(1, 1, 1, 1);
-    blueColorFilter = new createjs.ColorFilter(1, 1, 1, 1);
-    game_swim.renderer.filters = [redColorFilter, blueColorFilter];
-    game_swim.renderer.cache(0, 0, game_swim.transform.sizeX, game_swim.transform.sizeY);
+    // redColorFilter = new createjs.ColorFilter(1, 1, 1, 1);
+    // blueColorFilter = new createjs.ColorFilter(1, 1, 1, 1);
+    // game_swim.renderer.filters = [redColorFilter, blueColorFilter];
+    // game_swim.renderer.cache(0, 0, game_swim.transform.sizeX, game_swim.transform.sizeY);
 
     gameStage.update();
 
@@ -368,11 +375,20 @@ function LoopGame(_evt) {
         gameDivingTimeBuffer += deltaTime;
         let diveTime = gameDivingTimeBuffer / gameDivingInterval;
         let diveScale = Math.sin(diveTime*Math.PI);
+        let diveBlurValue = diveScale * 0.5;
+        let divePosY = 850 - diveScale * diveScale * 100;
+        let diveAlpha = 1 - diveScale;
         diveScale = (2.5 - diveScale * diveScale) / 2.5;
+        game_swim.transform.posY = divePosY;
         game_swim.transform.sizeX = game_swim.transform.width * diveScale;
         game_swim.transform.sizeY = game_swim.transform.height * diveScale;
         game_swim.UpdatePosition();
-        game_swim.renderer.alpha = diveScale;
+        game_swim.renderer.alpha = diveAlpha;
+        game_swim_blur.transform.posY = divePosY;
+        game_swim_blur.transform.sizeX = game_swim_blur.transform.width * diveScale;
+        game_swim_blur.transform.sizeY = game_swim_blur.transform.height * diveScale;
+        game_swim_blur.UpdatePosition();
+        game_swim_blur.renderer.alpha = diveBlurValue;
         if (gameDivingTimeBuffer > gameDivingInterval) {
             gameIsDiving = false;
             gameIsDivingCD = true;
@@ -471,7 +487,7 @@ function LoopGame(_evt) {
             wave.waveSpd = wave.waveSpd > 0 ? (50 + 100 * wave.waveSpd) : (-50 + 100 * wave.waveSpd);
             wave.transform.posX = 648 + Math.random() * 432;
         }
-        if (wave.wavePos < 0.25) {
+        if (wave.wavePos < 0.4) {
             wave.renderer.alpha = 0;
             continue;
         }
@@ -489,20 +505,17 @@ function LoopGame(_evt) {
         wave.transform.sizeY = wave.transform.height * scale;
         wave.UpdatePosition();
     }
+    game_swim_wave.renderer.skewX = sinTime * (15 + gameSpeed * 20);
+    game_swim_wave.renderer.skewY = cosTime * (1 + gameSpeed * 20);
 
     gameStage.update();
 
-}
-
-function SetUI(_uiType) {
-    switch (_uiType) {
-        case 0:
-            break;
-        case 1:
-            break;
-        case 2:
-            break;
+    if (gameDistance < 0) {
+        gameUIState = 2;
+        SetUIState();
+        createjs.Ticker.removeEventListener("tick", LoopGame);
     }
+
 }
 
 function OnKeyDownGameBtnOrSpace(_evt) {
@@ -520,11 +533,57 @@ function OnKeyUpGameBtnOrSpace(_evt) {
 }
 
 function SetUIState() {
-
+    switch (gameUIState) {
+        case 0:
+            gameScoreBallon.SetEnabled(false);
+            gameMainButton.SetEnabled(false);
+            gameDistanceBallon.SetEnabled(false);
+            gameDistanceBallon_upperText.SetEnabled(false);
+            gameDistanceBallon_lowerText.SetEnabled(false);
+            gameDistanceBallon_arrow.SetEnabled(false);
+            gameUIMainBox.SetEnabled(false);
+            gameUIMainTitle.SetEnabled(false);
+            gameUIMainImage.SetEnabled(false);
+            gameUIMainButton1.SetEnabled(false);
+            gameUIMainButton2.SetEnabled(false);
+            break;
+        case 1:
+            gameScoreBallon.SetEnabled(true);
+            gameScoreBallon.Update({text:gameScore+""});
+            gameMainButton.SetEnabled(true);
+            gameDistanceBallon.SetEnabled(true);
+            gameDistanceBallon_upperText.SetEnabled(true);
+            gameDistanceBallon_lowerText.SetEnabled(true);
+            gameDistanceBallon_arrow.SetEnabled(true);
+            gameUIMainBox.SetEnabled(false);
+            gameUIMainTitle.SetEnabled(false);
+            gameUIMainImage.SetEnabled(false);
+            gameUIMainButton1.SetEnabled(false);
+            gameUIMainButton2.SetEnabled(false);
+            break;
+        case 2:
+            gameScoreBallon.SetEnabled(true);
+            gameScoreBallon.Update({text:gameScore+""});
+            gameMainButton.SetEnabled(true);
+            gameDistanceBallon.SetEnabled(true);
+            gameDistanceBallon_upperText.SetEnabled(true);
+            gameDistanceBallon_lowerText.SetEnabled(true);
+            gameDistanceBallon_arrow.SetEnabled(true);
+            gameUIMainBox.SetEnabled(true);
+            gameUIMainTitle.SetEnabled(true);
+            gameUIMainImage.SetEnabled(true);
+            gameUIMainButton1.SetEnabled(true);
+            gameUIMainButton2.SetEnabled(true);
+            break;
+    }
 }
 
 function OnClickUIButton(_buttonId) {
-
+    if (_buttonId == 1) {
+        StartGame();
+    } else {
+        ExitGameView();
+    }
 }
 
 function PlayAudio(_audio) {
