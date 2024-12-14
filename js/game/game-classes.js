@@ -465,6 +465,7 @@ class UIElement {
         this.dom.style.height = this.transform.height;
         this.dom.style.fontFamily = this.fontFamily;
         this.dom.style.fontWeight = 100;
+        this.dom.style.userSelect = 'none';
         this.dom.style.color = this.color;
         this.dom.innerHTML = this.text;
         if (this.transform.parent == '') {
@@ -506,6 +507,7 @@ class UIElement {
         this.dom.style.fontWeight = 100;
         this.dom.style.color = this.color;
         this.dom.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
+        this.dom.style.userSelect = 'none';
         this.dom.innerHTML = this.text;
         this.dom.addEventListener('click', this.onclick);
         if (this.transform.parent == '') {
@@ -589,6 +591,7 @@ class UIElement {
         this.dom.style.fontSize = (gameCanvasScale * this.fontSize) + 'px';
         this.dom.style.color = this.color;
         this.dom.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
+        this.dom.style.userSelect = 'none';
         this.dom.innerHTML = this.text;
         if (this.transform.parent == '') {
             gameUI.appendChild(this.dom);
@@ -619,6 +622,7 @@ class UIElement {
         this.dom2.style.fontSize = (gameCanvasScale * this.fontSize) + 'px';
         this.dom2.style.color = this.color;
         this.dom2.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
+        this.dom.style.userSelect = 'none';
         this.dom2.innerHTML = this.text;
         if (this.transform.parent == '') {
             gameUI.appendChild(this.dom2);

@@ -14,21 +14,27 @@ var gameTimeBuffer1, gameTimeBuffer2, gameTimeBuffer3;
 var gameDistanceBallon, gameDistanceBallon_upperText, gameDistanceBallon_lowerText, gameDistanceBallon_arrow;
 var gameScoreBallon, gameMainButton;
 
-var gameDistance;
-
 var gameAudioCountdown, gameAudioWin, gameAudioLose;
 
 var gameUIMainBox, gameUIMainTitle, gameUIMainImage, gameUIMainButton1, gameUIMainButton2;
-
-var game_swim;
 var game_cloud1, game_cloud2, game_cloud3, game_cloud4;
-var game_island, game_island1, game_island2;
+var game_island, game_island1, game_island2, game_sea;
 var game_bird1, game_bird2;
 var game_wave;
-var game_rubbish1, game_rubbish2, game_rubbish3, game_rubbish4, game_rubbish5;
+var game_rubbish;
 
-const gameInitialDistance = 10.0;
+const gameInitialDistance = 10.0, gameBtnPressedCountInterval = 0.5, gameBtnLongPressInterval = 0.25, gameAcceleration = 0.03;
+const gameDivingInterval = 1.8, gameDivingCDInterval = 1.0;
 
+var gameDistance, gameSpeed, gameTargetSpeed;
+var gameBtnPressed = false, gameBtnLongPressed = false, gameBtnPressedTime = 0, gameBtnPressedCount = 0, gameBtnPressedTimeBuffer = 0;
+var gameIsDiving = false, gameIsDivingCD = false, gameDivingTimeBuffer = 0;
+
+const gameRubbishFlowInterval = 2.5, gamePenaltyTimeInterval = 1.5;
+var gameRubbishFlowedCount, gameIsRubbishFlow = false, gameRubbishTimeBuffer, gameRubbishDirection, gameRubbishIsCheckCollide;
+var gameIsPenaltyTime = false, gamePenaltyTimeBuffer = 0;
+
+var redColorFilter, blurColorFilter;
 
 function InitializeGame(_data) {
     isGameQuestionDebugging = 'forceScene' in _data;
@@ -72,7 +78,7 @@ function InitializeGameUI() {
         "ui-main-button1": {transform:{left:'33.1%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickUIButton(1);}}},
         "ui-main-button2": {transform:{left:'50.9%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickUIButton(2);}}},
 
-        "ui-test": {transform:{left:'0', top:'0', width:'100%', height:'100%'}, image:{imgSrc:"img/game3ui/2.jpg"}},
+        // "ui-test": {transform:{left:'0', top:'0', width:'100%', height:'100%'}, image:{imgSrc:"img/game3ui/2.jpg"}},
     });
 
     gameUILibrary.AddUIResizeEvent();
@@ -88,10 +94,10 @@ function InitializeGameUI() {
     gameDistanceBallon_upperText = gameUILibrary.data["ui-distance-ballon-uppertext"];
     gameDistanceBallon_lowerText = gameUILibrary.data["ui-distance-ballon-lowertext"];
     gameDistanceBallon_arrow = gameUILibrary.data["ui-distance-ballon-arrow"];
-    gameDistanceBallon.SetEnabled(true);
-    gameDistanceBallon_upperText.SetEnabled(true);
-    gameDistanceBallon_lowerText.SetEnabled(true);
-    gameDistanceBallon_arrow.SetEnabled(true);
+    // gameDistanceBallon.SetEnabled(true);
+    // gameDistanceBallon_upperText.SetEnabled(true);
+    // gameDistanceBallon_lowerText.SetEnabled(true);
+    // gameDistanceBallon_arrow.SetEnabled(true);
 
     gameUIMainBox = gameUILibrary.data["ui-main-bg"];
     gameUIMainTitle = gameUILibrary.data["ui-main-title"];
@@ -104,11 +110,26 @@ function InitializeGameUI() {
     // gameUIMainImage.SetEnabled(true);
     // gameUIMainButton1.SetEnabled(true);
     // gameUIMainButton2.SetEnabled(true);
-    gameScoreBallon.SetEnabled(true);
-    gameScoreBallon.Update({text:'0'});
+    // gameScoreBallon.SetEnabled(true);
+    // gameScoreBallon.Update({text:'0'});
 
     gameMainButton = gameUILibrary.data["ui-button-main"];
     gameMainButton.SetEnabled(true);
+    gameMainButton.dom.addEventListener("pointerdown", OnKeyDownGameBtnOrSpace);
+    document.addEventListener("pointerup", OnKeyUpGameBtnOrSpace);
+    document.addEventListener("keydown", (e) => {
+        if (e.code === "Space") {
+            e.preventDefault();
+            OnKeyDownGameBtnOrSpace(e);
+        }
+    });
+    document.addEventListener("keyup", (e) => {
+        if (e.code === "Space") {
+            e.preventDefault();
+            OnKeyUpGameBtnOrSpace(e);
+        }
+    });
+
 
     // gameUILibrary.data["ui-test"].SetEnabled(true);
     // gameUILibrary.data["ui-test"].dom.style.opacity = '50%';
@@ -174,8 +195,9 @@ function StartGame() {
     gameScore = 0;
     gameTestIndex = 0;
     gameDistance = gameInitialDistance;
-    gamePlayCountdown = false;
-    gamePplTalkFadeOut = false;
+    gameSpeed = 0;
+    gameTargetSpeed = 0;
+    gameRubbishFlowedCount = 0;
     HideLoadingUI();
     SetUIState();
 
@@ -207,7 +229,7 @@ function StartGame() {
         "wave2_2": {transform:{posX:1300, posY:450, sizeX:750, sizeY:160, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave2"]},
         "wave2_3": {transform:{posX:1300, posY:450, sizeX:750, sizeY:160, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave2"]},
 
-        "swim": {transform:{posX:864, posY:780, sizeX:340, sizeY:421, anchorX:0.5, anchorY:0.25},sprite:{spriteSheet:swimSpriteSheet, spriteIndices:[0,1,2]}},
+        "swim": {transform:{posX:864, posY:850, sizeX:340, sizeY:421, anchorX:0.5, anchorY:0.5},sprite:{spriteSheet:swimSpriteSheet, spriteIndices:[0,1,2]}},
 
         "rubbish1": {transform:{posX:-300, posY:450, sizeX:300, sizeY:139, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-rubbish1"]},
         "rubbish2": {transform:{posX:-500, posY:550, sizeX:60, sizeY:75, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-rubbish2"]},
@@ -228,6 +250,7 @@ function StartGame() {
     game_island = gameObjectLibrary.data["island"];
     game_island1 = gameObjectLibrary.data["island1"];
     game_island2 = gameObjectLibrary.data["island2"];
+    game_sea = gameObjectLibrary.data["sea"];
 
     game_bird1 = gameObjectLibrary.data["bird1"];
     game_bird2 = gameObjectLibrary.data["bird2"];
@@ -241,15 +264,16 @@ function StartGame() {
         wave.transform.posX = 432 + Math.random() * 864;
     }
 
-    game_rubbish1 = gameObjectLibrary.data["rubbish1"];
-    game_rubbish2 = gameObjectLibrary.data["rubbish2"];
-    game_rubbish3 = gameObjectLibrary.data["rubbish3"];
-    game_rubbish4 = gameObjectLibrary.data["rubbish4"];
-    game_rubbish5 = gameObjectLibrary.data["rubbish5"];
+    game_rubbish = [gameObjectLibrary.data["rubbish1"], gameObjectLibrary.data["rubbish2"], gameObjectLibrary.data["rubbish3"], gameObjectLibrary.data["rubbish4"], gameObjectLibrary.data["rubbish5"]];
 
-    const colorFilter = new createjs.ColorFilter(1, 0, 0, 1); // Red channel boosted
-    game_cloud4.renderer.filters = [colorFilter];
-    game_cloud4.renderer.cache(0, 0, 100, 100);
+    // const colorFilter = new createjs.ColorFilter(1, 0, 0, 1); // Red channel boosted
+    // game_cloud4.renderer.filters = [colorFilter];
+    // game_cloud4.renderer.cache(0, 0, 100, 100);
+
+    redColorFilter = new createjs.ColorFilter(1, 1, 1, 1);
+    blueColorFilter = new createjs.ColorFilter(1, 1, 1, 1);
+    game_swim.renderer.filters = [redColorFilter, blueColorFilter];
+    game_swim.renderer.cache(-game_swim.transform.sizeX * 0.5, -game_swim.transform.sizeY * 0.5, game_swim.transform.sizeX, game_swim.transform.sizeY);
 
     gameStage.update();
 
@@ -269,16 +293,123 @@ function LoopGame(_evt) {
     let deltaTime = time - gameTimeBuffer3;
     gameTimeBuffer3 = time;
 
-    gameDistance -= deltaTime * 0.05;
-    gameDistanceBallon_lowerText.Update({text:gameDistance.toFixed(2)});
+    // rubbish
+    if (gameIsRubbishFlow) {
+        let rubbishObj = game_rubbish[gameRubbishFlowedCount%5];
+        let rubbishTime = (time - gameRubbishTimeBuffer) / gameRubbishFlowInterval;
+        if (rubbishTime > 1) {
+            gameIsRubbishFlow = false;
+            rubbishObj.transform.posX = -1000;
+            rubbishObj.transform.posY = -1000;
+            rubbishObj.UpdatePosition();
+        } else {
+            rubbishObj.transform.posY = 450 + 600 * rubbishTime;
+            if (gameRubbishDirection) {
+                rubbishObj.transform.posX = -200 + 1150 * (1 - (1-rubbishTime) * (1-rubbishTime));
+            } else {
+                rubbishObj.transform.posX = 1928 - 1150 * (1 - (1-rubbishTime) * (1-rubbishTime));
+            }
+            rubbishObj.UpdatePosition();
+            if (rubbishTime > 0.55 && !gameRubbishIsCheckCollide) {
+                gameRubbishIsCheckCollide = true;
+                if (gameIsDiving) {
+                    // Dodge
+                    gameScore++;
+                    gameScoreBallon.Update({text: gameScore});
+                } else {
+                    // Hit
+                    gameTargetSpeed = 0;
+                    gameIsPenaltyTime = true;
+                    gamePenaltyTimeBuffer = time;
+                }
+            }
+        }
+    } else if (gameDistance < gameInitialDistance - 1 - gameRubbishFlowedCount && gameDistance > 0) {
+        gameRubbishFlowedCount++;
+        gameIsRubbishFlow = true;
+        gameRubbishTimeBuffer = time;
+        gameRubbishDirection = Math.random() > 0.5;
+        gameRubbishIsCheckCollide = false;
+    }
+
+    if (gameIsPenaltyTime) {
+        let penaltyTime = time - gamePenaltyTimeBuffer;
+        if (penaltyTime > gamePenaltyTimeInterval) {
+            gameIsPenaltyTime = false;
+        }
+    }
+
+    // Btn handler
+    if (gameBtnPressed) {
+        gameBtnPressedTime += deltaTime;
+        if (gameBtnPressedTime > gameBtnLongPressInterval && !gameBtnLongPressed) {
+            gameBtnLongPressed = true;
+            if (!gameIsDiving && !gameIsDivingCD) {
+                gameIsDiving = true;
+                gameDivingTimeBuffer = 0;
+            }
+        }
+    }
+    gameBtnPressedTimeBuffer += deltaTime;
+    if (gameBtnPressedTimeBuffer > gameBtnPressedCountInterval) {
+        {
+            gameTargetSpeed = gameBtnPressedCount * gameAcceleration;
+            // if (gameTargetSpeed > gameSpeed + gameAcceleration * 0.2) gameTargetSpeed = gameSpeed + gameAcceleration * 0.2;
+            // if (gameTargetSpeed < gameSpeed - gameAcceleration * 1) gameTargetSpeed = gameSpeed - gameAcceleration * 1;
+        }
+        if (gameIsDiving) {
+            gameTargetSpeed = gameSpeed;
+        }
+        gameBtnPressedTimeBuffer = 0;
+        gameBtnPressedCount = 0;
+    }
+
+    if (gameIsDiving) {
+        gameDivingTimeBuffer += deltaTime;
+        let diveTime = gameDivingTimeBuffer / gameDivingInterval;
+        let diveScale = Math.sin(diveTime*Math.PI);
+        diveScale = (2.5 - diveScale * diveScale) / 2.5;
+        game_swim.transform.sizeX = game_swim.transform.width * diveScale;
+        game_swim.transform.sizeY = game_swim.transform.height * diveScale;
+        game_swim.UpdatePosition();
+        game_swim.renderer.alpha = diveScale;
+        if (gameDivingTimeBuffer > gameDivingInterval) {
+            gameIsDiving = false;
+            gameIsDivingCD = true;
+            gameDivingTimeBuffer = 0;
+        }
+    }
+    if (gameIsDivingCD) {
+        gameDivingTimeBuffer += deltaTime;
+        if (gameDivingTimeBuffer > gameDivingCDInterval) {
+            gameIsDivingCD = false;
+            gameDivingTimeBuffer = 0;
+        }
+    }
+
+    if (gameIsPenaltyTime) gameTargetSpeed = 0;
+    gameSpeed = gameSpeed * 0.9 + gameTargetSpeed * 0.1;
+    gameDistance -= deltaTime * gameSpeed;
+    gameDistanceBallon_lowerText.Update({text:Math.max(0,gameDistance*100).toFixed(0)+"米"});
+    if (gameSpeed < 0.001 || gameIsDiving) {
+        game_swim.SetAnimationIndex(0);
+    } else {
+        game_swim.SetAnimationIndex( Math.floor(gameDistance * 20 % 2) + 1 );
+    }
 
     // island;
     let islandScale = (gameInitialDistance - gameDistance) / gameInitialDistance;
-    islandScale = islandScale * islandScale;
+    // islandScale = islandScale * islandScale;
     islandScale = 1 + 9 * islandScale;
-    game_island.SetPosition({sizeX:407*islandScale, sizeY:91*islandScale});
     game_island1.SetPosition({sizeX:100*islandScale, sizeY:24*islandScale});
     game_island2.SetPosition({sizeX:176*islandScale, sizeY:48*islandScale});
+    if (gameDistance < 1) {
+        let islandPosY = 322 + 378 * (1 - gameDistance) * (1 - gameDistance);
+        game_island.SetPosition({posY: islandPosY, sizeX:407*islandScale, sizeY:91*islandScale});
+        game_sea.SetPosition({posY: islandPosY});
+    } else {
+        game_island.SetPosition({sizeX:407*islandScale, sizeY:91*islandScale});
+    }
 
     // cloud
     game_cloud1.SetPosition({posX:(30 + 215 + time * 7)%(1728 + 215)-215});
@@ -325,6 +456,9 @@ function LoopGame(_evt) {
         }
     }
 
+    // wave
+    let sinTime = Math.sin(time * 6);
+    let cosTime = Math.cos(time * 3);
     for (let i = 0; i < game_wave.length; i++) {
         let wave = game_wave[i];
         let distance = (gameDistance - wave.wavePos);
@@ -337,8 +471,10 @@ function LoopGame(_evt) {
             wave.waveSpd = wave.waveSpd > 0 ? (50 + 100 * wave.waveSpd) : (-50 + 100 * wave.waveSpd);
             wave.transform.posX = 648 + Math.random() * 432;
         }
-        let sinTime = Math.sin(time * 6 + i);
-        let cosTime = Math.cos(time * 3 + i);
+        if (wave.wavePos < 0.25) {
+            wave.renderer.alpha = 0;
+            continue;
+        }
         wave.renderer.skewX = sinTime * 15;
         wave.renderer.skewY = cosTime;
         let posY = 1 - distance * 2;
@@ -354,10 +490,33 @@ function LoopGame(_evt) {
         wave.UpdatePosition();
     }
 
-    game_swim.SetAnimationIndex( Math.floor(time* 4 % 2) + 1 );
-
     gameStage.update();
 
+}
+
+function SetUI(_uiType) {
+    switch (_uiType) {
+        case 0:
+            break;
+        case 1:
+            break;
+        case 2:
+            break;
+    }
+}
+
+function OnKeyDownGameBtnOrSpace(_evt) {
+    if (gameBtnPressed) return;
+    gameBtnPressed = true;
+    gameBtnPressedTime = 0;
+}
+
+function OnKeyUpGameBtnOrSpace(_evt) {
+    if (gameBtnPressed) {
+        gameBtnPressedCount++;
+    }
+    gameBtnPressed = false;
+    gameBtnLongPressed = false;
 }
 
 function SetUIState() {
