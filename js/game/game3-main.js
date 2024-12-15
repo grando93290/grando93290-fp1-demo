@@ -93,10 +93,6 @@ function InitializeGameUI() {
     gameDistanceBallon_upperText = gameUILibrary.data["ui-distance-ballon-uppertext"];
     gameDistanceBallon_lowerText = gameUILibrary.data["ui-distance-ballon-lowertext"];
     gameDistanceBallon_arrow = gameUILibrary.data["ui-distance-ballon-arrow"];
-    // gameDistanceBallon.SetEnabled(true);
-    // gameDistanceBallon_upperText.SetEnabled(true);
-    // gameDistanceBallon_lowerText.SetEnabled(true);
-    // gameDistanceBallon_arrow.SetEnabled(true);
 
     gameUIMainBox = gameUILibrary.data["ui-main-bg"];
     gameUIMainTitle = gameUILibrary.data["ui-main-title"];
@@ -104,16 +100,8 @@ function InitializeGameUI() {
     gameUIMainImage = gameUILibrary.data["ui-main-image"];
     gameUIMainButton1 = gameUILibrary.data["ui-main-button1"];
     gameUIMainButton2 = gameUILibrary.data["ui-main-button2"];
-    // gameUIMainBox.SetEnabled(true);
-    // gameUIMainTitle.SetEnabled(true);
-    // gameUIMainImage.SetEnabled(true);
-    // gameUIMainButton1.SetEnabled(true);
-    // gameUIMainButton2.SetEnabled(true);
-    // gameScoreBallon.SetEnabled(true);
-    // gameScoreBallon.Update({text:'0'});
 
     gameMainButton = gameUILibrary.data["ui-button-main"];
-    // gameMainButton.SetEnabled(true);
     gameMainButton.dom.addEventListener("pointerdown", OnKeyDownGameBtnOrSpace);
     document.addEventListener("pointerup", OnKeyUpGameBtnOrSpace);
     document.addEventListener("keydown", (e) => {
@@ -128,7 +116,6 @@ function InitializeGameUI() {
             OnKeyUpGameBtnOrSpace(e);
         }
     });
-
 
     // gameUILibrary.data["ui-test"].SetEnabled(true);
     // gameUILibrary.data["ui-test"].dom.style.opacity = '50%';
@@ -168,6 +155,11 @@ function HideLoadingUI() {
 
 function InitializeGameScene() {
     gameAssetLibrary = new AssetLibrary({
+        "ui-heart-ballon": {image:"img/gameCommon/heartBallon-min.png"},
+        "ui-distance-ballon": {image:"img/game3ui/ballon-min.png"},
+        "ui-distance-ballon-arrow": {image:"img/game3ui/arrow-min.png"},
+        "ui-main-button": {image:"img/game3ui/button-min.png"},
+
         "game3-sky": {image:"img/game3/game3-sky-min.png"},
         "game3-cloud1": {image:"img/game3/game3-cloud1-min.png"},
         "game3-cloud2": {image:"img/game3/game3-cloud2-min.png"},
