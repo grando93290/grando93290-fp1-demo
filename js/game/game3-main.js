@@ -578,6 +578,8 @@ function SetGame3UIState() {
 
 function OnClickGame3UIButton(_buttonId) {
     if (_buttonId == 1) {
+        gameStage.removeAllChildren();
+        gameStage.clear();
         StartGame3();
     } else {
         ExitGameView();
