@@ -28,11 +28,11 @@ function InitializeGameScene3() {
         "game2-scene3-duck2": {image:"img/game2/game2-scene3-duck2-min.png"},
         "game2-scene3-rabbit": {image:"img/game2/game2-scene3-rabbit-min.png"},
         "game2-scene3-audio": {audio:"audio/game/game2scene3.mp3"},
-    }, UpdateLoadingBar, StartGameScene3);
+    }, UpdateGame2LoadingBar, StartGameScene3);
 }
 
 function StartGameScene3() {
-    HideLoadingUI();
+    HideGame2LoadingUI();
     InitializeGameScene3Question();
     gameQuestionBallon.Update({text:"0/"+gameQuestionSelected.length});
     gameScoreBallon.Update({text:"0"});

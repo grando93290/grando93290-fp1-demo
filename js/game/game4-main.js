@@ -12,20 +12,20 @@ var gameAssetLibrary;
 var gameObjectLibrary;
 var gameTimeBuffer1, gameTimeBuffer2, gameTimeBuffer3;
 
-function InitializeGame(_data) {
+function InitializeGame4(_data) {
     gameSharedAssetLibrary = new AssetLibrary({
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
         "game-true-audio": {audio:"audio/game/true.wav"},
-    }, null, InitializeGameScene);
+    }, null, InitializeGame4Scene);
     gamePopupAudio = gameSharedAssetLibrary.data["game-popup-audio"].audio;
     gamePressAudio = gameSharedAssetLibrary.data["game-press-audio"].audio;
     gameTrueAudio = gameSharedAssetLibrary.data["game-true-audio"].audio;
-    InitializeGameUI();
-    ShowLoadingUI();
+    InitializeGame4UI();
+    ShowGame4LoadingUI();
 }
 
-function InitializeGameUI() {
+function InitializeGame4UI() {
     gameUILibrary = new UILibrary({});
     gameUILibrary.AddUIElements({
         "ui-loading-bg": {transform:{left:'0%', top:'0%', width:'100%', height:'100%'}, image:{imgSrc:"img/gameCommon/loading-bg-min.png"}},
@@ -47,8 +47,8 @@ function InitializeGameUI() {
         "ui-main-bg": {transform:{left:'15.28%', top:'11.11%', width:'69.44%', height:'77.78%'}, roundRect:{color:'white', round:150}},
         "ui-main-title": {transform:{top:'27.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:40, letterSpacing:4, color:'#00693E', text:'完成遊戲', lineHeight: 70}},
         "ui-main-image": {transform:{left:'37.7%', top:'40%', width:'27.25%', height:'12.44%'}, image:{imgSrc:"img/game4ui/elder-min.png"}},
-        "ui-main-button1": {transform:{left:'33.1%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickUIButton(1);}}},
-        "ui-main-button2": {transform:{left:'50.9%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickUIButton(2);}}},
+        "ui-main-button1": {transform:{left:'33.1%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickGame4UIButton(1);}}},
+        "ui-main-button2": {transform:{left:'50.9%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickGame4UIButton(2);}}},
 
         "ui-test": {transform:{left:'0', top:'0', width:'100%', height:'100%'}, image:{imgSrc:"img/game4ui/2.png"}},
     });
@@ -143,7 +143,7 @@ function InitializeGameUI() {
     });
 }
 
-function ShowLoadingUI() {
+function ShowGame4LoadingUI() {
     gameUILibrary.data["ui-loading-bg"].SetEnabled(true);
     gameUILibrary.data["ui-loading-title"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(true);
@@ -156,12 +156,12 @@ function ShowLoadingUI() {
     gameUILibrary.data["ui-loading-desc2"].SetEnabled(true);
 }
 
-function UpdateLoadingBar(_progress) {
+function UpdateGame4LoadingBar(_progress) {
     gameLoadingBar.UpdateLoadingBar(_progress);
     gameLoadingBarNail.Update({left: (27+((_progress/100)*44))+'%'});
 }
 
-function HideLoadingUI() {
+function HideGame4LoadingUI() {
     gameUILibrary.data["ui-loading-bg"].SetEnabled(false);
     gameUILibrary.data["ui-loading-title"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(false);
@@ -172,10 +172,10 @@ function HideLoadingUI() {
     gameUILibrary.data["ui-loading-desc1"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-rotate"].SetEnabled(false);
     gameUILibrary.data["ui-loading-desc2"].SetEnabled(false);
-    UpdateLoadingBar(0);
+    UpdateGame4LoadingBar(0);
 }
 
-function InitializeGameScene() {
+function InitializeGame4Scene() {
     gameAssetLibrary = new AssetLibrary({
         "game4-bg": {image:"img/game4/game4-bg-min.png"},
         "game4-vegetation1": {image:"img/game4/game4-vegetation1-min.png"},
@@ -199,19 +199,19 @@ function InitializeGameScene() {
         "game4-grand4": {image:"img/game4/game4-grand4-min.png"},
         "game4-grand5": {image:"img/game4/game4-grand5-min.png"},
         "game4-grand6": {image:"img/game4/game4-grand6-min.png"},
-    }, UpdateLoadingBar, StartGame);
+    }, UpdateGame4LoadingBar, StartGame4);
 }
 
 var game_wave, game_bridge, game_vegetation;
 var game_enemy, game_char;
 var gameMove, gameMoveBuffer, gameMoveTimeBuffer, gameGridX, gameGridY;
 
-function StartGame() {
-    HideLoadingUI();
+function StartGame4() {
+    HideGame4LoadingUI();
     gameUIState = 1;
     gameScore = 0;
     game_move = -1;
-    SetUIState();
+    SetGame4UIState();
 
     let womanSpriteSheet = [
         new createjs.SpriteSheet({ 
@@ -325,10 +325,10 @@ function StartGame() {
 
     gameTimeBuffer1 = true;
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
-    createjs.Ticker.addEventListener("tick", LoopGame);
+    createjs.Ticker.addEventListener("tick", LoopGame4);
 }
 
-function LoopGame(_evt) {
+function LoopGame4(_evt) {
     let runTime = _evt.runTime / 1000;
     if (gameTimeBuffer1) {
         gameTimeBuffer2 = runTime;
@@ -458,31 +458,17 @@ function UpdateLayer(_layer) {
     }
 }
 
-function SetUIState() {
+function SetGame4UIState() {
     switch (gameUIState) {
         case 0:
             break;
     }
 }
 
-function OnClickUIButton(_buttonId) {
+function OnClickGame4UIButton(_buttonId) {
     if (_buttonId == 1) {
-        StartGame();
+        StartGame4();
     } else {
         ExitGameView();
     }
-}
-
-function PlayAudio(_audio) {
-    _audio.currentTime = 0;
-    _audio.play();
-}
-
-function GetRandomNumbers(min, max, count) {
-    const range = Array.from({ length: max - min + 1 }, (_, i) => min + i); // Create array [min, ..., max]
-    for (let i = range.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1)); // Random index
-        [range[i], range[j]] = [range[j], range[i]]; // Swap elements
-    }
-    return range.slice(0, count); // Take the first `count` elements
 }

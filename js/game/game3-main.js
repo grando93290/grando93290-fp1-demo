@@ -35,21 +35,21 @@ const gameRubbishFlowInterval = 2.5, gamePenaltyTimeInterval = 1.5;
 var gameRubbishFlowedCount, gameIsRubbishFlow = false, gameRubbishTimeBuffer, gameRubbishDirection, gameRubbishIsCheckCollide;
 var gameIsPenaltyTime = false, gamePenaltyTimeBuffer = 0;
 
-function InitializeGame(_data) {
+function InitializeGame3(_data) {
     isGameQuestionDebugging = 'forceScene' in _data;
     gameSharedAssetLibrary = new AssetLibrary({
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
         "game-true-audio": {audio:"audio/game/true.wav"},
-    }, null, InitializeGameScene);
+    }, null, InitializeGame3Scene);
     gamePopupAudio = gameSharedAssetLibrary.data["game-popup-audio"].audio;
     gamePressAudio = gameSharedAssetLibrary.data["game-press-audio"].audio;
     gameTrueAudio = gameSharedAssetLibrary.data["game-true-audio"].audio;
-    InitializeGameUI();
-    ShowLoadingUI();
+    InitializeGame3UI();
+    ShowGame3LoadingUI();
 }
 
-function InitializeGameUI() {
+function InitializeGame3UI() {
     gameUILibrary = new UILibrary({});
     gameUILibrary.AddUIElements({
         "ui-loading-bg": {transform:{left:'0%', top:'0%', width:'100%', height:'100%'}, image:{imgSrc:"img/gameCommon/loading-bg-min.png"}},
@@ -74,8 +74,8 @@ function InitializeGameUI() {
         "ui-main-bg": {transform:{left:'15.28%', top:'11.11%', width:'69.44%', height:'77.78%'}, roundRect:{color:'white', round:150}},
         "ui-main-title": {transform:{top:'27.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:40, letterSpacing:4, color:'#00693E', text:'完成遊戲', lineHeight: 70}},
         "ui-main-image": {transform:{left:'37.7%', top:'40%', width:'27.25%', height:'12.44%'}, image:{imgSrc:"img/game3ui/swim-min.png"}},
-        "ui-main-button1": {transform:{left:'33.1%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickUIButton(1);}}},
-        "ui-main-button2": {transform:{left:'50.9%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickUIButton(2);}}},
+        "ui-main-button1": {transform:{left:'33.1%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickGame3UIButton(1);}}},
+        "ui-main-button2": {transform:{left:'50.9%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickGame3UIButton(2);}}},
 
         // "ui-test": {transform:{left:'0', top:'0', width:'100%', height:'100%'}, image:{imgSrc:"img/game3ui/2.jpg"}},
     });
@@ -121,7 +121,7 @@ function InitializeGameUI() {
     // gameUILibrary.data["ui-test"].dom.style.opacity = '50%';
 }
 
-function ShowLoadingUI() {
+function ShowGame3LoadingUI() {
     gameUILibrary.data["ui-loading-bg"].SetEnabled(true);
     gameUILibrary.data["ui-loading-title"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(true);
@@ -134,12 +134,12 @@ function ShowLoadingUI() {
     gameUILibrary.data["ui-loading-desc2"].SetEnabled(true);
 }
 
-function UpdateLoadingBar(_progress) {
+function UpdateGame3LoadingBar(_progress) {
     gameLoadingBar.UpdateLoadingBar(_progress);
     gameLoadingBarNail.Update({left: (27+((_progress/100)*44))+'%'});
 }
 
-function HideLoadingUI() {
+function HideGame3LoadingUI() {
     gameUILibrary.data["ui-loading-bg"].SetEnabled(false);
     gameUILibrary.data["ui-loading-title"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(false);
@@ -150,10 +150,10 @@ function HideLoadingUI() {
     gameUILibrary.data["ui-loading-desc1"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-rotate"].SetEnabled(false);
     gameUILibrary.data["ui-loading-desc2"].SetEnabled(false);
-    UpdateLoadingBar(0);
+    UpdateGame3LoadingBar(0);
 }
 
-function InitializeGameScene() {
+function InitializeGame3Scene() {
     gameAssetLibrary = new AssetLibrary({
         "ui-heart-ballon": {image:"img/gameCommon/heartBallon-min.png"},
         "ui-distance-ballon": {image:"img/game3ui/ballon-min.png"},
@@ -180,10 +180,10 @@ function InitializeGameScene() {
         "game3-rubbish3": {image:"img/game3/game3-rubbish3-min.png"},
         "game3-rubbish4": {image:"img/game3/game3-rubbish4-min.png"},
         "game3-rubbish5": {image:"img/game3/game3-rubbish5-min.png"},
-    }, UpdateLoadingBar, StartGame);
+    }, UpdateGame3LoadingBar, StartGame3);
 }
 
-function StartGame() {
+function StartGame3() {
     gameUIState = 1;
     gameScore = 0;
     gameTestIndex = 0;
@@ -193,8 +193,8 @@ function StartGame() {
     gameIsRubbishFlow = false;
     gameRubbishFlowedCount = 0;
     gameBtnPressedCount = 0
-    HideLoadingUI();
-    SetUIState();
+    HideGame3LoadingUI();
+    SetGame3UIState();
 
     let swimSpriteSheet = new createjs.SpriteSheet({ 
         images: [gameAssetLibrary.data["game3-swim"].image], 
@@ -280,10 +280,10 @@ function StartGame() {
 
     gameTimeBuffer1 = true;
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
-    createjs.Ticker.addEventListener("tick", LoopGame);
+    createjs.Ticker.addEventListener("tick", LoopGame3);
 }
 
-function LoopGame(_evt) {
+function LoopGame3(_evt) {
     let runTime = _evt.runTime / 1000;
     if (gameTimeBuffer1) {
         gameTimeBuffer2 = runTime;
@@ -510,8 +510,8 @@ function LoopGame(_evt) {
 
     if (gameDistance < 0) {
         gameUIState = 2;
-        SetUIState();
-        createjs.Ticker.removeEventListener("tick", LoopGame);
+        SetGame3UIState();
+        createjs.Ticker.removeEventListener("tick", LoopGame3);
     }
 
 }
@@ -530,7 +530,7 @@ function OnKeyUpGameBtnOrSpace(_evt) {
     gameBtnLongPressed = false;
 }
 
-function SetUIState() {
+function SetGame3UIState() {
     switch (gameUIState) {
         case 0:
             gameScoreBallon.SetEnabled(false);
@@ -576,15 +576,10 @@ function SetUIState() {
     }
 }
 
-function OnClickUIButton(_buttonId) {
+function OnClickGame3UIButton(_buttonId) {
     if (_buttonId == 1) {
-        StartGame();
+        StartGame3();
     } else {
         ExitGameView();
     }
-}
-
-function PlayAudio(_audio) {
-    _audio.currentTime = 0;
-    _audio.play();
 }

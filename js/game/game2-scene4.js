@@ -16,11 +16,11 @@ function InitializeGameScene4() {
         "game2-scene4-rubbishbin": {image:"img/game2/game2-scene4-rubbishbin-min.png"},
         "game2-scene4-audio": {audio:"audio/game/game2scene4.mp3"},
         "game2-scene4-car-audio": {audio:"audio/game/game2scene4_car.mp3"},
-    }, UpdateLoadingBar, StartGameScene4);
+    }, UpdateGame2LoadingBar, StartGameScene4);
 }
 
 function StartGameScene4() {
-    HideLoadingUI();
+    HideGame2LoadingUI();
     InitializeGameScene4Question();
     gameQuestionBallon.Update({text:"0/"+gameQuestionSelected.length});
     gameScoreBallon.Update({text:"0"});

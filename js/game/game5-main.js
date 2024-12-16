@@ -22,9 +22,9 @@ var gameMainUI, gameMainUITitle, gameMainUINoWin, gameMainUIWinnerA, gameMainUIW
 var gameCardImageLibrary, gameCardLibrary, gameCardStatusList;
 
 var gameLevel, gamePlayer, gameScore, gameCardFlipped;
-var isPlayFlipAnimation, isShowPopup, isShowEndScenePanel, isWaitInterval;
+var isPlayFlipAnimation, isShowPopup, isShowEndScenePanel, isGame5WaitInterval;
 
-function UpdateUI() {
+function UpdateGame5UI() {
     gameQuestionBallon.SetEnabled(true);
     gamePlayerABallon.SetEnabled(true); gamePlayerABallon_icon.SetEnabled(true); gamePlayerABallon_text.SetEnabled(true); gamePlayerABallon_score.SetEnabled(true);
     gamePlayerBBallon.SetEnabled(true); gamePlayerBBallon_icon.SetEnabled(true); gamePlayerBBallon_text.SetEnabled(true); gamePlayerBBallon_score.SetEnabled(true);
@@ -32,7 +32,7 @@ function UpdateUI() {
         gameStartUI.SetEnabled(true); gameStartUITitle.SetEnabled(true); gameStartUICard1.SetEnabled(true); gameStartUICard2.SetEnabled(true);
         gameStartUI.dom.style.opacity = '100%'; gameStartUITitle.dom.style.opacity = '100%'; gameStartUICard1.dom.style.opacity = '100%'; gameStartUICard2.dom.style.opacity = '100%';
         gameStartUITimeBuffer1 = true; gameStartUITimeBuffer2 = 0;
-        gameStartUIAnimation = (evt)=>StartPopupAnimation(evt);
+        gameStartUIAnimation = (evt)=>StartGame55PopupAnimation(evt);
         createjs.Ticker.addEventListener("tick", gameStartUIAnimation);
     }
     if (isShowEndScenePanel) {
@@ -76,7 +76,7 @@ function UpdateUI() {
     gameQuestionBallon.Update({text:(gameLevel+1)+"/3"});
 }
 
-function StartPopupAnimation(_evt) {
+function StartGame55PopupAnimation(_evt) {
     let runTime = _evt.runTime / 1000;
     if (gameStartUITimeBuffer1) {
         gameStartUITimeBuffer2 = runTime;
@@ -95,10 +95,10 @@ function StartPopupAnimation(_evt) {
     }
 }
 
-function InitializeGame(_data) {
+function InitializeGame5(_data) {
     // gameLoadSceneAction = ('forceScene' in _data) ? (() => LoadScene(_data.forceScene)) : (() => LoadRandomScene());
     // gameLoadSceneAction = () => {};
-    gameLoadSceneAction = InitializeGameScene;
+    gameLoadSceneAction = InitializeGame5Scene;
     gameSharedAssetLibrary = new AssetLibrary({
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
@@ -107,8 +107,8 @@ function InitializeGame(_data) {
     gamePopupAudio = gameSharedAssetLibrary.data["game-popup-audio"].audio;
     gamePressAudio = gameSharedAssetLibrary.data["game-press-audio"].audio;
     gameTrueAudio = gameSharedAssetLibrary.data["game-true-audio"].audio;
-    InitializeGameUI();
-    ShowLoadingUI();
+    InitializeGame5UI();
+    ShowGame5LoadingUI();
     gameCardImageLibrary = [
         ['game5-card-a1', 'game5-card-a2'],
         ['game5-card-b1', 'game5-card-b2'],
@@ -178,7 +178,7 @@ function InitializeGame(_data) {
     gameUI.addEventListener("click", OnClickUI);
 }
 
-function InitializeGameUI() {
+function InitializeGame5UI() {
     gameUILibrary = new UILibrary({});
     gameUILibrary.AddUIElements({
         "ui-loading-bg": {transform:{left:'0%', top:'0%', width:'100%', height:'100%'}, image:{imgSrc:"img/gameCommon/loading-bg-min.png"}},
@@ -209,8 +209,8 @@ function InitializeGameUI() {
         "ui-main-winner-a": {transform:{left:'41.29%', top:'31.5%', width:'17.41%', height:'6.67%'}, image:{imgSrc:"img/game5ui/playera-win-min.png"}},
         "ui-main-winner-b": {transform:{left:'41.29%', top:'31.5%', width:'17.41%', height:'6.67%'}, image:{imgSrc:"img/game5ui/playerb-win-min.png"}},
         "ui-main-no-winner": {transform:{left:'41.29%', top:'31.5%', width:'17.41%', height:'6.67%'}, image:{imgSrc:"img/game5ui/no-win-min.png"}},
-        "ui-main-button1": {transform:{left:'33.1%', top:'65.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickUIButton(1);}}},
-        "ui-main-button2": {transform:{left:'50.9%', top:'65.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickUIButton(2);}}},
+        "ui-main-button1": {transform:{left:'33.1%', top:'65.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnGame5ClickUIButton(1);}}},
+        "ui-main-button2": {transform:{left:'50.9%', top:'65.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnGame5ClickUIButton(2);}}},
         "ui-main-image": {transform:{left:'43.9%', top:'41%', width:'12.21%', height:'19.78%'}, image:{imgSrc:"img/game5ui/card-min.png"}},
 
         "ui-start-bg": {transform:{left:'15.28%', top:'11.11%', width:'69.44%', height:'77.78%'}, roundRect:{color:'#FFF9EA', round:150}},
@@ -258,7 +258,7 @@ function InitializeGameUI() {
     gamePlayerBBallon_arrow = gameUILibrary.data["ui-playerb-ballon-arrow"];
 }
 
-function ShowLoadingUI() {
+function ShowGame5LoadingUI() {
     gameUILibrary.data["ui-loading-bg"].SetEnabled(true);
     gameUILibrary.data["ui-loading-title"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(true);
@@ -271,12 +271,12 @@ function ShowLoadingUI() {
     gameUILibrary.data["ui-loading-desc2"].SetEnabled(true);
 }
 
-function UpdateLoadingBar(_progress) {
+function UpdateGame5LoadingBar(_progress) {
     gameLoadingBar.UpdateLoadingBar(_progress);
     gameLoadingBarNail.Update({left: (28+((_progress/100)*40))+'%'});
 }
 
-function HideLoadingUI() {
+function HideGame5LoadingUI() {
     gameUILibrary.data["ui-loading-bg"].SetEnabled(false);
     gameUILibrary.data["ui-loading-title"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(false);
@@ -287,10 +287,10 @@ function HideLoadingUI() {
     gameUILibrary.data["ui-loading-desc1"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-rotate"].SetEnabled(false);
     gameUILibrary.data["ui-loading-desc2"].SetEnabled(false);
-    UpdateLoadingBar(0);
+    UpdateGame5LoadingBar(0);
 }
 
-function InitializeGameScene() {
+function InitializeGame5Scene() {
 
     // gameUILibrary.data["ui-bg"].SetEnabled(true);
     // gameUILibrary.data["ui-bg"].dom.style.opacity = '50%';
@@ -349,17 +349,17 @@ function InitializeGameScene() {
         "game5-card-n1": {image:"img/game5/card_n1-min.png"},
         "game5-card-o1": {image:"img/game5/card_o1-min.png"},
         "game5-card-p1": {image:"img/game5/card_p1-min.png"},
-    }, UpdateLoadingBar, StartGame);
+    }, UpdateGame5LoadingBar, StartGame5);
 
     gameCardStatusList = [];
     gameTimeBuffer1 = true;
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
-    createjs.Ticker.addEventListener("tick", LoopGame);
+    createjs.Ticker.addEventListener("tick", LoopGame5);
 
 }
 
-function StartGame() {
-    HideLoadingUI();
+function StartGame5() {
+    HideGame5LoadingUI();
     isShowPopup = true;
     gameLevel = 0;
     GameLevel();
@@ -370,8 +370,8 @@ function GameLevel() {
     isShowEndScenePanel = false;
     gameTimeBuffer1 = true;
     gameTimeBuffer2 = 0;
-    isWaitInterval = true;
-    createjs.Ticker.addEventListener("tick", WaitInterval);
+    isGame5WaitInterval = true;
+    createjs.Ticker.addEventListener("tick", Game5WaitInterval);
 
     gameStage.removeAllChildren();
     gameStage.clear();
@@ -412,7 +412,7 @@ function GameLevel() {
         // console.log(JSON.stringify(t.transform));
     }
     // console.log(JSON.stringify(gameCardStatusList));
-    UpdateUI();
+    UpdateGame5UI();
     gameStage.update();
 }
 
@@ -476,7 +476,7 @@ function FlipCard(_cardIndex) {
     if (isPlayFlipAnimation) return;
     if (isShowPopup) return;
     if (isShowEndScenePanel) return;
-    if (isWaitInterval) return;
+    if (isGame5WaitInterval) return;
     for (let i = 0; i < gameCardFlipped.length; i++) {
         if (_cardIndex == gameCardFlipped[i]) return;
     }
@@ -526,13 +526,13 @@ function FlipCardAnimation(_evt, _cardIndex) {
                 if (gameCardStatusList.length == gameCardFlipped.length) {
                     isShowEndScenePanel = true;
                 }
-                UpdateUI();
+                UpdateGame5UI();
             } else {
                 gameCardFlipped.pop();
                 gameCardFlipped.pop();
                 FlipBackCard(cardIndex0, _cardIndex);
                 gamePlayer = (gamePlayer + 1) % 2;
-                UpdateUI();
+                UpdateGame5UI();
             }
         }
     }
@@ -580,11 +580,11 @@ function FlipBackCardAnimation(_evt, _cardIndex0, _cardIndex1) {
     }
 }
 
-function LoopGame(_evt) {
+function LoopGame5(_evt) {
     gameStage.update();
 }
 
-function WaitInterval(_evt) {
+function Game5WaitInterval(_evt) {
     let runTime = _evt.runTime / 1000;
     if (gameTimeBuffer1) {
         gameTimeBuffer2 = runTime;
@@ -592,27 +592,21 @@ function WaitInterval(_evt) {
     }
     let time = runTime - gameTimeBuffer2;
     if (time > 0.1) {
-        isWaitInterval = false;
-        createjs.Ticker.removeEventListener("tick", WaitInterval);
+        isGame5WaitInterval = false;
+        createjs.Ticker.removeEventListener("tick", Game5WaitInterval);
     }
 }
 
-function OnClickUIButton(_buttonId) {
+function OnGame5ClickUIButton(_buttonId) {
     if (_buttonId == 1) {
         if (gameLevel < 2) {
             gameLevel++;
             GameLevel();
         } else {
             gameLevel = 0;
-            StartGame();
+            StartGame5();
         }
     } else {
         ExitGameView();
     }
-}
-
-
-function PlayAudio(_audio) {
-    _audio.currentTime = 0;
-    _audio.play();
 }

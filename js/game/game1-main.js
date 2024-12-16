@@ -27,7 +27,7 @@ var gameScore, gameTime, gamePlayCountdown, gameTestIndex, gamePplTalkFadeOut;
 
 var gameUIDebug;
 
-function InitializeGame(_data) {
+function InitializeGame1(_data) {
     isGameQuestionDebugging = 'forceScene' in _data;
     gameSharedAssetLibrary = new AssetLibrary({
         "ui-question-count-ballon": {image:"img/gameCommon/greenBallon-min.png"},
@@ -40,15 +40,15 @@ function InitializeGame(_data) {
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
         "game-true-audio": {audio:"audio/game/true.wav"},
-    }, null, InitializeGameScene);
+    }, null, InitializeGame1Scene);
     gamePopupAudio = gameSharedAssetLibrary.data["game-popup-audio"].audio;
     gamePressAudio = gameSharedAssetLibrary.data["game-press-audio"].audio;
     gameTrueAudio = gameSharedAssetLibrary.data["game-true-audio"].audio;
-    InitializeGameUI();
-    ShowLoadingUI();
+    InitializeGame1UI();
+    ShowLoadingGame1UI();
 }
 
-function InitializeGameUI() {
+function InitializeGame1UI() {
     gameUILibrary = new UILibrary({});
     gameUILibrary.AddUIElements({
         "ui-loading-bg": {transform:{left:'0%', top:'0%', width:'100%', height:'100%'}, image:{imgSrc:"img/gameCommon/loading-bg-min.png"}},
@@ -68,7 +68,7 @@ function InitializeGameUI() {
         "ui-clock-title": {transform:{top:'17.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:45, letterSpacing:4, color:'#00693E', text:'15秒感知練習'}},
         "ui-clock-desc": {transform:{top:'24.2%', height:'15%'}, text:{fontFamily:'CustomFont', fontSize:31, letterSpacing:4, color:'#000000', text:'請專注呼吸，平靜自己的思緒，<br/>感受時間的流逝。', lineHeight: 40}},
         "ui-clock-timer": {transform:{top:'73.5%', height:'15%'}, text:{fontFamily:'CustomFont', fontSize:58, letterSpacing:4, color:'#00693E', text:''}},
-        "ui-clock-btn": {transform:{left:'42.19%', top:'75%', width:'15.625%', height:'7.8%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'開始', onclick:()=>{OnClickUIButton(1);}}},
+        "ui-clock-btn": {transform:{left:'42.19%', top:'75%', width:'15.625%', height:'7.8%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'開始', onclick:()=>{OnClickGame1UIButton(1);}}},
 
         "ui-talkingBubble-bg": {transform:{left:'55.7%', top:'30%', width:'18.81%', height:'18.44%'}, image:{imgSrc:"img/game1ui/talkingBubble-min.png"}},
         "ui-talkingBubble-text": {transform:{left: '56.2%', top:'35.5%', width: '18.81%', height:'18.44%'}, text:{fontFamily:'CustomFont', fontSize:26, letterSpacing:4, color:'#F97930', text:'已完成感知練習<br/>現在進入下一個環節'}},
@@ -77,8 +77,8 @@ function InitializeGameUI() {
         "ui-main-title": {transform:{top:'25%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:40, letterSpacing:4, color:'#00693E', text:'完成遊戲', lineHeight: 70}},
         "ui-main-desc": {transform:{top:'29%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:32, letterSpacing:4, color:'#F97930', text:'請進入下一輪遊戲'}},
         "ui-main-image": {transform:{left:'43.06%', top:'34%', width:'13.88%', height:'23.33%'}, image:{imgSrc:"img/game1ui/ppl-min.png"}},
-        "ui-main-button1": {transform:{left:'33.1%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickUIButton(1);}}},
-        "ui-main-button2": {transform:{left:'50.9%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickUIButton(2);}}},
+        "ui-main-button1": {transform:{left:'33.1%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickGame1UIButton(1);}}},
+        "ui-main-button2": {transform:{left:'50.9%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickGame1UIButton(2);}}},
 
         "ui-debug": {transform:{top:'10%', left: '0%', width:'20%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:40, letterSpacing:4, color:'#FF0000', text:'0'}},
     });
@@ -110,7 +110,7 @@ function InitializeGameUI() {
     gameUIDebug.SetEnabled(true);
 }
 
-function ShowLoadingUI() {
+function ShowLoadingGame1UI() {
     gameUILibrary.data["ui-loading-bg"].SetEnabled(true);
     gameUILibrary.data["ui-loading-title"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(true);
@@ -123,12 +123,12 @@ function ShowLoadingUI() {
     gameUILibrary.data["ui-loading-desc2"].SetEnabled(true);
 }
 
-function UpdateLoadingBar(_progress) {
+function UpdateGame1LoadingBar(_progress) {
     gameLoadingBar.UpdateLoadingBar(_progress);
     gameLoadingBarNail.Update({left: (27+((_progress/100)*44))+'%'});
 }
 
-function HideLoadingUI() {
+function HideGame1LoadingUI() {
     gameUILibrary.data["ui-loading-bg"].SetEnabled(false);
     gameUILibrary.data["ui-loading-title"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(false);
@@ -139,10 +139,10 @@ function HideLoadingUI() {
     gameUILibrary.data["ui-loading-desc1"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-rotate"].SetEnabled(false);
     gameUILibrary.data["ui-loading-desc2"].SetEnabled(false);
-    UpdateLoadingBar(0);
+    UpdateGame1LoadingBar(0);
 }
 
-function InitializeGameScene() {
+function InitializeGame1Scene() {
     gameAssetLibrary = new AssetLibrary({
         // "game1-bg": {image:"img/game1ui/3.jpg"},
         "game1-dot": {image:"img/game1/game1-dot-min.png"},
@@ -162,20 +162,20 @@ function InitializeGameScene() {
         "game1-audio-lose": {audio:"audio/game/game1lose.mp3"},
         "game1-audio-win": {audio:"audio/game/game1win.mp3"},
         "game1-audio-countdown": {audio:"audio/game/game1countdown.wav"},
-    }, UpdateLoadingBar, StartGame);
+    }, UpdateGame1LoadingBar, StartGame1);
     gameAudioCountdown = gameAssetLibrary.data["game1-audio-countdown"].audio;
     gameAudioWin = gameAssetLibrary.data["game1-audio-win"].audio;
     gameAudioLose = gameAssetLibrary.data["game1-audio-lose"].audio;
 }
 
-function StartGame() {
+function StartGame1() {
     gameUIState = 0;
     gameScore = 0;
     gameTestIndex = 0;
     gamePlayCountdown = false;
     gamePplTalkFadeOut = false;
-    HideLoadingUI();
-    SetUIState();
+    HideGame1LoadingUI();
+    SetGame1UIState();
 
     gameObjectLibrary = new GameObjectLibrary({
         // "bg": {transform:{posX:0, posY:0, sizeX:1728, sizeY:900},bitmap:gameAssetLibrary.data["game1-bg"]},
@@ -212,13 +212,13 @@ function StartGame() {
 
     gameTimeBuffer1 = true;
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
-    createjs.Ticker.addEventListener("tick", LoopGame);
+    createjs.Ticker.addEventListener("tick", LoopGame1);
 
     gameAssetLibrary.data["game1-audio-bg"].audio.loop = true;
     PlayAudio(gameAssetLibrary.data["game1-audio-bg"].audio);
 }
 
-function LoopGame(_evt) {
+function LoopGame1(_evt) {
     let runTime = _evt.runTime / 1000;
     if (gameTimeBuffer1) {
         gameTimeBuffer2 = runTime;
@@ -251,7 +251,7 @@ function LoopGame(_evt) {
             gameUIClockTimer.Update({text:Math.floor(time)+"秒"});
             if (time > testTime * 0.5) {
                 gameUIState++;
-                SetUIState();
+                SetGame1UIState();
             }
             break;
         case 2: // feeling 15 sec (after half of time)
@@ -259,7 +259,7 @@ function LoopGame(_evt) {
             gameUIClockTimer.Update({text:Math.floor(time)+"秒"});
             if (time > testTime) { // End of feeling 15sec
                 gameUIState++;
-                SetUIState();
+                SetGame1UIState();
                 SetClock(0);
                 gameTimeBuffer1 = true;
             }
@@ -277,7 +277,7 @@ function LoopGame(_evt) {
                 gameUIState++;
                 gameTimeBuffer1 = true;
                 gamePplTalkFadeOut = false;
-                SetUIState();
+                SetGame1UIState();
             }
             break;
         case 5: // 15 sec test
@@ -293,7 +293,7 @@ function LoopGame(_evt) {
                 game1clock_isHide = true;
                 gameUIState++;
                 gamePlayCountdown = false;
-                SetUIState();
+                SetGame1UIState();
             }
             break;
         case 6: // 15 sec test (after half of time)
@@ -308,7 +308,7 @@ function LoopGame(_evt) {
                 gameTimeBuffer1 = true;
                 game1clock_isHide = false;
                 SetClock(0);
-                SetUIState();
+                SetGame1UIState();
             }
             break;
     }
@@ -342,7 +342,7 @@ function SetClock(_progress) {
     }
 }
 
-function SetUIState() {
+function SetGame1UIState() {
     // UI Ballon
     if (gameUIState >= 4) {
         gameQuestionBallon.Update({text:Math.min(gameTestIndex, 3)+"/3"});
@@ -443,14 +443,14 @@ function SetUIState() {
     }
 }
 
-function OnClickUIButton(_buttonId) {
+function OnClickGame1UIButton(_buttonId) {
     let testTime = (gameTestIndex == 0 || gameTestIndex == 1) ? 15 : gameTestIndex == 2 ? 20 : 30;
     switch (gameUIState) {
         case 0: // Start Game (Waiting for feeling 15 sec)
         case 4: // waiting for start test
             gameTimeBuffer1 = true;
             gameUIState++;
-            SetUIState();
+            SetGame1UIState();
             PlayAudio(gamePressAudio);
             break;
         case 6: // 15 sec test (after half of time)
@@ -466,7 +466,7 @@ function OnClickUIButton(_buttonId) {
             gameTimeBuffer1 = true;
             game1clock_isHide = false;
             SetClock(0);
-            SetUIState();
+            SetGame1UIState();
             break;
         case 8: // 15 sec test finish (before 1 min), wait for end game or next round
         case 13: // 20 sec test finish (before 1 min), wait for end game or next round
@@ -474,7 +474,7 @@ function OnClickUIButton(_buttonId) {
             gameUIState+=2;
             gameTimeBuffer1 = true;
             gamePlayCountdown = false;
-            SetUIState();
+            SetGame1UIState();
             PlayAudio(gamePressAudio);
             break;
         case 9: // 15 sec test finish (after 1 min), wait for end game or next round
@@ -483,23 +483,18 @@ function OnClickUIButton(_buttonId) {
             gameUIState++;
             gameTimeBuffer1 = true;
             gamePlayCountdown = false;
-            SetUIState();
+            SetGame1UIState();
             PlayAudio(gamePressAudio);
             break;
         case 20: // End game
             if (_buttonId == 1) {
-                createjs.Ticker.removeEventListener("tick", LoopGame);
+                createjs.Ticker.removeEventListener("tick", LoopGame1);
                 gameStage.removeAllChildren();
                 gameStage.clear();
-                StartGame();
+                StartGame1();
             } else {
                 ExitGameView();
             }
             break;
     }
-}
-
-function PlayAudio(_audio) {
-    _audio.currentTime = 0;
-    _audio.play();
 }

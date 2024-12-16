@@ -6,7 +6,7 @@ var gamePressAudio;
 var gameTrueAudio;
 var gameLoadingBar, gameLoadingBarNail;
 var gameQuestionBallon, gameScoreBallon;
-var gameLoadSceneAction;
+var gameLoadGame2SceneAction;
 
 var gameAssetLibrary;
 var gameObjectLibrary;
@@ -23,9 +23,9 @@ var isGameQuestionDebugging;
 
 // var debugLog = [];
 
-function InitializeGame(_data) {
-    gameLoadSceneAction = ('forceScene' in _data) ? (() => LoadScene(_data.forceScene)) : (() => LoadRandomScene());
-    // gameLoadSceneAction = () => {};
+function InitializeGame2(_data) {
+    gameLoadGame2SceneAction = ('forceScene' in _data) ? (() => LoadGame2Scene(_data.forceScene)) : (() => LoadRandomGame2Scene());
+    // gameLoadGame2SceneAction = () => {};
     isGameQuestionDebugging = 'forceScene' in _data;
     gameSharedAssetLibrary = new AssetLibrary({
         "ui-question-count-ballon": {image:"img/gameCommon/greenBallon-min.png"},
@@ -39,12 +39,12 @@ function InitializeGame(_data) {
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
         "game-true-audio": {audio:"audio/game/true.wav"},
-    }, null, gameLoadSceneAction);
+    }, null, gameLoadGame2SceneAction);
     gamePopupAudio = gameSharedAssetLibrary.data["game-popup-audio"].audio;
     gamePressAudio = gameSharedAssetLibrary.data["game-press-audio"].audio;
     gameTrueAudio = gameSharedAssetLibrary.data["game-true-audio"].audio;
-    InitializeGameUI();
-    ShowLoadingUI();
+    InitializeGame2UI();
+    ShowGame2LoadingUI();
 
     // gameUI.addEventListener("click", function(evt) {
     //     var windowAspectRatio = window.innerWidth / window.innerHeight;
@@ -69,7 +69,7 @@ function InitializeGame(_data) {
     // });
 }
 
-function InitializeGameUI() {
+function InitializeGame2UI() {
     gameUILibrary = new UILibrary({});
     gameUILibrary.AddUIElements({
         "ui-loading-bg": {transform:{left:'0%', top:'0%', width:'100%', height:'100%'}, image:{imgSrc:"img/gameCommon/loading-bg-min.png"}},
@@ -89,10 +89,10 @@ function InitializeGameUI() {
         "ui-main-bg": {transform:{left:'12.5%', top:'11.11%', width:'75%', height:'77.78%'}, roundRect:{color:'white', round:150}},
         "ui-main-title": {transform:{top:'26%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:46, letterSpacing:4, color:'#00693E', text:'', lineHeight: 70}},
         "ui-main-desc": {transform:{top:'56%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:36, letterSpacing:4, color:'#161616', text:''}},
-        "ui-main-button1": {transform:{left:'33.1%', top:'34.78%', width:'33.8%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:42, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(1);}}},
-        "ui-main-button2": {transform:{left:'33.1%', top:'45.25%', width:'33.8%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:42, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(2);}}},
-        "ui-main-button3": {transform:{left:'33.1%', top:'55.72%', width:'33.8%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:42, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(3);}}},
-        "ui-main-button4": {transform:{left:'33.1%', top:'66.19%', width:'33.8%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:42, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickUIButton(4);}}},
+        "ui-main-button1": {transform:{left:'33.1%', top:'34.78%', width:'33.8%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:42, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickGame2UIButton(1);}}},
+        "ui-main-button2": {transform:{left:'33.1%', top:'45.25%', width:'33.8%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:42, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickGame2UIButton(2);}}},
+        "ui-main-button3": {transform:{left:'33.1%', top:'55.72%', width:'33.8%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:42, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickGame2UIButton(3);}}},
+        "ui-main-button4": {transform:{left:'33.1%', top:'66.19%', width:'33.8%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:42, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickGame2UIButton(4);}}},
         "ui-main-image-correct": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/gameCommon/correct-min.png"}},
         "ui-main-image-wrong": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/gameCommon/wrong-min.png"}},
         "ui-main-image-bird": {transform:{left:'42.53%', top:'29%', width:'14.94%', height:'19.83%'}, image:{imgSrc:"img/game2ui/bird-min.png"}},
@@ -112,7 +112,7 @@ function InitializeGameUI() {
     // gameUILibrary.data["ui-bg"].dom.style.pointerEvents = "none";
 }
 
-function ShowLoadingUI() {
+function ShowGame2LoadingUI() {
     gameQuestionBallon.SetEnabled(false);
     gameScoreBallon.SetEnabled(false);
     gameUILibrary.data["ui-loading-bg"].SetEnabled(true);
@@ -127,12 +127,12 @@ function ShowLoadingUI() {
     gameUILibrary.data["ui-loading-desc2"].SetEnabled(true);
 }
 
-function UpdateLoadingBar(_progress) {
+function UpdateGame2LoadingBar(_progress) {
     gameLoadingBar.UpdateLoadingBar(_progress);
     gameLoadingBarNail.Update({left: (27+((_progress/100)*44))+'%'});
 }
 
-function HideLoadingUI() {
+function HideGame2LoadingUI() {
     gameQuestionBallon.SetEnabled(true);
     gameScoreBallon.SetEnabled(true);
     gameUILibrary.data["ui-loading-bg"].SetEnabled(false);
@@ -145,22 +145,22 @@ function HideLoadingUI() {
     gameUILibrary.data["ui-loading-desc1"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-rotate"].SetEnabled(false);
     gameUILibrary.data["ui-loading-desc2"].SetEnabled(false);
-    UpdateLoadingBar(0);
+    UpdateGame2LoadingBar(0);
 }
 
-function LoadRandomScene() {
+function LoadRandomGame2Scene() {
     gameSceneIndex = Math.floor(Math.random() * 4) + 1;
-    LoadScene(gameSceneIndex);
+    LoadGame2Scene(gameSceneIndex);
 }
 
-function LoadScene(_gameSceneIndex) {
+function LoadGame2Scene(_gameSceneIndex) {
     if (_gameSceneIndex == 1) InitializeGameScene1();
     else if (_gameSceneIndex == 2) InitializeGameScene2();
     else if (_gameSceneIndex == 3) InitializeGameScene3();
     else if (_gameSceneIndex == 4) InitializeGameScene4();
 }
 
-function ShowPanel(_layout) {
+function ShowGame2Panel(_layout) {
     let question = gameQuestionLibrary.data['q'+gameQuestionSelected[gameQuestionIndex]];
     let bg = gameUILibrary.data["ui-main-bg"], title = gameUILibrary.data["ui-main-title"], desc = gameUILibrary.data["ui-main-desc"];
     let imgC = gameUILibrary.data["ui-main-image-correct"], imgW = gameUILibrary.data["ui-main-image-wrong"], imgB = gameUILibrary.data["ui-main-image-bird"];
@@ -256,11 +256,11 @@ function ShowQuestionPanel() {
     gameUIState = 1;
     gameQuestionIndex = 0;
     gameQuestionBallon.Update({text:((gameQuestionIndex+1)+"/"+gameQuestionSelected.length)});
-    ShowPanel(gameQuestionLibrary.data['q'+gameQuestionSelected[gameQuestionIndex]].layout);
+    ShowGame2Panel(gameQuestionLibrary.data['q'+gameQuestionSelected[gameQuestionIndex]].layout);
     PlayAudio(gamePopupAudio);
 }
 
-function OnClickUIButton(_buttonId) {
+function OnClickGame2UIButton(_buttonId) {
     let gameQuestionCount = gameQuestionSelected.length;
     let question = gameQuestionLibrary.data['q'+gameQuestionSelected[gameQuestionIndex]];
     if (gameUIState > 0 && gameUIState < (gameQuestionCount * 2) && gameUIState % 2 == 1) {
@@ -269,36 +269,36 @@ function OnClickUIButton(_buttonId) {
             gameUIState++;
             gameQuestionScore++;
             gameScoreBallon.Update({text:gameQuestionScore.toString()});
-            ShowPanel(7);
+            ShowGame2Panel(7);
             PlayAudio(gameTrueAudio);
         } else if (isCorrect) {
             gameUIState++;
             gameQuestionScore++;
             gameScoreBallon.Update({text:gameQuestionScore.toString()});
-            ShowPanel(5);
+            ShowGame2Panel(5);
             PlayAudio(gameTrueAudio);
         } else {
             gameUIState++;
-            ShowPanel(6);
+            ShowGame2Panel(6);
             PlayAudio(gamePressAudio);
         }
     } else if (gameUIState > 0 && gameUIState < (gameQuestionCount * 2) && gameUIState % 2 == 0) {
         gameUIState++;
         gameQuestionIndex++;
         gameQuestionBallon.Update({text:((gameQuestionIndex+1)+"/"+gameQuestionCount)});
-        ShowPanel(gameQuestionLibrary.data['q'+gameQuestionSelected[gameQuestionIndex]].layout);
+        ShowGame2Panel(gameQuestionLibrary.data['q'+gameQuestionSelected[gameQuestionIndex]].layout);
         PlayAudio(gamePressAudio);
     } else if (gameUIState == (gameQuestionCount * 2)) {
         gameUIState++;
-        ShowPanel(8);
+        ShowGame2Panel(8);
         PlayAudio(gamePressAudio);
     } else if (gameUIState == (gameQuestionCount * 2 + 1)) {
         if (_buttonId == 1) {
             gameStage.removeAllChildren();
             gameStage.clear();
-            ShowLoadingUI();
-            gameLoadSceneAction();
-            ShowPanel(0);
+            ShowGame2LoadingUI();
+            gameLoadGame2SceneAction();
+            ShowGame2Panel(0);
             PlayAudio(gamePressAudio);
             gameQuestionBallon.Update({text:"0/"+gameQuestionCount});
             gameScoreBallon.Update({text:"0"});
@@ -306,20 +306,6 @@ function OnClickUIButton(_buttonId) {
             ExitGameView();
         }
     }
-}
-
-function GetRandomNumbers(min, max, count) {
-    const range = Array.from({ length: max - min + 1 }, (_, i) => min + i); // Create array [min, ..., max]
-    for (let i = range.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1)); // Random index
-        [range[i], range[j]] = [range[j], range[i]]; // Swap elements
-    }
-    return range.slice(0, count); // Take the first `count` elements
-}
-
-function PlayAudio(_audio) {
-    _audio.currentTime = 0;
-    _audio.play();
 }
 
 function GetSequentialInteger(_max) {

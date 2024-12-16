@@ -18,9 +18,13 @@ var gameCanvasWidth = window.innerWidth;
 var gameCanvasHeight = window.innerHeight;
 var gameCanvasScale = 1;
 
+// New Fix
+var endGameUrl;
+
 function OpenGameView(_data) {
     gameId = _data.gameId;
     gameColor = _data.gameColor;
+    endGameUrl = _data.url;
     gameView = document.createElement('div');
     gameView.style.position = 'fixed';
     gameView.style.top = '0';
@@ -40,8 +44,10 @@ function OpenGameView(_data) {
     gameView.appendChild(gameCanvas);
     gameStage = new createjs.Stage(gameCanvas);
 
-    gameOriginalWidth = _data.width;
-    gameOriginalHeight = _data.height;
+    // gameOriginalWidth = _data.width;
+    // gameOriginalHeight = _data.height;
+    gameOriginalWidth = gameId == 2 ? 1920 : 1728;
+    gameOriginalHeight = gameId == 2 ? 1080 : 900;
     gameAspectRatio = gameOriginalWidth / gameOriginalHeight;
 
     gameUI = document.createElement('div');
@@ -69,7 +75,24 @@ function OpenGameView(_data) {
     window.addEventListener('resize', ResizeGameView);
     ResizeGameView();
 
-    InitializeGame(_data);
+    switch (gameId) {
+        case 1:
+            InitializeGame1(_data);
+            break;
+        case 2:
+            InitializeGame2(_data);
+            break;
+        case 3:
+            InitializeGame3(_data);
+            break;
+        case 4:
+            InitializeGame4(_data);
+            break;
+        case 5:
+            InitializeGame5(_data);
+            break;
+    }
+
 }
 
 function ExitGameView() {
@@ -86,7 +109,7 @@ function ExitGameView() {
     document.body.style.touchAction = buffer_bodyStyleTouchAction;
     document.documentElement.style.touchAction = buffer_documentElementStyleTouchAction;
     gameView = null;
-    window.location.href = "game" + gameId + "finish.html";
+    window.location.href = endGameUrl;
 }
 
 function ResizeGameView() {
@@ -114,4 +137,18 @@ function ResizeGameView() {
     gameStage.scaleY = gameCanvasScale;
     gameStage.update();
     window.scrollTo(0, 1);
+}
+
+function PlayAudio(_audio) {
+    _audio.currentTime = 0;
+    _audio.play();
+}
+
+function GetRandomNumbers(min, max, count) {
+    const range = Array.from({ length: max - min + 1 }, (_, i) => min + i); // Create array [min, ..., max]
+    for (let i = range.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1)); // Random index
+        [range[i], range[j]] = [range[j], range[i]]; // Swap elements
+    }
+    return range.slice(0, count); // Take the first `count` elements
 }

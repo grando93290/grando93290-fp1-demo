@@ -27,13 +27,13 @@ function InitializeGameScene1() {
         "game2-scene1-tortoise-leg1": {image:"img/game2/game2-scene1-tortoise-leg1-min.png"},
         "game2-scene1-tortoise-leg2": {image:"img/game2/game2-scene1-tortoise-leg2-min.png"},
         "game2-scene1-audio": {audio:"audio/game/game2scene1.mp3"},
-    }, UpdateLoadingBar, StartGameScene1);
+    }, UpdateGame2LoadingBar, StartGameScene1);
 }
 
 function StartGameScene1() {
 
     //console.log(JSON.stringify());
-    HideLoadingUI();
+    HideGame2LoadingUI();
     InitializeGameScene1Question();
     gameQuestionBallon.Update({text:"0/"+gameQuestionSelected.length});
     gameScoreBallon.Update({text:"0"});

@@ -22,11 +22,11 @@ function InitializeGameScene2() {
         "game2-scene2-seagull1": {image:"img/game2/game2-scene2-seagull1-min.png"},
         "game2-scene2-seagull2": {image:"img/game2/game2-scene2-seagull2-min.png"},
         "game2-scene2-audio": {audio:"audio/game/game2scene2.mp3"},
-    }, UpdateLoadingBar, StartGameScene2);
+    }, UpdateGame2LoadingBar, StartGameScene2);
 }
 
 function StartGameScene2() {
-    HideLoadingUI();
+    HideGame2LoadingUI();
     InitializeGameScene2Question();
     gameQuestionBallon.Update({text:"0/"+gameQuestionSelected.length});
     gameScoreBallon.Update({text:"0"});
