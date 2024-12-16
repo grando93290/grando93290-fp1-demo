@@ -349,7 +349,7 @@ function LoopGame(_evt) {
         gameBtnPressedTime += deltaTime;
         if (gameBtnPressedTime > gameBtnLongPressInterval && !gameBtnLongPressed) {
             gameBtnLongPressed = true;
-            if (!gameIsDiving && !gameIsDivingCD) {
+            if (!gameIsDiving && !gameIsDivingCD && !gameIsPenaltyTime) {
                 gameIsDiving = true;
                 gameDivingTimeBuffer = 0;
             }
