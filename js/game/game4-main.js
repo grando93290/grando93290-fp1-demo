@@ -8,6 +8,8 @@ var gameLoadingBar, gameLoadingBarNail;
 var gameQuestionBallon, gameScoreBallon;
 var gameLoadSceneAction;
 
+var gameButtonUp, gameButtonDown, gameButtonLeft, gameButtonRight;
+
 var gameAssetLibrary;
 var gameObjectLibrary;
 var gameTimeBuffer1, gameTimeBuffer2, gameTimeBuffer3;
@@ -42,15 +44,18 @@ function InitializeGame4UI() {
         "ui-question-count-ballon": {transform:{left:'79.16%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/greenBallon-min.png", fontFamily:'CustomFont', fontSize:30, letterSpacing:4, color:'white', text:'1/3'}},
         "ui-score-count-ballon": {transform:{left:'86.68%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/heartBallon-min.png", fontFamily:'CustomFont', fontSize:25, letterSpacing:4, color:'white', text:'0'}},
 
-        "ui-button-left": {transform:{left:'55.89%', top:'76.42%', width:'4.98%', height:'9.55%'}, image:{imgSrc:"img/gameCommon/loading-rotate.gif"}},
+        "ui-button-up": {transform:{left:'85.01%', top:'60.33%', width:'5.79%', height:'11.11%'}, image:{imgSrc:"img/game4ui/button-up-min.png"}},
+        "ui-button-down": {transform:{left:'85.01%', top:'82.22%', width:'5.79%', height:'11.11%'}, image:{imgSrc:"img/game4ui/button-down-min.png"}},
+        "ui-button-left": {transform:{left:'79.45%', top:'71.33%', width:'5.79%', height:'11.11%'}, image:{imgSrc:"img/game4ui/button-left-min.png"}},
+        "ui-button-right": {transform:{left:'90.74%', top:'71.33%', width:'5.79%', height:'11.11%'}, image:{imgSrc:"img/game4ui/button-right-min.png"}},
 
         "ui-main-bg": {transform:{left:'15.28%', top:'11.11%', width:'69.44%', height:'77.78%'}, roundRect:{color:'white', round:150}},
         "ui-main-title": {transform:{top:'27.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:40, letterSpacing:4, color:'#00693E', text:'完成遊戲', lineHeight: 70}},
-        "ui-main-image": {transform:{left:'37.7%', top:'40%', width:'27.25%', height:'12.44%'}, image:{imgSrc:"img/game4ui/elder-min.png"}},
+        "ui-main-image": {transform:{left:'40.45%', top:'38.89%', width:'19.09%', height:'12.89%'}, image:{imgSrc:"img/game4ui/elder-min.png"}},
         "ui-main-button1": {transform:{left:'33.1%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickGame4UIButton(1);}}},
         "ui-main-button2": {transform:{left:'50.9%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickGame4UIButton(2);}}},
 
-        "ui-test": {transform:{left:'0', top:'0', width:'100%', height:'100%'}, image:{imgSrc:"img/game4ui/2.png"}},
+        // "ui-test": {transform:{left:'0', top:'0', width:'100%', height:'100%'}, image:{imgSrc:"img/game4ui/3.png"}},
     });
 
     gameUILibrary.AddUIResizeEvent();
@@ -71,6 +76,11 @@ function InitializeGame4UI() {
     gameUIMainImage = gameUILibrary.data["ui-main-image"];
     gameUIMainButton1 = gameUILibrary.data["ui-main-button1"];
     gameUIMainButton2 = gameUILibrary.data["ui-main-button2"];
+
+    gameButtonUp = gameUILibrary.data["ui-button-up"];
+    gameButtonDown = gameUILibrary.data["ui-button-down"];
+    gameButtonLeft = gameUILibrary.data["ui-button-left"];
+    gameButtonRight = gameUILibrary.data["ui-button-right"];
 
     // gameUILibrary.data["ui-test"].SetEnabled(true);
     // gameUILibrary.data["ui-test"].dom.style.opacity = '50%';
@@ -103,6 +113,30 @@ function InitializeGame4UI() {
                 game_move = 3;
                 gameMoveBuffer = true;
             }
+        }
+    });
+    gameButtonUp.dom.addEventListener("pointerdown", (e) => {
+        if (game_move == -1) {
+            game_move = 0;
+            gameMoveBuffer = true;
+        }
+    });
+    gameButtonDown.dom.addEventListener("pointerdown", (e) => {
+        if (game_move == -1) {
+            game_move = 1;
+            gameMoveBuffer = true;
+        }
+    });
+    gameButtonLeft.dom.addEventListener("pointerdown", (e) => {
+        if (game_move == -1) {
+            game_move = 2;
+            gameMoveBuffer = true;
+        }
+    });
+    gameButtonRight.dom.addEventListener("pointerdown", (e) => {
+        if (game_move == -1) {
+            game_move = 3;
+            gameMoveBuffer = true;
         }
     });
 }
@@ -169,13 +203,15 @@ function InitializeGame4Scene() {
 var game_wave, game_bridge, game_vegetation;
 var game_enemy, game_char;
 var game_grand, gameGrandIndex, gameIsGrandComing, gameGrandComingTimeBuffer;
-var gameMove, gameMoveBuffer, gameMoveTimeBuffer, gameGridX, gameGridY, gameGrid;
+var gameMoveBuffer, gameMoveTimeBuffer, gameGridX, gameGridY, gameGrid;
 
 function StartGame4() {
     HideGame4LoadingUI();
     gameUIState = 1;
     gameScore = 0;
     game_move = -1;
+    gameIsGrandComing = false;
+    gameMoveBuffer = false;
     SetGame4UIState();
 
     let womanSpriteSheet = [
@@ -387,28 +423,6 @@ function LoopGame4(_evt) {
         row0char.UpdatePosition();
     }
 
-    // Check Collision
-    if (game_char.gridY == 1 || game_char.gridY == 2 || game_char.gridY == 3) {
-        if (game_char.posY >= gameGridY[2] - 25 && game_char.posY <= gameGridY[2] + 25) {
-            
-        }
-    }
-    if (game_char.gridY == 3 || game_char.gridY == 4 || game_char.gridY == 5) {
-        if (game_char.posY >= gameGridY[4] - 25 && game_char.posY <= gameGridY[4] + 25) {
-            
-        }
-    }
-    if (game_char.gridY == 9 || game_char.gridY == 10 || game_char.gridY == 11) {
-        if (game_char.posY >= gameGridY[10] - 25 && game_char.posY <= gameGridY[10] + 25) {
-            
-        }
-    }
-    if (game_char.gridY == 11 || game_char.gridY == 12 || game_char.gridY == 13) {
-        if (game_char.posY >= gameGridY[12] - 25 && game_char.posY <= gameGridY[12] + 25) {
-            
-        }
-    }
-
     if (game_char.isGrandReleasing) {
         game_move = -1;
         let grandReleaseTime = (time - game_char.grandReleasingTimeBuffer) / 2;
@@ -423,8 +437,12 @@ function LoopGame4(_evt) {
             gameGrandComingTimeBuffer = time;
             gameGrandIndex=(gameGrandIndex+1)%6;
             gameScore++;
-            gameScoreBallon.Update({text:gameScore});
-            gameQuestionBallon.Update({text:gameScore+"/3"});
+            SetGame4UIState();
+            if (gameScore == 3) {
+                gameUIState = 2;
+                SetGame4UIState();
+                createjs.Ticker.removeEventListener("tick", LoopGame4);
+            }
         }
     }
 
@@ -437,6 +455,98 @@ function LoopGame4(_evt) {
         grand.renderer.alpha = 1;
         if (grandComingTime >= 1) {
             gameIsGrandComing = false;
+        }
+    }
+
+    if (game_char.isHit) {
+        if (game_char.hitCheckBuffer) {
+            game_char.hitTimeBuffer = time;
+            let targetGridX = game_char.gridX, targetGridY = -1;
+            if (game_char.hitRow == 3) {
+                if (game_char.target) targetGridY = 3; else targetGridY = 1;
+            }
+            if (game_char.hitRow == 2) {
+                if (game_char.target) targetGridY = 5; else targetGridY = 3;
+            }
+            if (game_char.hitRow == 1) {
+                if (game_char.target) targetGridY = 11; else targetGridY = 9;
+            }
+            if (game_char.hitRow == 0) {
+                if (game_char.target) targetGridY = 13; else targetGridY = 11;
+            }
+            game_char.hitOldPosX = game_char.posX;
+            game_char.hitOldPosY = game_char.posY;
+            game_char.hitBackGridX = targetGridX;
+            game_char.hitBackGridY = targetGridY;
+            game_char.hitCheckBuffer = false;
+        }
+        game_move = -1;
+        let hitTime = (time - game_char.hitTimeBuffer) / 2;
+        let hitBackPosX = gameGridX[game_char.hitBackGridX], hitBackPosY = gameGridY[game_char.hitBackGridY];
+        game_char.SetPosition(
+            game_char.hitOldPosX + (hitBackPosX - game_char.hitOldPosX) * hitTime, 
+            game_char.hitOldPosY + (hitBackPosY - game_char.hitOldPosY) * hitTime
+        );
+        let blinkTime = Math.floor(hitTime * 12);
+        game_char.woman.renderer.alpha = blinkTime % 2;
+        if (game_char.target) game_char.grand.renderer.alpha = blinkTime % 2;
+        if (hitTime > 1) {
+            game_char.SetPosition(hitBackPosX,hitBackPosY);
+            game_char.woman.renderer.alpha = 1;
+            if (game_char.target) game_char.grand.renderer.alpha = 1;
+            game_char.isHit = false;
+            game_char.gridX = game_char.hitBackGridX;
+            game_char.gridY = game_char.hitBackGridY;
+        }
+    } else {
+        let gy = game_char.gridY, px = game_char.posX, py = game_char.posY;
+        if (gy == 1 || gy == 2 || gy == 3) {
+            if (py >= gameGridY[2] - 25 && py <= gameGridY[2] + 25) {
+                for (let i = 0; i < game_enemy[3].length; i++) {
+                    let enemy = game_enemy[3][i];
+                    if (px >= enemy.transform.posX - 100 && px <= enemy.transform.posX + 100) {
+                        game_char.isHit = true;
+                        game_char.hitCheckBuffer = true;
+                        game_char.hitRow = 3;
+                    }
+                }
+            }
+        }
+        if (gy == 3 || gy == 4 || gy == 5) {
+            if (py >= gameGridY[4] - 25 && py <= gameGridY[4] + 25) {
+                for (let i = 0; i < game_enemy[2].length; i++) {
+                    let enemy = game_enemy[2][i];
+                    if (px >= enemy.transform.posX - 50 && px <= enemy.transform.posX + 50) {
+                        game_char.isHit = true;
+                        game_char.hitCheckBuffer = true;
+                        game_char.hitRow = 2;
+                    }
+                }
+            }
+        }
+        if (gy == 9 || gy == 10 || gy == 11) {
+            if (py >= gameGridY[10] - 25 && py <= gameGridY[10] + 25) {
+                for (let i = 0; i < game_enemy[1].length; i++) {
+                    let enemy = game_enemy[1][i];
+                    if (px >= enemy.transform.posX - 70 && px <= enemy.transform.posX + 70) {
+                        game_char.isHit = true;
+                        game_char.hitCheckBuffer = true;
+                        game_char.hitRow = 1;
+                    }
+                }
+            }
+        }
+        if (gy == 11 || gy == 12 || gy == 13) {
+            if (py >= gameGridY[12] - 25 && py <= gameGridY[12] + 25) {
+                for (let i = 0; i < game_enemy[0].length; i++) {
+                    let enemy = game_enemy[0][i];
+                    if (px >= enemy.transform.posX - 90 && px <= enemy.transform.posX + 90) {
+                        game_char.isHit = true;
+                        game_char.hitCheckBuffer = true;
+                        game_char.hitRow = 0;
+                    }
+                }
+            }
         }
     }
 
@@ -455,7 +565,7 @@ function LoopGame4(_evt) {
         } else if (!gameGrid[gridY][gridX]) {
             game_move = -1;
         } else {
-            let moveTime = (time - gameMoveTimeBuffer) * 50;
+            let moveTime = (time - gameMoveTimeBuffer) * 1;
             let oldPosX = gameGridX[game_char.gridX], oldPosY = gameGridY[game_char.gridY];
             let newPosX = gameGridX[gridX], newPosY = gameGridY[gridY];
             game_char.SetPosition(oldPosX + (newPosX - oldPosX) * moveTime, oldPosY + (newPosY - oldPosY) * moveTime);
@@ -472,6 +582,7 @@ function LoopGame4(_evt) {
                 if (gridX == 8 && gridY == 14 && !game_char.target) {
                     game_char.grand = game_grand[gameGrandIndex];
                     game_char.target = true;
+                    UpdateLayer(0,true);
                 }
             }
         }
@@ -480,7 +591,8 @@ function LoopGame4(_evt) {
     gameStage.update();
 }
 
-function UpdateLayer(_layer) {
+function UpdateLayer(_layer, _forceUpdate = false) {
+    if (_forceUpdate) game_char.layer = -10;
     if (game_char.layer == _layer) return;
     game_char.layer = _layer;
     let l = 7;
@@ -526,12 +638,53 @@ function UpdateLayer(_layer) {
 function SetGame4UIState() {
     switch (gameUIState) {
         case 0:
+            gameQuestionBallon.SetEnabled(false);
+            gameScoreBallon.SetEnabled(false);
+            gameUIMainBox.SetEnabled(false);
+            gameUIMainTitle.SetEnabled(false);
+            gameUIMainImage.SetEnabled(false);
+            gameUIMainButton1.SetEnabled(false);
+            gameUIMainButton2.SetEnabled(false);
+            gameButtonUp.SetEnabled(false);
+            gameButtonDown.SetEnabled(false);
+            gameButtonLeft.SetEnabled(false);
+            gameButtonRight.SetEnabled(false);
+            break;
+        case 1:
+            gameQuestionBallon.SetEnabled(true);
+            gameScoreBallon.SetEnabled(true);
+            gameScoreBallon.Update({text:gameScore});
+            gameQuestionBallon.Update({text:gameScore+"/3"});
+            gameUIMainBox.SetEnabled(false);
+            gameUIMainTitle.SetEnabled(false);
+            gameUIMainImage.SetEnabled(false);
+            gameUIMainButton1.SetEnabled(false);
+            gameUIMainButton2.SetEnabled(false);
+            gameButtonUp.SetEnabled(true);
+            gameButtonDown.SetEnabled(true);
+            gameButtonLeft.SetEnabled(true);
+            gameButtonRight.SetEnabled(true);
+            break;
+        case 2:
+            gameQuestionBallon.SetEnabled(true);
+            gameScoreBallon.SetEnabled(true);
+            gameUIMainBox.SetEnabled(true);
+            gameUIMainTitle.SetEnabled(true);
+            gameUIMainImage.SetEnabled(true);
+            gameUIMainButton1.SetEnabled(true);
+            gameUIMainButton2.SetEnabled(true);
+            gameButtonUp.SetEnabled(true);
+            gameButtonDown.SetEnabled(true);
+            gameButtonLeft.SetEnabled(true);
+            gameButtonRight.SetEnabled(true);
             break;
     }
 }
 
 function OnClickGame4UIButton(_buttonId) {
     if (_buttonId == 1) {
+        gameStage.removeAllChildren();
+        gameStage.clear();
         StartGame4();
     } else {
         ExitGameView();
