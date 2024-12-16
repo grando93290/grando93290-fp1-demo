@@ -75,42 +75,6 @@ function InitializeGame4UI() {
     // gameUILibrary.data["ui-test"].SetEnabled(true);
     // gameUILibrary.data["ui-test"].dom.style.opacity = '50%';
 
-    // document.addEventListener("keydown", (e) => {
-    //     if (e.code === "ArrowUp") {
-    //         e.preventDefault();
-    //         game_up = true;
-    //     }
-    //     if (e.code === "ArrowDown") {
-    //         e.preventDefault();
-    //         game_down = true;
-    //     }
-    //     if (e.code === "ArrowLeft") {
-    //         e.preventDefault();
-    //         game_left = true;
-    //     }
-    //     if (e.code === "ArrowRight") {
-    //         e.preventDefault();
-    //         game_right = true;
-    //     }
-    // });
-    // document.addEventListener("keyup", (e) => {
-    //     if (e.code === "ArrowUp") {
-    //         e.preventDefault();
-    //         game_up = false;
-    //     }
-    //     if (e.code === "ArrowDown") {
-    //         e.preventDefault();
-    //         game_down = false;
-    //     }
-    //     if (e.code === "ArrowLeft") {
-    //         e.preventDefault();
-    //         game_left = false;
-    //     }
-    //     if (e.code === "ArrowRight") {
-    //         e.preventDefault();
-    //         game_right = false;
-    //     }
-    // });
     document.addEventListener("keydown", (e) => {
         if (e.code === "ArrowUp") {
             e.preventDefault();
@@ -204,7 +168,8 @@ function InitializeGame4Scene() {
 
 var game_wave, game_bridge, game_vegetation;
 var game_enemy, game_char;
-var gameMove, gameMoveBuffer, gameMoveTimeBuffer, gameGridX, gameGridY;
+var game_grand, gameGrandIndex, gameIsGrandComing, gameGrandComingTimeBuffer;
+var gameMove, gameMoveBuffer, gameMoveTimeBuffer, gameGridX, gameGridY, gameGrid;
 
 function StartGame4() {
     HideGame4LoadingUI();
@@ -242,6 +207,7 @@ function StartGame4() {
         animations: {'a0':0,'a1':1,'a2':2,'a3':3,'a4':4,'a5':5,'a6':6,'a7':7,}
     });
 
+    let bridgeNumber = Math.floor(Math.random()*8.99);
     gameObjectLibrary = new GameObjectLibrary({
         "bg": {transform:{posX:0, posY:0, sizeX:1728, sizeY:900},bitmap:gameAssetLibrary.data["game4-bg"]},
         "vegetation1": {transform:{posX:58, posY:58, sizeX:172, sizeY:69, anchorX:0.5, anchorY:1},bitmap:gameAssetLibrary.data["game4-vegetation1"]},
@@ -250,33 +216,62 @@ function StartGame4() {
         "wave1": {transform:{posX:1474, posY:425, sizeX:380, sizeY:74, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game4-wave"]},
         "wave2": {transform:{posX:617, posY:442, sizeX:500, sizeY:97, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game4-wave"]},
         "wave3": {transform:{posX:21, posY:430, sizeX:426, sizeY:83, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game4-wave"]},
-        "bridge": {transform:{posX:112 + 188 * Math.floor(Math.random()*8.99), posY:424, sizeX:188, sizeY:166, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game4-bridge"]},
+        "bridge": {transform:{posX:112 + 188 * bridgeNumber, posY:424, sizeX:188, sizeY:166, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game4-bridge"]},
     });
     game_wave = [gameObjectLibrary.data["wave1"], gameObjectLibrary.data["wave2"], gameObjectLibrary.data["wave3"]];
     game_bridge = gameObjectLibrary.data["bridge"];
 
     // GRID
     gameGridX = [122, 206, 300, 394, 488, 582, 676, 770, 864, 958, 1052, 1146, 1240, 1334, 1428, 1522, 1616];
-    gameGridY = [100, 141.67, 183.33, 225, 266.67, 350, 676, 770, 864, 958, 1052, 1146, 1240, 1334, 1428, 1522, 1616];
+    gameGridY = [100, 141.67, 183.33, 225, 266.67, 308.33, 350, 425, 500, 550, 600, 650, 700, 800, 895];
+    gameGrid = [
+        [0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0]
+    ];
+    for (let i = 6; i <= 8; i++) {
+        gameGrid[i][bridgeNumber*2] = 1;
+    }
+
 
     // CHARACTER
 
     game_char = {};
-    game_char.posX = 864, game_char.posY = 895;
+    game_char.target = true;
+    game_char.posX = 864; game_char.posY = 895;
+    game_char.gridX = 8; game_char.gridY = 14;
     let charScale = 0.65 + (game_char.posY / 900) * 0.35;
-    
-    game_char.grandIndices = GetRandomNumbers(1, 6, 6);
-    game_char.grandIndex = game_char.grandIndices[0];
-    let grandImage = gameAssetLibrary.data["game4-grand"+game_char.grandIndex];
-    let grandWidth = grandImage.width, grandHeight = grandImage.height;
-    game_char.grand = gameObjectLibrary.AddGameObject("grand", {transform:{posX:864-10, posY:895, sizeX:grandWidth * charScale, sizeY:grandHeight * charScale, anchorX: 0, anchorY: 1, flip:false}, bitmap: grandImage});
-    game_char.grand.w = grandWidth; game_char.grand.h = grandHeight; game_char.grand.dx = -10;
+
+    game_grand = [];
+    let gameGrandIndices = GetRandomNumbers(1, 6, 6);
+    for (let i = 0; i < 6; i++) {
+        let grandImage = gameAssetLibrary.data["game4-grand"+gameGrandIndices[i]];
+        let grandWidth = grandImage.width, grandHeight = grandImage.height;
+        let grand = gameObjectLibrary.AddGameObject("grand", {transform:{posX:-200, posY:-200, sizeX:grandWidth * charScale, sizeY:grandHeight * charScale, anchorX: 0, anchorY: 1, flip:false}, bitmap: grandImage});
+        grand.w = grandWidth; grand.h = grandHeight; grand.dx = -10;
+        grand.renderer.alpha = 0;
+        game_grand.push(grand);
+    }
+    gameGrandIndex = 0;
+    game_char.grand = game_grand[gameGrandIndex];
+    game_char.grand.renderer.alpha = 1;
 
     game_char.womanIndex = Math.random() > 0.5 ? 0 : 1;
     let womanWidth = womanSpriteSheet[game_char.womanIndex].width * 0.9, womanHeight = womanSpriteSheet[game_char.womanIndex].height * 0.9;
     game_char.woman = gameObjectLibrary.AddGameObject("woman", {transform:{posX:864+10, posY:895, sizeX:womanWidth * charScale, sizeY:womanHeight * charScale, anchorX: 0, anchorY: 1, flip:true}, sprite:{spriteSheet:womanSpriteSheet[game_char.womanIndex], spriteIndices:[0,1]}});
     game_char.woman.w = womanWidth; game_char.woman.h = womanHeight; game_char.woman.dx = 10;
-    game_char.layer = 0;
 
     game_char.SetPosition = function(_posX, _posY) {
         game_char.posX = _posX; game_char.posY = _posY;
@@ -293,25 +288,27 @@ function StartGame4() {
         woman.transform.sizeX = woman.w * charScale;
         woman.transform.sizeY = woman.h * charScale;
         woman.UpdatePosition();
-        UpdateLayer(yPos > 690 ? 0 : yPos > 550 ? 1 : yPos > 285 ? 2 : yPos > 150 ? 3 : 4);
+        UpdateLayer(game_char.posY > gameGridY[12] ? 0 : (game_char.posY > gameGridY[10] ? 1 : (game_char.posY > gameGridY[4] ? 2 : (game_char.posY > gameGridY[2] ? 3 : 4))));
     };
 
     // ENEMY
 
     game_enemy = [[],[],[],[]];
     for (let i = 0; i < 4; i++) { // row3: 4 cat
-        game_enemy[3].push(gameObjectLibrary.AddGameObject("enemy_row3_cat"+i, {transform:{posX:200 + i * 400, posY:100, sizeX:142*0.9, sizeY:140*0.9, anchorX: 0.5, anchorY: 0.95, flip:false}, sprite:{spriteSheet:catSpriteSheet, spriteIndices:[0,1,2,3,4,5]}}));
+        game_enemy[3].push(gameObjectLibrary.AddGameObject("enemy_row3_cat"+i, {transform:{posX:0, posY:gameGridY[2], sizeX:142*0.9, sizeY:140*0.9, anchorX: 0.5, anchorY: 0.95, flip:false}, sprite:{spriteSheet:catSpriteSheet, spriteIndices:[0,1,2,3,4,5]}}));
     }
     for (let i = 0; i < 5; i++) { // row2: 5 nail
-        game_enemy[2].push(gameObjectLibrary.AddGameObject("enemy_row2_snail"+i, {transform:{posX:200 + i * 300, posY:350, sizeX:67, sizeY:54, anchorX: 0.5, anchorY: 1, flip:false}, bitmap:gameAssetLibrary.data["game4-snail"]}));
+        game_enemy[2].push(gameObjectLibrary.AddGameObject("enemy_row2_snail"+i, {transform:{posX:0, posY:gameGridY[4], sizeX:67, sizeY:54, anchorX: 0.5, anchorY: 1, flip:false}, bitmap:gameAssetLibrary.data["game4-snail"]}));
     }
     for (let i = 0; i < 5; i++) { // row1: 5 tortoise
-        game_enemy[1].push(gameObjectLibrary.AddGameObject("enemy_row1_tortoise"+i, {transform:{posX:200 + i * 350, posY:500, sizeX:128*0.9, sizeY:87*0.9, anchorX: 0.5, anchorY: 1, flip:false}, sprite:{spriteSheet:tortoiseSpriteSheet, spriteIndices:[0,1,2,3,4,5,6,7]}}));
+        game_enemy[1].push(gameObjectLibrary.AddGameObject("enemy_row1_tortoise"+i, {transform:{posX:0, posY:gameGridY[10], sizeX:128*0.9, sizeY:87*0.9, anchorX: 0.5, anchorY: 1, flip:false}, sprite:{spriteSheet:tortoiseSpriteSheet, spriteIndices:[0,1,2,3,4,5,6,7]}}));
     }
     for (let i = 0; i < 3; i++) { // row0: 3 tortoise
-        game_enemy[0].push(gameObjectLibrary.AddGameObject("enemy_row0_tortoise"+i, {transform:{posX:200 + i * 400, posY:750, sizeX:128, sizeY:87, anchorX: 0.5, anchorY: 1, flip:true}, sprite:{spriteSheet:tortoiseSpriteSheet, spriteIndices:[0,1,2,3,4,5,6,7]}}));
+        game_enemy[0].push(gameObjectLibrary.AddGameObject("enemy_row0_tortoise"+i, {transform:{posX:0, posY:gameGridY[12], sizeX:128, sizeY:87, anchorX: 0.5, anchorY: 1, flip:true}, sprite:{spriteSheet:tortoiseSpriteSheet, spriteIndices:[0,1,2,3,4,5,6,7]}}));
     }
 
+    game_char.layer = -1;
+    game_char.SetPosition(864, 895);
 
     gameObjectLibrary.AddGameObjects({
         "vegetation3": {transform:{posX:333, posY:873, sizeX:483, sizeY:156, anchorX:0.5, anchorY:1},bitmap:gameAssetLibrary.data["game4-vegetation3"]},
@@ -358,10 +355,8 @@ function LoopGame4(_evt) {
     // row3
     for (let i = 0; i < game_enemy[3].length; i++) {
         let row3char = game_enemy[3][i];
-        row3char.transform.posX = (300 * i - time * 180) % (1728 + 142);
-        if (row3char.transform.posX < 0) row3char.transform.posX = 1728 + 142 + row3char.transform.posX;
-        // row3char.transform.posX = row3char.transform.posX - 180 * deltaTime;
-        // if (row3char.transform.posX < -71) row3char.transform.posX = 1728 + 71;
+        row3char.transform.posX = (400 * i - time * 250) % (1728 + 200) - 100;
+        if (row3char.transform.posX < -100) row3char.transform.posX = 1728 + 200 + row3char.transform.posX;
         row3char.SetAnimationIndex(Math.floor(row3char.transform.posX/40%4));
         row3char.UpdatePosition();
     }
@@ -369,9 +364,7 @@ function LoopGame4(_evt) {
     // row2
     for (let i = 0; i < game_enemy[2].length; i++) {
         let row2char = game_enemy[2][i];
-        row2char.transform.posX = (350 * i + time * 60) % (1728 + 70) - 35;
-        // row2char.transform.posX = row2char.transform.posX + 60 * deltaTime;
-        // if (row2char.transform.posX > 1728 + 34) row2char.transform.posX = -34;
+        row2char.transform.posX = (321.33 * i + time * 120) % (1728 + 200) - 100;
         row2char.renderer.skewX = sinTime * 8;
         row2char.renderer.skewY = cosTime * 2;
         row2char.UpdatePosition();
@@ -380,8 +373,8 @@ function LoopGame4(_evt) {
     // row1
     for (let i = 0; i < game_enemy[1].length; i++) {
         let row1char = game_enemy[1][i];
-        row1char.transform.posX = row1char.transform.posX - 80 * deltaTime;
-        if (row1char.transform.posX < -68) row1char.transform.posX = 1728 + 68;
+        row1char.transform.posX = (321.33 * i - time * 60) % (1728 + 200) - 100;
+        if (row1char.transform.posX < -100) row1char.transform.posX = 1728 + 200 + row1char.transform.posX;
         row1char.SetAnimationIndex(Math.floor(row1char.transform.posX/10%8));
         row1char.UpdatePosition();
     }
@@ -389,10 +382,62 @@ function LoopGame4(_evt) {
     // row0
     for (let i = 0; i < game_enemy[0].length; i++) {
         let row0char = game_enemy[0][i];
-        row0char.transform.posX = row0char.transform.posX + 80 * deltaTime;
-        if (row0char.transform.posX > 1728 + 68) row0char.transform.posX = -68;
+        row0char.transform.posX = (350 * i + time * 60) % (1728 + 200) - 100;
         row0char.SetAnimationIndex(Math.floor(row0char.transform.posX/10%8));
         row0char.UpdatePosition();
+    }
+
+    // Check Collision
+    if (game_char.gridY == 1 || game_char.gridY == 2 || game_char.gridY == 3) {
+        if (game_char.posY >= gameGridY[2] - 25 && game_char.posY <= gameGridY[2] + 25) {
+            
+        }
+    }
+    if (game_char.gridY == 3 || game_char.gridY == 4 || game_char.gridY == 5) {
+        if (game_char.posY >= gameGridY[4] - 25 && game_char.posY <= gameGridY[4] + 25) {
+            
+        }
+    }
+    if (game_char.gridY == 9 || game_char.gridY == 10 || game_char.gridY == 11) {
+        if (game_char.posY >= gameGridY[10] - 25 && game_char.posY <= gameGridY[10] + 25) {
+            
+        }
+    }
+    if (game_char.gridY == 11 || game_char.gridY == 12 || game_char.gridY == 13) {
+        if (game_char.posY >= gameGridY[12] - 25 && game_char.posY <= gameGridY[12] + 25) {
+            
+        }
+    }
+
+    if (game_char.isGrandReleasing) {
+        game_move = -1;
+        let grandReleaseTime = (time - game_char.grandReleasingTimeBuffer) / 2;
+        let grand = game_char.grand;
+        grand.transform.posY = gameGridY[0] * (1 - grandReleaseTime);
+        grand.UpdatePosition();
+        if (grandReleaseTime >= 1) {
+            grand.renderer.alpha = 0;
+            game_char.isGrandReleasing = false;
+            game_char.target = false;
+            gameIsGrandComing = true;
+            gameGrandComingTimeBuffer = time;
+            gameGrandIndex=(gameGrandIndex+1)%6;
+            gameScore++;
+            gameScoreBallon.Update({text:gameScore});
+            gameQuestionBallon.Update({text:gameScore+"/3"});
+        }
+    }
+
+    if (gameIsGrandComing) {
+        let grandComingTime = (time - gameGrandComingTimeBuffer) / 2;
+        let grand = game_grand[gameGrandIndex];
+        grand.transform.posX = 864 + grand.dx;
+        grand.transform.posY = 895 + grand.h * (1 - grandComingTime);
+        grand.UpdatePosition();
+        grand.renderer.alpha = 1;
+        if (grandComingTime >= 1) {
+            gameIsGrandComing = false;
+        }
     }
 
     if (game_move != -1) {
@@ -400,16 +445,36 @@ function LoopGame4(_evt) {
             gameMoveTimeBuffer = time;
             gameMoveBuffer = false;
         }
-        let moveTime = time - gameMoveTimeBuffer;
-        let deltaPositionX = 0, deltaPositionY = 0;
-        if (game_move == 0) deltaPositionY -= 100 * deltaTime;
-        if (game_move == 1) deltaPositionY += 100 * deltaTime;
-        if (game_move == 2) deltaPositionX -= 100 * deltaTime;
-        if (game_move == 3) deltaPositionX += 100 * deltaTime;
-        game_char.SetPosition(game_char.posX + deltaPositionX, game_char.posY + deltaPositionY);
-        if (moveTime > 1) {
+        let gridX = game_char.gridX, gridY = game_char.gridY;
+        if (game_move == 0) gridY-=1;
+        if (game_move == 1) gridY+=1;
+        if (game_move == 2) gridX-=1;
+        if (game_move == 3) gridX+=1;
+        if (gridY < 0 || gridY >= gameGridY.length || gridX < 0 || gridX >= gameGridX.length) {
             game_move = -1;
-        } 
+        } else if (!gameGrid[gridY][gridX]) {
+            game_move = -1;
+        } else {
+            let moveTime = (time - gameMoveTimeBuffer) * 50;
+            let oldPosX = gameGridX[game_char.gridX], oldPosY = gameGridY[game_char.gridY];
+            let newPosX = gameGridX[gridX], newPosY = gameGridY[gridY];
+            game_char.SetPosition(oldPosX + (newPosX - oldPosX) * moveTime, oldPosY + (newPosY - oldPosY) * moveTime);
+            if (moveTime > 1) {
+                game_char.SetPosition(newPosX, newPosY);
+                game_move = -1;
+                game_char.gridX = gridX;
+                game_char.gridY = gridY;
+                // Handle Attach End Point
+                if (gridY == 0 && game_char.target) { // success and grand is releasing
+                    game_char.isGrandReleasing = true;
+                    game_char.grandReleasingTimeBuffer = time;
+                }
+                if (gridX == 8 && gridY == 14 && !game_char.target) {
+                    game_char.grand = game_grand[gameGrandIndex];
+                    game_char.target = true;
+                }
+            }
+        }
     }
 
     gameStage.update();
