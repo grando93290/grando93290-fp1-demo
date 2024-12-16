@@ -74,6 +74,73 @@ function InitializeGameUI() {
 
     // gameUILibrary.data["ui-test"].SetEnabled(true);
     // gameUILibrary.data["ui-test"].dom.style.opacity = '50%';
+
+    // document.addEventListener("keydown", (e) => {
+    //     if (e.code === "ArrowUp") {
+    //         e.preventDefault();
+    //         game_up = true;
+    //     }
+    //     if (e.code === "ArrowDown") {
+    //         e.preventDefault();
+    //         game_down = true;
+    //     }
+    //     if (e.code === "ArrowLeft") {
+    //         e.preventDefault();
+    //         game_left = true;
+    //     }
+    //     if (e.code === "ArrowRight") {
+    //         e.preventDefault();
+    //         game_right = true;
+    //     }
+    // });
+    // document.addEventListener("keyup", (e) => {
+    //     if (e.code === "ArrowUp") {
+    //         e.preventDefault();
+    //         game_up = false;
+    //     }
+    //     if (e.code === "ArrowDown") {
+    //         e.preventDefault();
+    //         game_down = false;
+    //     }
+    //     if (e.code === "ArrowLeft") {
+    //         e.preventDefault();
+    //         game_left = false;
+    //     }
+    //     if (e.code === "ArrowRight") {
+    //         e.preventDefault();
+    //         game_right = false;
+    //     }
+    // });
+    document.addEventListener("keydown", (e) => {
+        if (e.code === "ArrowUp") {
+            e.preventDefault();
+            if (game_move == -1) {
+                game_move = 0;
+                gameMoveBuffer = true;
+            }
+        }
+        if (e.code === "ArrowDown") {
+            e.preventDefault();
+            if (game_move == -1) {
+                game_move = 1;
+                gameMoveBuffer = true;
+            }
+        }
+        if (e.code === "ArrowLeft") {
+            e.preventDefault();
+            if (game_move == -1) {
+                game_move = 2;
+                gameMoveBuffer = true;
+            }
+        }
+        if (e.code === "ArrowRight") {
+            e.preventDefault();
+            if (game_move == -1) {
+                game_move = 3;
+                gameMoveBuffer = true;
+            }
+        }
+    });
 }
 
 function ShowLoadingUI() {
@@ -122,19 +189,46 @@ function InitializeGameScene() {
         "game4-cat": {image:"img/game4/game4-cat-min.png"},
         "game4-tortoise": {image:"img/game4/game4-tortoise-min.png"},
         "game4-snail": {image:"img/game4/game4-snail-min.png"},
-        "game4-woman": {image:"img/game4/game4-woman-min.png"},
-        "game4-grand": {image:"img/game4/game4-grand-min.png"},
+
+        "game4-woman1": {image:"img/game4/game4-woman1-min.png"},
+        "game4-woman2": {image:"img/game4/game4-woman2-min.png"},
+
+        "game4-grand1": {image:"img/game4/game4-grand1-min.png"},
+        "game4-grand2": {image:"img/game4/game4-grand2-min.png"},
+        "game4-grand3": {image:"img/game4/game4-grand3-min.png"},
+        "game4-grand4": {image:"img/game4/game4-grand4-min.png"},
+        "game4-grand5": {image:"img/game4/game4-grand5-min.png"},
+        "game4-grand6": {image:"img/game4/game4-grand6-min.png"},
     }, UpdateLoadingBar, StartGame);
 }
 
 var game_wave, game_bridge, game_vegetation;
 var game_enemy, game_char;
+var gameMove, gameMoveBuffer, gameMoveTimeBuffer, gameGridX, gameGridY;
 
 function StartGame() {
     HideLoadingUI();
     gameUIState = 1;
     gameScore = 0;
+    game_move = -1;
     SetUIState();
+
+    let womanSpriteSheet = [
+        new createjs.SpriteSheet({ 
+            images: [gameAssetLibrary.data["game4-woman1"].image], 
+            frames: {width:78, height:165},
+            animations: {'a0':0,'a1':1,}
+        }), 
+        new createjs.SpriteSheet({ 
+            images: [gameAssetLibrary.data["game4-woman2"].image], 
+            frames: {width:108, height:147},
+            animations: {'a0':0,'a1':1,}
+        })
+    ];
+    womanSpriteSheet[0].width = 78;
+    womanSpriteSheet[0].height = 165;
+    womanSpriteSheet[1].width = 108;
+    womanSpriteSheet[1].height = 147;
 
     let catSpriteSheet = new createjs.SpriteSheet({ 
         images: [gameAssetLibrary.data["game4-cat"].image], 
@@ -148,18 +242,6 @@ function StartGame() {
         animations: {'a0':0,'a1':1,'a2':2,'a3':3,'a4':4,'a5':5,'a6':6,'a7':7,}
     });
 
-    let womanSpriteSheet = new createjs.SpriteSheet({ 
-        images: [gameAssetLibrary.data["game4-woman"].image], 
-        frames: {width:108, height:165},
-        animations: {'a0':0,'a1':1,'a2':2,'a3':3,}
-    });
-
-    let grandSpriteSheet = new createjs.SpriteSheet({ 
-        images: [gameAssetLibrary.data["game4-grand"].image], 
-        frames: {width:87, height:145},
-        animations: {'a0':0,'a1':1,'a2':2,'a3':3,'a4':4,'a5':5,}
-    });
-
     gameObjectLibrary = new GameObjectLibrary({
         "bg": {transform:{posX:0, posY:0, sizeX:1728, sizeY:900},bitmap:gameAssetLibrary.data["game4-bg"]},
         "vegetation1": {transform:{posX:58, posY:58, sizeX:172, sizeY:69, anchorX:0.5, anchorY:1},bitmap:gameAssetLibrary.data["game4-vegetation1"]},
@@ -169,28 +251,75 @@ function StartGame() {
         "wave2": {transform:{posX:617, posY:442, sizeX:500, sizeY:97, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game4-wave"]},
         "wave3": {transform:{posX:21, posY:430, sizeX:426, sizeY:83, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game4-wave"]},
         "bridge": {transform:{posX:112 + 188 * Math.floor(Math.random()*8.99), posY:424, sizeX:188, sizeY:166, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game4-bridge"]},
+    });
+    game_wave = [gameObjectLibrary.data["wave1"], gameObjectLibrary.data["wave2"], gameObjectLibrary.data["wave3"]];
+    game_bridge = gameObjectLibrary.data["bridge"];
+
+    // GRID
+    gameGridX = [122, 206, 300, 394, 488, 582, 676, 770, 864, 958, 1052, 1146, 1240, 1334, 1428, 1522, 1616];
+    gameGridY = [100, 141.67, 183.33, 225, 266.67, 350, 676, 770, 864, 958, 1052, 1146, 1240, 1334, 1428, 1522, 1616];
+
+    // CHARACTER
+
+    game_char = {};
+    game_char.posX = 864, game_char.posY = 895;
+    let charScale = 0.65 + (game_char.posY / 900) * 0.35;
+    
+    game_char.grandIndices = GetRandomNumbers(1, 6, 6);
+    game_char.grandIndex = game_char.grandIndices[0];
+    let grandImage = gameAssetLibrary.data["game4-grand"+game_char.grandIndex];
+    let grandWidth = grandImage.width, grandHeight = grandImage.height;
+    game_char.grand = gameObjectLibrary.AddGameObject("grand", {transform:{posX:864-10, posY:895, sizeX:grandWidth * charScale, sizeY:grandHeight * charScale, anchorX: 0, anchorY: 1, flip:false}, bitmap: grandImage});
+    game_char.grand.w = grandWidth; game_char.grand.h = grandHeight; game_char.grand.dx = -10;
+
+    game_char.womanIndex = Math.random() > 0.5 ? 0 : 1;
+    let womanWidth = womanSpriteSheet[game_char.womanIndex].width * 0.9, womanHeight = womanSpriteSheet[game_char.womanIndex].height * 0.9;
+    game_char.woman = gameObjectLibrary.AddGameObject("woman", {transform:{posX:864+10, posY:895, sizeX:womanWidth * charScale, sizeY:womanHeight * charScale, anchorX: 0, anchorY: 1, flip:true}, sprite:{spriteSheet:womanSpriteSheet[game_char.womanIndex], spriteIndices:[0,1]}});
+    game_char.woman.w = womanWidth; game_char.woman.h = womanHeight; game_char.woman.dx = 10;
+    game_char.layer = 0;
+
+    game_char.SetPosition = function(_posX, _posY) {
+        game_char.posX = _posX; game_char.posY = _posY;
+        let charScale = 0.65 + (game_char.posY / 900) * 0.35;
+        let grand = game_char.grand;
+        grand.transform.posX = game_char.posX + grand.dx;
+        grand.transform.posY = game_char.posY;
+        grand.transform.sizeX = grand.w * charScale;
+        grand.transform.sizeY = grand.h * charScale;
+        grand.UpdatePosition();
+        let woman = game_char.woman;
+        woman.transform.posX = game_char.posX + woman.dx;
+        woman.transform.posY = game_char.posY;
+        woman.transform.sizeX = woman.w * charScale;
+        woman.transform.sizeY = woman.h * charScale;
+        woman.UpdatePosition();
+        UpdateLayer(yPos > 690 ? 0 : yPos > 550 ? 1 : yPos > 285 ? 2 : yPos > 150 ? 3 : 4);
+    };
+
+    // ENEMY
+
+    game_enemy = [[],[],[],[]];
+    for (let i = 0; i < 4; i++) { // row3: 4 cat
+        game_enemy[3].push(gameObjectLibrary.AddGameObject("enemy_row3_cat"+i, {transform:{posX:200 + i * 400, posY:100, sizeX:142*0.9, sizeY:140*0.9, anchorX: 0.5, anchorY: 0.95, flip:false}, sprite:{spriteSheet:catSpriteSheet, spriteIndices:[0,1,2,3,4,5]}}));
+    }
+    for (let i = 0; i < 5; i++) { // row2: 5 nail
+        game_enemy[2].push(gameObjectLibrary.AddGameObject("enemy_row2_snail"+i, {transform:{posX:200 + i * 300, posY:350, sizeX:67, sizeY:54, anchorX: 0.5, anchorY: 1, flip:false}, bitmap:gameAssetLibrary.data["game4-snail"]}));
+    }
+    for (let i = 0; i < 5; i++) { // row1: 5 tortoise
+        game_enemy[1].push(gameObjectLibrary.AddGameObject("enemy_row1_tortoise"+i, {transform:{posX:200 + i * 350, posY:500, sizeX:128*0.9, sizeY:87*0.9, anchorX: 0.5, anchorY: 1, flip:false}, sprite:{spriteSheet:tortoiseSpriteSheet, spriteIndices:[0,1,2,3,4,5,6,7]}}));
+    }
+    for (let i = 0; i < 3; i++) { // row0: 3 tortoise
+        game_enemy[0].push(gameObjectLibrary.AddGameObject("enemy_row0_tortoise"+i, {transform:{posX:200 + i * 400, posY:750, sizeX:128, sizeY:87, anchorX: 0.5, anchorY: 1, flip:true}, sprite:{spriteSheet:tortoiseSpriteSheet, spriteIndices:[0,1,2,3,4,5,6,7]}}));
+    }
+
+
+    gameObjectLibrary.AddGameObjects({
         "vegetation3": {transform:{posX:333, posY:873, sizeX:483, sizeY:156, anchorX:0.5, anchorY:1},bitmap:gameAssetLibrary.data["game4-vegetation3"]},
         "vegetation2": {transform:{posX:55, posY:898, sizeX:149, sizeY:106, anchorX:0.5, anchorY:1},bitmap:gameAssetLibrary.data["game4-vegetation2"]},
         "vegetation1_1": {transform:{posX:1549, posY:803, sizeX:172, sizeY:69, anchorX:0.5, anchorY:1},bitmap:gameAssetLibrary.data["game4-vegetation1"]},
         "vegetation1_2": {transform:{posX:1660, posY:861, sizeX:172, sizeY:69, anchorX:0.5, anchorY:1},bitmap:gameAssetLibrary.data["game4-vegetation1"]},
     });
-    game_wave = [gameObjectLibrary.data["wave1"], gameObjectLibrary.data["wave2"], gameObjectLibrary.data["wave3"]];
-    game_bridge = gameObjectLibrary.data["bridge"];
     game_vegetation = [gameObjectLibrary.data["vegetation1"], gameObjectLibrary.data["vegetation4"], gameObjectLibrary.data["vegetation5"], gameObjectLibrary.data["vegetation3"], gameObjectLibrary.data["vegetation2"], gameObjectLibrary.data["vegetation1_1"], gameObjectLibrary.data["vegetation1_1"]];
-
-    game_enemy = [[],[],[],[]];
-    for (let i = 0; i < 3; i++) { // row0: 3 tortoise
-        game_enemy[0].push(gameObjectLibrary.AddGameObject("enemy_row0_tortoise"+i, {transform:{posX:200 + i * 400, posY:690, sizeX:128, sizeY:87, anchorX: 0.5, anchorY: 0.5, flip:true}, sprite:{spriteSheet:tortoiseSpriteSheet, spriteIndices:[0,1,2,3,4,5,6,7]}}));
-    }
-    for (let i = 0; i < 6; i++) { // row1: 6 tortoise
-        game_enemy[1].push(gameObjectLibrary.AddGameObject("enemy_row1_tortoise"+i, {transform:{posX:200 + i * 300, posY:550, sizeX:128, sizeY:87, anchorX: 0.5, anchorY: 0.5, flip:false}, sprite:{spriteSheet:tortoiseSpriteSheet, spriteIndices:[0,1,2,3,4,5,6,7]}}));
-    }
-    for (let i = 0; i < 5; i++) { // row2: 5 nail
-        game_enemy[2].push(gameObjectLibrary.AddGameObject("enemy_row2_snail"+i, {transform:{posX:200 + i * 300, posY:285, sizeX:67, sizeY:54, anchorX: 0.5, anchorY: 0.5, flip:false}, bitmap:gameAssetLibrary.data["game4-snail"]}));
-    }
-    for (let i = 0; i < 4; i++) { // row2: 4 cat
-        game_enemy[3].push(gameObjectLibrary.AddGameObject("enemy_row3_cat"+i, {transform:{posX:200 + i * 400, posY:150, sizeX:142, sizeY:140, anchorX: 0.5, anchorY: 0.5, flip:false}, sprite:{spriteSheet:catSpriteSheet, spriteIndices:[0,1,2,3,4,5]}}));
-    }
 
     gameStage.update();
 
@@ -226,45 +355,107 @@ function LoopGame(_evt) {
         game_vegetation[i].renderer.skewX = sinTime2 * 10 + i * 2;
     }
 
-    // row0
-    for (let i = 0; i < game_enemy[0].length; i++) {
-        let row0char = game_enemy[0][i];
-        row0char.transform.posX = row0char.transform.posX + 100 * deltaTime;
-        if (row0char.transform.posX > 1728 + 68) row0char.transform.posX = -68;
-        row0char.SetAnimationIndex(Math.floor(row0char.transform.posX/10%8));
-        row0char.UpdatePosition();
-    }
-
-    // row1
-    for (let i = 0; i < game_enemy[1].length; i++) {
-        let row1char = game_enemy[1][i];
-        row1char.transform.posX = row1char.transform.posX - 100 * deltaTime;
-        if (row1char.transform.posX < -68) row1char.transform.posX = 1728 + 68;
-        row1char.SetAnimationIndex(Math.floor(row1char.transform.posX/10%8));
-        row1char.UpdatePosition();
+    // row3
+    for (let i = 0; i < game_enemy[3].length; i++) {
+        let row3char = game_enemy[3][i];
+        row3char.transform.posX = (300 * i - time * 180) % (1728 + 142);
+        if (row3char.transform.posX < 0) row3char.transform.posX = 1728 + 142 + row3char.transform.posX;
+        // row3char.transform.posX = row3char.transform.posX - 180 * deltaTime;
+        // if (row3char.transform.posX < -71) row3char.transform.posX = 1728 + 71;
+        row3char.SetAnimationIndex(Math.floor(row3char.transform.posX/40%4));
+        row3char.UpdatePosition();
     }
 
     // row2
     for (let i = 0; i < game_enemy[2].length; i++) {
         let row2char = game_enemy[2][i];
-        row2char.transform.posX = row2char.transform.posX + 60 * deltaTime;
-        if (row2char.transform.posX > 1728 + 34) row2char.transform.posX = -34;
+        row2char.transform.posX = (350 * i + time * 60) % (1728 + 70) - 35;
+        // row2char.transform.posX = row2char.transform.posX + 60 * deltaTime;
+        // if (row2char.transform.posX > 1728 + 34) row2char.transform.posX = -34;
         row2char.renderer.skewX = sinTime * 8;
         row2char.renderer.skewY = cosTime * 2;
         row2char.UpdatePosition();
     }
 
     // row1
-    for (let i = 0; i < game_enemy[3].length; i++) {
-        let row3char = game_enemy[3][i];
-        row3char.transform.posX = row3char.transform.posX - 300 * deltaTime;
-        if (row3char.transform.posX < -71) row3char.transform.posX = 1728 + 71;
-        row3char.SetAnimationIndex(Math.floor(row3char.transform.posX/40%4));
-        row3char.UpdatePosition();
+    for (let i = 0; i < game_enemy[1].length; i++) {
+        let row1char = game_enemy[1][i];
+        row1char.transform.posX = row1char.transform.posX - 80 * deltaTime;
+        if (row1char.transform.posX < -68) row1char.transform.posX = 1728 + 68;
+        row1char.SetAnimationIndex(Math.floor(row1char.transform.posX/10%8));
+        row1char.UpdatePosition();
     }
 
+    // row0
+    for (let i = 0; i < game_enemy[0].length; i++) {
+        let row0char = game_enemy[0][i];
+        row0char.transform.posX = row0char.transform.posX + 80 * deltaTime;
+        if (row0char.transform.posX > 1728 + 68) row0char.transform.posX = -68;
+        row0char.SetAnimationIndex(Math.floor(row0char.transform.posX/10%8));
+        row0char.UpdatePosition();
+    }
+
+    if (game_move != -1) {
+        if (gameMoveBuffer) {
+            gameMoveTimeBuffer = time;
+            gameMoveBuffer = false;
+        }
+        let moveTime = time - gameMoveTimeBuffer;
+        let deltaPositionX = 0, deltaPositionY = 0;
+        if (game_move == 0) deltaPositionY -= 100 * deltaTime;
+        if (game_move == 1) deltaPositionY += 100 * deltaTime;
+        if (game_move == 2) deltaPositionX -= 100 * deltaTime;
+        if (game_move == 3) deltaPositionX += 100 * deltaTime;
+        game_char.SetPosition(game_char.posX + deltaPositionX, game_char.posY + deltaPositionY);
+        if (moveTime > 1) {
+            game_move = -1;
+        } 
+    }
 
     gameStage.update();
+}
+
+function UpdateLayer(_layer) {
+    if (game_char.layer == _layer) return;
+    game_char.layer = _layer;
+    let l = 7;
+    switch (game_char.layer) {
+    case 0:
+        for (let i = 0; i < game_enemy[3].length; i++) gameStage.setChildIndex(game_enemy[3][i].renderer,++l);
+        for (let i = 0; i < game_enemy[2].length; i++) gameStage.setChildIndex(game_enemy[2][i].renderer,++l);
+        for (let i = 0; i < game_enemy[1].length; i++) gameStage.setChildIndex(game_enemy[1][i].renderer,++l);
+        for (let i = 0; i < game_enemy[0].length; i++) gameStage.setChildIndex(game_enemy[0][i].renderer,++l);
+        gameStage.setChildIndex(game_char.grand.renderer,++l); gameStage.setChildIndex(game_char.woman.renderer,++l);
+        break;
+    case 1:
+        for (let i = 0; i < game_enemy[3].length; i++) gameStage.setChildIndex(game_enemy[3][i].renderer,++l);
+        for (let i = 0; i < game_enemy[2].length; i++) gameStage.setChildIndex(game_enemy[2][i].renderer,++l);
+        for (let i = 0; i < game_enemy[1].length; i++) gameStage.setChildIndex(game_enemy[1][i].renderer,++l);
+        gameStage.setChildIndex(game_char.grand.renderer,++l); gameStage.setChildIndex(game_char.woman.renderer,++l);
+        for (let i = 0; i < game_enemy[0].length; i++) gameStage.setChildIndex(game_enemy[0][i].renderer,++l);
+        break;
+    case 2:
+        for (let i = 0; i < game_enemy[3].length; i++) gameStage.setChildIndex(game_enemy[3][i].renderer,++l);
+        for (let i = 0; i < game_enemy[2].length; i++) gameStage.setChildIndex(game_enemy[2][i].renderer,++l);
+        gameStage.setChildIndex(game_char.grand.renderer,++l); gameStage.setChildIndex(game_char.woman.renderer,++l);
+        for (let i = 0; i < game_enemy[1].length; i++) gameStage.setChildIndex(game_enemy[1][i].renderer,++l);
+        for (let i = 0; i < game_enemy[0].length; i++) gameStage.setChildIndex(game_enemy[0][i].renderer,++l);
+        break;
+    case 3:
+        for (let i = 0; i < game_enemy[3].length; i++) gameStage.setChildIndex(game_enemy[3][i].renderer,++l);
+        gameStage.setChildIndex(game_char.grand.renderer,++l); gameStage.setChildIndex(game_char.woman.renderer,++l);
+        for (let i = 0; i < game_enemy[2].length; i++) gameStage.setChildIndex(game_enemy[2][i].renderer,++l);
+        for (let i = 0; i < game_enemy[1].length; i++) gameStage.setChildIndex(game_enemy[1][i].renderer,++l);
+        for (let i = 0; i < game_enemy[0].length; i++) gameStage.setChildIndex(game_enemy[0][i].renderer,++l);
+        break;
+    case 4:
+        gameStage.setChildIndex(game_char.grand.renderer,++l); gameStage.setChildIndex(game_char.woman.renderer,++l);
+        for (let i = 0; i < game_enemy[3].length; i++) gameStage.setChildIndex(game_enemy[3][i].renderer,++l);
+        for (let i = 0; i < game_enemy[2].length; i++) gameStage.setChildIndex(game_enemy[2][i].renderer,++l);
+        for (let i = 0; i < game_enemy[1].length; i++) gameStage.setChildIndex(game_enemy[1][i].renderer,++l);
+        for (let i = 0; i < game_enemy[0].length; i++) gameStage.setChildIndex(game_enemy[0][i].renderer,++l);
+        break;
+    }
 }
 
 function SetUIState() {
@@ -285,4 +476,13 @@ function OnClickUIButton(_buttonId) {
 function PlayAudio(_audio) {
     _audio.currentTime = 0;
     _audio.play();
+}
+
+function GetRandomNumbers(min, max, count) {
+    const range = Array.from({ length: max - min + 1 }, (_, i) => min + i); // Create array [min, ..., max]
+    for (let i = range.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1)); // Random index
+        [range[i], range[j]] = [range[j], range[i]]; // Swap elements
+    }
+    return range.slice(0, count); // Take the first `count` elements
 }
