@@ -21,10 +21,18 @@ Implement guide:
 
 3: Open the game by the following javascript code:
 
-	OpenGameView({gameId: 1, gameColor:'#DADC87', url:'game1finish.html'})
+	OpenGameView({gameId: 1, gameColor:'#DADC87', url:'/線上遊戲?game=1'})
 
 	gameId: integer, the number of the game [1,2,3,4,5]
-	gameColor: color code, background color of the game
-	url: the link that the web app will go after finish the game.
+	gameColor: color code, background color of the game, default value:
+        game1: '#DADC87', game2: '#DADC87', game3: '#DADC87', game4: '#DADC87', game5: '#DADC87'
+	url: the link that the web app will go after finish the game, default value = '/線上遊戲?game={gameId}'}
 
 4: please refer to the html file 'game1.html', 'game2.html', 'game3.html', 'game4.html', 'game5.html'. this is a simple demo for implementation.
+
+5: the code for each game
+    Game1: OpenGameView({gameId:1});
+    Game2: OpenGameView({gameId:2});
+    Game3: OpenGameView({gameId:3});
+    Game4: OpenGameView({gameId:4});
+    Game5: OpenGameView({gameId:5});

@@ -85,36 +85,7 @@ function InitializeGame4UI() {
     // gameUILibrary.data["ui-test"].SetEnabled(true);
     // gameUILibrary.data["ui-test"].dom.style.opacity = '50%';
 
-    document.addEventListener("keydown", (e) => {
-        if (e.code === "ArrowUp") {
-            e.preventDefault();
-            if (game_move == -1) {
-                game_move = 0;
-                gameMoveBuffer = true;
-            }
-        }
-        if (e.code === "ArrowDown") {
-            e.preventDefault();
-            if (game_move == -1) {
-                game_move = 1;
-                gameMoveBuffer = true;
-            }
-        }
-        if (e.code === "ArrowLeft") {
-            e.preventDefault();
-            if (game_move == -1) {
-                game_move = 2;
-                gameMoveBuffer = true;
-            }
-        }
-        if (e.code === "ArrowRight") {
-            e.preventDefault();
-            if (game_move == -1) {
-                game_move = 3;
-                gameMoveBuffer = true;
-            }
-        }
-    });
+    document.addEventListener("keydown", OnKeydownKeyboardArrow);
     gameButtonUp.dom.addEventListener("pointerdown", (e) => {
         if (game_move == -1) {
             game_move = 0;
@@ -139,6 +110,37 @@ function InitializeGame4UI() {
             gameMoveBuffer = true;
         }
     });
+}
+
+function OnKeydownKeyboardArrow(_evt) {
+    if (_evt.code === "ArrowUp") {
+        _evt.preventDefault();
+        if (game_move == -1) {
+            game_move = 0;
+            gameMoveBuffer = true;
+        }
+    }
+    if (_evt.code === "ArrowDown") {
+        _evt.preventDefault();
+        if (game_move == -1) {
+            game_move = 1;
+            gameMoveBuffer = true;
+        }
+    }
+    if (_evt.code === "ArrowLeft") {
+        _evt.preventDefault();
+        if (game_move == -1) {
+            game_move = 2;
+            gameMoveBuffer = true;
+        }
+    }
+    if (_evt.code === "ArrowRight") {
+        _evt.preventDefault();
+        if (game_move == -1) {
+            game_move = 3;
+            gameMoveBuffer = true;
+        }
+    }
 }
 
 function ShowGame4LoadingUI() {
@@ -687,6 +689,7 @@ function OnClickGame4UIButton(_buttonId) {
         gameStage.clear();
         StartGame4();
     } else {
+        document.removeEventListener("keydown", OnKeydownKeyboardArrow);
         ExitGameView();
     }
 }

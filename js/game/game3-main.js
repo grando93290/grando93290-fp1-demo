@@ -102,23 +102,41 @@ function InitializeGame3UI() {
     gameUIMainButton2 = gameUILibrary.data["ui-main-button2"];
 
     gameMainButton = gameUILibrary.data["ui-button-main"];
-    gameMainButton.dom.addEventListener("pointerdown", OnKeyDownGameBtnOrSpace);
-    document.addEventListener("pointerup", OnKeyUpGameBtnOrSpace);
-    document.addEventListener("keydown", (e) => {
-        if (e.code === "Space") {
-            e.preventDefault();
-            OnKeyDownGameBtnOrSpace(e);
-        }
-    });
-    document.addEventListener("keyup", (e) => {
-        if (e.code === "Space") {
-            e.preventDefault();
-            OnKeyUpGameBtnOrSpace(e);
-        }
-    });
+    gameMainButton.dom.addEventListener("pointerdown", OnKeyDownGameBtn);
+    document.addEventListener("pointerup", OnKeyUpGameBtn);
+    document.addEventListener("keydown", OnKeyDownSpace);
+    document.addEventListener("keyup", OnKeyUpSpace);
 
     // gameUILibrary.data["ui-test"].SetEnabled(true);
     // gameUILibrary.data["ui-test"].dom.style.opacity = '50%';
+}
+
+function OnKeyDownGameBtn(_evt) {
+    if (gameBtnPressed) return;
+    gameBtnPressed = true;
+    gameBtnPressedTime = 0;
+}
+
+function OnKeyDownSpace(_evt) {
+    if (_evt.code === "Space") {
+        _evt.preventDefault();
+        OnKeyDownGameBtn(_evt);
+    }
+}
+
+function OnKeyUpGameBtn(_evt) {
+    if (gameBtnPressed) {
+        gameBtnPressedCount++;
+    }
+    gameBtnPressed = false;
+    gameBtnLongPressed = false;
+}
+
+function OnKeyUpSpace(_evt) {
+    if (_evt.code === "Space") {
+        _evt.preventDefault();
+        OnKeyUpGameBtn(_evt);
+    }
 }
 
 function ShowGame3LoadingUI() {
@@ -516,20 +534,6 @@ function LoopGame3(_evt) {
 
 }
 
-function OnKeyDownGameBtnOrSpace(_evt) {
-    if (gameBtnPressed) return;
-    gameBtnPressed = true;
-    gameBtnPressedTime = 0;
-}
-
-function OnKeyUpGameBtnOrSpace(_evt) {
-    if (gameBtnPressed) {
-        gameBtnPressedCount++;
-    }
-    gameBtnPressed = false;
-    gameBtnLongPressed = false;
-}
-
 function SetGame3UIState() {
     switch (gameUIState) {
         case 0:
@@ -582,6 +586,9 @@ function OnClickGame3UIButton(_buttonId) {
         gameStage.clear();
         StartGame3();
     } else {
+        document.removeEventListener("pointerup", OnKeyUpGameBtn);
+        document.removeEventListener("keydown", OnKeyDownSpace);
+        document.removeEventListener("keyup", OnKeyUpSpace);
         ExitGameView();
     }
 }

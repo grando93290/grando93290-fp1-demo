@@ -23,8 +23,26 @@ var endGameUrl;
 
 function OpenGameView(_data) {
     gameId = _data.gameId;
-    gameColor = _data.gameColor;
-    endGameUrl = _data.url;
+    if ('gameColor' in _data) {
+        gameColor = _data.gameColor;
+    } else {
+        if (gameId == 1) {
+            gameColor = '#DADC87';
+        } else if (gameId == 2) {
+            gameColor = '#3C5942';
+        } else if (gameId == 3) {
+            gameColor = '#9DDCD4';
+        } else if (gameId == 4) {
+            gameColor = '#EBC0A2';
+        } else if (gameId == 5) {
+            gameColor = '#F8EAC4';
+        }
+    }
+    if ('url' in _data) {
+        endGameUrl = _data.url;
+    } else {
+        endGameUrl = '';
+    }
     gameView = document.createElement('div');
     gameView.style.position = 'fixed';
     gameView.style.top = '0';
@@ -109,7 +127,11 @@ function ExitGameView() {
     document.body.style.touchAction = buffer_bodyStyleTouchAction;
     document.documentElement.style.touchAction = buffer_documentElementStyleTouchAction;
     gameView = null;
-    window.location.href = endGameUrl;
+    if (endGameUrl == '') {
+        window.location.href = '/線上遊戲?game=' + gameId;
+    } else {
+        window.location.href = endGameUrl;
+    }
 }
 
 function ResizeGameView() {

@@ -487,8 +487,8 @@ function OnClickGame1UIButton(_buttonId) {
             PlayAudio(gamePressAudio);
             break;
         case 20: // End game
+            createjs.Ticker.removeEventListener("tick", LoopGame1);
             if (_buttonId == 1) {
-                createjs.Ticker.removeEventListener("tick", LoopGame1);
                 gameStage.removeAllChildren();
                 gameStage.clear();
                 StartGame1();
