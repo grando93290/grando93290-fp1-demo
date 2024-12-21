@@ -406,7 +406,7 @@ function SetGame1UIState() {
         case 11: // sec test (after half of time)
         case 16: // sec test (after half of time)
             gameUIClockTitle.Update({text:"進入自我覺察環節"}); gameUIClockTitle.SetEnabled(true);
-            gameUIClockDesc.Update({text:"當你認為時間到了，請按下「時間<br/>到」按鈕，看看與真實時間的差異"}); gameUIClockDesc.SetEnabled(true);
+            gameUIClockDesc.Update({text:"當你認為時間到，請按「時間到」</br>按鈕，看看與真實時間的差異"}); gameUIClockDesc.SetEnabled(true);
             gameUIClockBtn.Update({text:"時間到"}); gameUIClockBtn.SetEnabled(true);
             break;
         case 7: // 15 sec test finish (before 1 min), ppl talk to player for 4 seconds
