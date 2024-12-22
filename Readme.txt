@@ -1,4 +1,8 @@
-YMCA Web Game (20241216)
+YMCA Web Game
+20241223 Update: Game 1 UI Text Update
+20241220 Update: Update default game finish url
+20241217 Update: First Build
+
 
 Implement guide:
 
