@@ -89,18 +89,18 @@ function LoopGameScene4(_evt) {
 
     if (time > 2.5 && time < 6) {
         s4_car1.SetPosition({posX:1920 - (time - 2.5) * 1080});
-        if (time > 3 && !s4_car1_audio_hasPlay) {
-            PlayAudio(gameAssetLibrary.data["game2-scene4-car-audio"].audio);
-            s4_car1_audio_hasPlay = true;
-        }
+    }
+    if (time > 0.5 && !s4_car1_audio_hasPlay) {
+        PlayAudio(gameAssetLibrary.data["game2-scene4-car-audio"].audio);
+        s4_car1_audio_hasPlay = true;
     }
 
     if (time > 9.5 && time < 12) {
         s4_car2.SetPosition({posX:1920 - (time - 9.5) * 1380});
-        if (time > 10 && !s4_car2_audio_hasPlay) {
-            PlayAudio(gameAssetLibrary.data["game2-scene4-car-audio"].audio);
-            s4_car2_audio_hasPlay = true;
-        }
+    }
+    if (time > 7 && !s4_car2_audio_hasPlay) {
+        PlayAudio(gameAssetLibrary.data["game2-scene4-car-audio"].audio);
+        s4_car2_audio_hasPlay = true;
     }
 
     if (time > 6 && time < 15) {
