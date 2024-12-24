@@ -14,6 +14,7 @@ function InitializeGameScene4() {
         "game2-scene4-pedestrian2": {image:"img/game2/game2-scene4-pedestrian2-min.png"},
         "game2-scene4-pedestrian3": {image:"img/game2/game2-scene4-pedestrian3-min.png"},
         "game2-scene4-rubbishbin": {image:"img/game2/game2-scene4-rubbishbin-min.png"},
+        "game2-scene4-trafficlight": {image:"img/game2/game2-scene4-trafficlight-min.png"},
         "game2-scene4-audio": {audio:"audio/game/game2scene4.mp3"},
         "game2-scene4-car-audio": {audio:"audio/game/game2scene4_car.mp3"},
     }, UpdateGame2LoadingBar, StartGameScene4);
@@ -42,11 +43,15 @@ function StartGameScene4() {
 
     s4_bus = gameObjectLibrary.AddGameObject("s4_bus", {transform:{posX:785, posY:762, sizeX:239, sizeY:400, anchorX:0.5, anchorY:1},bitmap:gameAssetLibrary.data["game2-scene4-bus"]});
 
+    gameObjectLibrary.AddGameObject("s4_trafficlight1", {transform:{posX:520, posY:401, sizeX:77, sizeY:354},bitmap:gameAssetLibrary.data["game2-scene4-trafficlight"]});
+
     s4_pedestrian1 = gameObjectLibrary.AddGameObject("s4_pedestrian1", {transform:{posX:0, posY:540, sizeX:1920, sizeY:350},bitmap:gameAssetLibrary.data["game2-scene4-pedestrian1"]});
     s4_pedestrian2 = gameObjectLibrary.AddGameObject("s4_pedestrian2", {transform:{posX:0, posY:540, sizeX:1920, sizeY:350},bitmap:gameAssetLibrary.data["game2-scene4-pedestrian2"]});
     s4_pedestrian3 = gameObjectLibrary.AddGameObject("s4_pedestrian3", {transform:{posX:0, posY:540, sizeX:1920, sizeY:350},bitmap:gameAssetLibrary.data["game2-scene4-pedestrian3"]});
 
-    gameObjectLibrary.AddGameObject("s4_rubbishbin", {transform:{posX:1658, posY:710, sizeX:94, sizeY:137},bitmap:gameAssetLibrary.data["game2-scene4-rubbishbin"]});
+    gameObjectLibrary.AddGameObject("s4_trafficlight2", {transform:{posX:1609, posY:449, sizeX:87, sizeY:399},bitmap:gameAssetLibrary.data["game2-scene4-trafficlight"]});
+
+    gameObjectLibrary.AddGameObject("s4_rubbishbin", {transform:{posX:1697, posY:716, sizeX:94, sizeY:137},bitmap:gameAssetLibrary.data["game2-scene4-rubbishbin"]});
 
     s4_car1 = gameObjectLibrary.AddGameObject("s4_car1", {transform:{posX:2100, posY:750, sizeX:689, sizeY:290},bitmap:gameAssetLibrary.data["game2-scene4-car1"]});
     s4_car2 = gameObjectLibrary.AddGameObject("s4_car2", {transform:{posX:2100, posY:750, sizeX:689, sizeY:290},bitmap:gameAssetLibrary.data["game2-scene4-car2"]});
