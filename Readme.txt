@@ -1,4 +1,5 @@
 YMCA Web Game
+20241230 Update: Update loading UI title
 20241224 Update: Game 2 Update bgm & Game 3 Update question & Game 4 Update image and bgm
 20241223 Update: Game 1 UI Text Update
 20241220 Update: Update default game finish url
