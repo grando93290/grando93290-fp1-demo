@@ -5,7 +5,7 @@ var gamePopupAudio;
 var gamePressAudio;
 var gameTrueAudio;
 var gameLoadingBar, gameLoadingBarNail;
-var gameQuestionBallon, gameScoreBallon;
+var gameQuestionBallon, gameScoreBallon, gameBackBallon;
 var gameLoadSceneAction;
 
 var gameButtonUp, gameButtonDown, gameButtonLeft, gameButtonRight;
@@ -16,6 +16,13 @@ var gameTimeBuffer1, gameTimeBuffer2, gameTimeBuffer3;
 
 function InitializeGame4(_data) {
     gameSharedAssetLibrary = new AssetLibrary({
+        "ui-back-ballon": {image:"img/gameCommon/backBallon-min.png"},
+        "ui-question-count-ballon": {image:"img/gameCommon/greenBallon-min.png"},
+        "ui-score-ballon": {image:"img/gameCommon/heartBallon-min.png"},
+        "ui-score-ballon2": {image:"img/gameCommon/heartBallon2-min.png"},
+        "ui-button": {image:"img/gameCommon/button-min.png"},
+        "ui-main-image": {image:"img/game4ui/elder-min.png"},
+
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
         "game-true-audio": {audio:"audio/game/true.wav"},
@@ -42,6 +49,7 @@ function InitializeGame4UI() {
         "ui-loading-img-rotate": {transform:{left:'55.89%', top:'76.42%', width:'4.98%', height:'9.55%'}, image:{imgSrc:"img/gameCommon/loading-rotate.gif"}},
         "ui-loading-desc2": {transform:{left: '52.6%', top:'79.5%', width: '40%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'將你的裝置轉成橫向'}},
 
+        "ui-back-ballon": {transform:{left:'5.613%', width:'7.52%', height:'9.59%'}, image:{imgSrc:"img/gameCommon/backBallon-min.png"}},
         "ui-question-count-ballon": {transform:{left:'79.16%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/greenBallon-min.png", fontFamily:'CustomFont', fontSize:30, letterSpacing:4, color:'white', text:'1/3'}},
         "ui-score-count-ballon": {transform:{left:'86.68%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/heartBallon-min.png", fontFamily:'CustomFont', fontSize:25, letterSpacing:4, color:'white', text:'0'}},
 
@@ -70,6 +78,8 @@ function InitializeGame4UI() {
     gameScoreBallon = gameUILibrary.data["ui-score-count-ballon"];
     gameScoreBallon.AddCoveredBallon({imgSrc2:"img/gameCommon/heartBallon2-min.png"});
     gameScoreBallon.SetEnabled(true);
+    gameBackBallon = gameUILibrary.data["ui-back-ballon"];
+    gameBackBallon.dom.addEventListener('click', BackToWeb);
 
     gameUIMainBox = gameUILibrary.data["ui-main-bg"];
     gameUIMainTitle = gameUILibrary.data["ui-main-title"];
@@ -216,6 +226,7 @@ function StartGame4() {
     gameIsGrandComing = false;
     gameMoveBuffer = false;
     SetGame4UIState();
+    gameBackBallon.SetEnabled(true);
 
     let womanSpriteSheet = [
         new createjs.SpriteSheet({ 

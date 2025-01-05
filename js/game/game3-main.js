@@ -12,7 +12,7 @@ var gameObjectLibrary;
 var gameTimeBuffer1, gameTimeBuffer2, gameTimeBuffer3;
 
 var gameDistanceBallon, gameDistanceBallon_upperText, gameDistanceBallon_lowerText, gameDistanceBallon_arrow;
-var gameScoreBallon, gameMainButton;
+var gameScoreBallon, gameMainButton, gameBackBallon;
 
 var gameAudioCountdown, gameAudioWin, gameAudioLose;
 
@@ -38,6 +38,13 @@ var gameIsPenaltyTime = false, gamePenaltyTimeBuffer = 0;
 function InitializeGame3(_data) {
     isGameQuestionDebugging = 'forceScene' in _data;
     gameSharedAssetLibrary = new AssetLibrary({
+        "ui-back-ballon": {image:"img/gameCommon/backBallon-min.png"},
+        "ui-question-count-ballon": {image:"img/gameCommon/greenBallon-min.png"},
+        "ui-score-ballon": {image:"img/gameCommon/heartBallon-min.png"},
+        "ui-score-ballon2": {image:"img/gameCommon/heartBallon2-min.png"},
+        "ui-button": {image:"img/gameCommon/button-min.png"},
+        "ui-main-image": {image:"img/game3ui/swim-min.png"},
+
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
         "game-true-audio": {audio:"audio/game/true.wav"},
@@ -64,7 +71,9 @@ function InitializeGame3UI() {
         "ui-loading-img-rotate": {transform:{left:'55.89%', top:'76.42%', width:'4.98%', height:'9.55%'}, image:{imgSrc:"img/gameCommon/loading-rotate.gif"}},
         "ui-loading-desc2": {transform:{left: '52.6%', top:'79.5%', width: '40%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'將你的裝置轉成橫向'}},
 
+        "ui-back-ballon": {transform:{left:'5.613%', width:'7.52%', height:'9.59%'}, image:{imgSrc:"img/gameCommon/backBallon-min.png"}},
         "ui-score-count-ballon": {transform:{left:'86.68%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/heartBallon-min.png", fontFamily:'CustomFont', fontSize:25, letterSpacing:4, color:'white', text:'0'}},
+        
         "ui-distance-ballon": {transform:{left:'42.77%', top:'7.89%', width:'14.47%', height:'14.78%'}, image:{imgSrc:"img/game3ui/ballon-min.png"}},
         "ui-distance-ballon-uppertext": {transform:{left:'0%', top:'11.33%', width:'100%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:24, letterSpacing:2, color:'#636363', text:'距離小島'}},
         "ui-distance-ballon-lowertext": {transform:{left:'0%', top:'14.77%', width:'100%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:40, letterSpacing:2, color:'#F97930', text:'12公里'}},
@@ -94,6 +103,9 @@ function InitializeGame3UI() {
     gameDistanceBallon_upperText = gameUILibrary.data["ui-distance-ballon-uppertext"];
     gameDistanceBallon_lowerText = gameUILibrary.data["ui-distance-ballon-lowertext"];
     gameDistanceBallon_arrow = gameUILibrary.data["ui-distance-ballon-arrow"];
+
+    gameBackBallon = gameUILibrary.data["ui-back-ballon"];
+    gameBackBallon.dom.addEventListener('click', BackToWeb);
 
     gameUIMainBox = gameUILibrary.data["ui-main-bg"];
     gameUIMainTitle = gameUILibrary.data["ui-main-title"];
@@ -214,6 +226,7 @@ function StartGame3() {
     gameBtnPressedCount = 0
     HideGame3LoadingUI();
     SetGame3UIState();
+    gameBackBallon.SetEnabled(true);
 
     let swimSpriteSheet = new createjs.SpriteSheet({ 
         images: [gameAssetLibrary.data["game3-swim"].image], 

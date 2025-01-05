@@ -5,7 +5,7 @@ var gamePopupAudio;
 var gamePressAudio;
 var gameTrueAudio;
 var gameLoadingBar, gameLoadingBarNail;
-var gameQuestionBallon, gameScoreBallon;
+var gameQuestionBallon, gameScoreBallon, gameBackBallon;
 var gameLoadSceneAction;
 
 var gameAssetLibrary;
@@ -30,6 +30,7 @@ var gameUIDebug;
 function InitializeGame1(_data) {
     isGameQuestionDebugging = 'forceScene' in _data;
     gameSharedAssetLibrary = new AssetLibrary({
+        "ui-back-ballon": {image:"img/gameCommon/backBallon-min.png"},
         "ui-question-count-ballon": {image:"img/gameCommon/greenBallon-min.png"},
         "ui-score-ballon": {image:"img/gameCommon/heartBallon-min.png"},
         "ui-score-ballon2": {image:"img/gameCommon/heartBallon2-min.png"},
@@ -63,6 +64,7 @@ function InitializeGame1UI() {
         "ui-loading-img-rotate": {transform:{left:'55.89%', top:'76.42%', width:'4.98%', height:'9.55%'}, image:{imgSrc:"img/gameCommon/loading-rotate.gif"}},
         "ui-loading-desc2": {transform:{left: '52.6%', top:'79.5%', width: '40%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'將你的裝置轉成橫向'}},
 
+        "ui-back-ballon": {transform:{left:'5.613%', width:'7.52%', height:'9.59%'}, image:{imgSrc:"img/gameCommon/backBallon-min.png"}},
         "ui-question-count-ballon": {transform:{left:'79.16%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/greenBallon-min.png", fontFamily:'CustomFont', fontSize:30, letterSpacing:4, color:'white', text:'1/3'}},
         "ui-score-count-ballon": {transform:{left:'86.68%', width:'7.52%', height:'9.59%'}, ballon:{imgSrc:"img/gameCommon/heartBallon-min.png", fontFamily:'CustomFont', fontSize:25, letterSpacing:4, color:'white', text:'0'}},
 
@@ -91,6 +93,8 @@ function InitializeGame1UI() {
     gameQuestionBallon = gameUILibrary.data["ui-question-count-ballon"];
     gameScoreBallon = gameUILibrary.data["ui-score-count-ballon"];
     gameScoreBallon.AddCoveredBallon({imgSrc2:"img/gameCommon/heartBallon2-min.png"});
+    gameBackBallon = gameUILibrary.data["ui-back-ballon"];
+    gameBackBallon.dom.addEventListener('click', BackToWeb);
 
     gameUIClockTitle = gameUILibrary.data["ui-clock-title"];
     gameUIClockDesc = gameUILibrary.data["ui-clock-desc"];
@@ -177,6 +181,7 @@ function StartGame1() {
     gamePplTalkFadeOut = false;
     HideGame1LoadingUI();
     SetGame1UIState();
+    gameBackBallon.SetEnabled(true);
 
     gameObjectLibrary = new GameObjectLibrary({
         // "bg": {transform:{posX:0, posY:0, sizeX:1728, sizeY:900},bitmap:gameAssetLibrary.data["game1-bg"]},

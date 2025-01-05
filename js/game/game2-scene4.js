@@ -25,6 +25,7 @@ function StartGameScene4() {
     InitializeGameScene4Question();
     gameQuestionBallon.Update({text:"0/"+gameQuestionSelected.length});
     gameScoreBallon.Update({text:"0"});
+    gameBackBallon.SetEnabled(true);
 
     gameObjectLibrary = new GameObjectLibrary({
         "s4_bg": {transform:{posX:0, posY:0, sizeX:1920, sizeY:1080},bitmap:gameAssetLibrary.data["game2-scene4-bg"]},

@@ -36,6 +36,7 @@ function StartGameScene3() {
     InitializeGameScene3Question();
     gameQuestionBallon.Update({text:"0/"+gameQuestionSelected.length});
     gameScoreBallon.Update({text:"0"});
+    gameBackBallon.SetEnabled(true);
 
     gameObjectLibrary = new GameObjectLibrary({
         "s3_sky": {transform:{posX:0, posY:0, sizeX:1920, sizeY:500},bitmap:gameAssetLibrary.data["game2-scene3-sky"]},

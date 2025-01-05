@@ -174,3 +174,8 @@ function GetRandomNumbers(min, max, count) {
     }
     return range.slice(0, count); // Take the first `count` elements
 }
+
+function BackToWeb() {
+    endGameUrl = 'yes';
+    ExitGameView();
+}

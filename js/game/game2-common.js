@@ -5,7 +5,7 @@ var gamePopupAudio;
 var gamePressAudio;
 var gameTrueAudio;
 var gameLoadingBar, gameLoadingBarNail;
-var gameQuestionBallon, gameScoreBallon;
+var gameQuestionBallon, gameScoreBallon, gameBackBallon;
 var gameLoadGame2SceneAction;
 
 var gameAssetLibrary;
@@ -28,6 +28,7 @@ function InitializeGame2(_data) {
     // gameLoadGame2SceneAction = () => {};
     isGameQuestionDebugging = 'forceScene' in _data;
     gameSharedAssetLibrary = new AssetLibrary({
+        "ui-back-ballon": {image:"img/gameCommon/backBallon-min.png"},
         "ui-question-count-ballon": {image:"img/gameCommon/greenBallon-min.png"},
         "ui-score-ballon": {image:"img/gameCommon/heartBallon-min.png"},
         "ui-score-ballon2": {image:"img/gameCommon/heartBallon2-min.png"},
@@ -84,6 +85,7 @@ function InitializeGame2UI() {
         "ui-loading-img-rotate": {transform:{left:'55.89%', top:'76.42%', width:'4.03125%', height:'7.16666%'}, image:{imgSrc:"img/gameCommon/loading-rotate.gif"}},
         "ui-loading-desc2": {transform:{left: '51.3%', top:'80%', width: '40%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'將你的裝置轉成橫向'}},
 
+        "ui-back-ballon": {transform:{left:'1.613%', width:'8%', height:'9.5%'}, image:{imgSrc:"img/gameCommon/backBallon-min.png"}},
         "ui-question-count-ballon": {transform:{left:'81.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/gameCommon/greenBallon-min.png", fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'0'}},
         "ui-score-count-ballon": {transform:{left:'89.5%', width:'8%', height:'9.5%'}, ballon:{imgSrc:"img/gameCommon/heartBallon-min.png", fontFamily:'CustomFont', fontSize:27, letterSpacing:4, color:'white', text:'0'}},
 
@@ -107,6 +109,8 @@ function InitializeGame2UI() {
     gameQuestionBallon = gameUILibrary.data["ui-question-count-ballon"];
     gameScoreBallon = gameUILibrary.data["ui-score-count-ballon"];
     gameScoreBallon.AddCoveredBallon({imgSrc2:"img/gameCommon/heartBallon2-min.png"});
+    gameBackBallon = gameUILibrary.data["ui-back-ballon"];
+    gameBackBallon.dom.addEventListener('click', BackToWeb);
 
     // gameUILibrary.data["ui-bg"].SetEnabled(true);
     // gameUILibrary.data["ui-bg"].dom.style.opacity = '50%';

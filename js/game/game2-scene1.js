@@ -37,6 +37,7 @@ function StartGameScene1() {
     InitializeGameScene1Question();
     gameQuestionBallon.Update({text:"0/"+gameQuestionSelected.length});
     gameScoreBallon.Update({text:"0"});
+    gameBackBallon.SetEnabled(true);
 
     gameObjectLibrary = new GameObjectLibrary({
         "s1_sky": {transform:{posX:0, posY:0, sizeX:1920, sizeY:1080},bitmap:gameAssetLibrary.data["game2-scene1-sky"]},

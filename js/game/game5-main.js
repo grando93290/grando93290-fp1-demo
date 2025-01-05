@@ -12,7 +12,7 @@ var gameObjectLibrary;
 var gameTimeBuffer1, gameTimeBuffer2;
 var gameSceneIndex;
 
-var gameQuestionBallon;
+var gameQuestionBallon, gameBackBallon;
 var gamePlayerABallon, gamePlayerABallon_icon, gamePlayerABallon_text, gamePlayerABallon_score, gamePlayerABallon_arrow;
 var gamePlayerBBallon, gamePlayerBBallon_icon, gamePlayerBBallon_text, gamePlayerBBallon_score, gamePlayerBBallon_arrow;
 
@@ -100,6 +100,13 @@ function InitializeGame5(_data) {
     // gameLoadSceneAction = () => {};
     gameLoadSceneAction = InitializeGame5Scene;
     gameSharedAssetLibrary = new AssetLibrary({
+        "ui-back-ballon": {image:"img/gameCommon/backBallon-min.png"},
+        "ui-question-count-ballon": {image:"img/gameCommon/greenBallon-min.png"},
+        "ui-score-ballon": {image:"img/gameCommon/heartBallon-min.png"},
+        "ui-score-ballon2": {image:"img/gameCommon/heartBallon2-min.png"},
+        "ui-button": {image:"img/gameCommon/button-min.png"},
+        "ui-main-image": {image:"img/game5ui/card-min.png"},
+
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
         "game-true-audio": {audio:"audio/game/true.wav"},
@@ -193,6 +200,7 @@ function InitializeGame5UI() {
         "ui-loading-img-rotate": {transform:{left:'55.89%', top:'76.42%', width:'4.98%', height:'9.55%'}, image:{imgSrc:"img/gameCommon/loading-rotate.gif"}},
         "ui-loading-desc2": {transform:{left: '52.6%', top:'79.5%', width: '40%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'#F97930', text:'將你的裝置轉成橫向'}},
 
+        "ui-back-ballon": {transform:{left:'5.613%', width:'7.52%', height:'9.59%'}, image:{imgSrc:"img/gameCommon/backBallon-min.png"}},
         "ui-question-ballon": {transform:{left: '46.22%', top:'0', width: '7.54%', height:'9.55%'}, ballon:{imgSrc:"img/gameCommon/greenBallon-min.png", fontFamily:'CustomFont', fontSize:34, letterSpacing:4, color:'white', text:'0'}},
         "ui-playera-ballon": {transform:{left: '27.71%', top:'0', width: '18.51%', height:'9.55%'}, image:{imgSrc:"img/game5ui/ballon-min.png"}},
         "ui-playera-ballon-text": {transform:{left: '33.96%', top:'3.2%', width: '5.09%', height:'3%'}, image:{imgSrc:"img/game5ui/playera-text-min.png"}},
@@ -245,6 +253,8 @@ function InitializeGame5UI() {
     // gameUILibrary.data["ui-bg"].SetEnabled(true);
 
     gameQuestionBallon = gameUILibrary.data["ui-question-ballon"];
+    gameBackBallon = gameUILibrary.data["ui-back-ballon"];
+    gameBackBallon.dom.addEventListener('click', BackToWeb);
     gamePlayerABallon = gameUILibrary.data["ui-playera-ballon"];
     gamePlayerABallon_score = gameUILibrary.data["ui-playera-ballon-score"];
     gamePlayerABallon_score.AddCoveredBallon({imgSrc2:"img/game5ui/heart2-min.png"});
@@ -364,6 +374,7 @@ function StartGame5() {
     isShowPopup = true;
     gameLevel = 0;
     GameLevel();
+    gameBackBallon.SetEnabled(true);
 }
 
 function GameLevel() {
