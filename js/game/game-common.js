@@ -176,6 +176,23 @@ function ExitGameView() {
     }
 }
 
+function BackToWeb() {
+    if (!gameView) {
+        return;
+    }
+    window.removeEventListener("resize", ResizeGameView);
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    }
+    document.body.removeChild(gameView);
+    document.body.style.overflow = buffer_bodyStyleOverflow;
+    document.documentElement.style.overflow = buffer_documentElementStyleOverflow;
+    document.body.style.touchAction = buffer_bodyStyleTouchAction;
+    document.documentElement.style.touchAction = buffer_documentElementStyleTouchAction;
+    gameView = null;
+    window.location.href = '/線上遊戲?return=' + gameId;
+}
+
 function ResizeGameView() {
     const gameInnerWidth = window.innerWidth;
     const gameInnerHeight = window.innerHeight;
@@ -227,21 +244,4 @@ function GetRandomNumbers(min, max, count) {
         [range[i], range[j]] = [range[j], range[i]]; // Swap elements
     }
     return range.slice(0, count); // Take the first `count` elements
-}
-
-function BackToWeb() {
-    if (!gameView) {
-        return;
-    }
-    window.removeEventListener("resize", ResizeGameView);
-    if (document.fullscreenElement) {
-        document.exitFullscreen();
-    }
-    document.body.removeChild(gameView);
-    document.body.style.overflow = buffer_bodyStyleOverflow;
-    document.documentElement.style.overflow = buffer_documentElementStyleOverflow;
-    document.body.style.touchAction = buffer_bodyStyleTouchAction;
-    document.documentElement.style.touchAction = buffer_documentElementStyleTouchAction;
-    gameView = null;
-    window.location.href = "??";
 }
