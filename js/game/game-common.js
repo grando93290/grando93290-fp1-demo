@@ -2,6 +2,7 @@
 var gameId;
 var gameView;
 var gameCanvas;
+var gameLandscapePrompt, gameLandscapePromptSub;
 var gameStage;
 var gameUI;
 var gameColor;
@@ -72,6 +73,47 @@ function OpenGameView(_data) {
     gameUI.style.position = 'fixed';
     gameUI.style.display = 'block';
     gameView.appendChild(gameUI);
+
+    gameLandscapePrompt = document.createElement('div');
+    gameLandscapePrompt.style.position = 'fixed';
+    gameLandscapePrompt.style.display = 'block';
+    gameLandscapePrompt.style.backgroundColor = '#FBF7E9';
+    gameView.appendChild(gameLandscapePrompt);
+
+    gameLandscapePromptSub = document.createElement('div');
+    gameLandscapePromptSub.style.position = 'absolute';
+    gameLandscapePromptSub.style.display = 'block';
+    gameLandscapePromptSub.style.backgroundColor = '#FBF7E9';
+    gameLandscapePrompt.appendChild(gameLandscapePromptSub);
+
+    let gameLandscapePromptImg = document.createElement('div');
+    gameLandscapePromptImg.style.position = 'absolute';
+    gameLandscapePromptImg.style.display = 'block';
+    gameLandscapePromptImg.style.left = '22.11%';
+    gameLandscapePromptImg.style.width = '55.78%';
+    gameLandscapePromptImg.style.top = '16.11%';
+    gameLandscapePromptImg.style.height = '39.6%';
+    gameLandscapePromptImg.style.border = 'none';
+    gameLandscapePromptImg.style.backgroundSize = 'cover';
+    gameLandscapePromptImg.style.backgroundPosition = 'center';
+    gameLandscapePromptImg.style.backgroundRepeat = 'no-repeat';
+    gameLandscapePromptImg.style.backgroundImage = "url(img/gameCommon/LandscapePromptImg-min.png)";
+    gameLandscapePromptSub.appendChild(gameLandscapePromptImg);
+
+    let gameLandscapePromptBtn = document.createElement('div');
+    gameLandscapePromptBtn.style.position = 'absolute';
+    gameLandscapePromptBtn.style.display = 'block';
+    gameLandscapePromptBtn.style.left = '27.78%';
+    gameLandscapePromptBtn.style.width = '44.44%';
+    gameLandscapePromptBtn.style.top = '72.33%';
+    gameLandscapePromptBtn.style.height = '11.52%';
+    gameLandscapePromptBtn.style.border = 'none';
+    gameLandscapePromptBtn.style.backgroundSize = 'cover';
+    gameLandscapePromptBtn.style.backgroundPosition = 'center';
+    gameLandscapePromptBtn.style.backgroundRepeat = 'no-repeat';
+    gameLandscapePromptBtn.style.backgroundImage = "url(img/gameCommon/LandscapePromptBtn-min.png)";
+    gameLandscapePromptSub.appendChild(gameLandscapePromptBtn);
+    gameLandscapePromptBtn.addEventListener('click', BackToWeb);
 
     buffer_bodyStyleOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -159,6 +201,18 @@ function ResizeGameView() {
     gameStage.scaleY = gameCanvasScale;
     gameStage.update();
     window.scrollTo(0, 1);
+
+    if (gameInnerHeight > gameInnerWidth) {
+        gameLandscapePrompt.style.width = `${gameInnerWidth}px`;
+        gameLandscapePrompt.style.height = `${gameInnerHeight}px`;
+        gameLandscapePromptSub.style.top = `${(gameInnerHeight - gameInnerWidth) * 0.5}px`;
+        gameLandscapePromptSub.style.width = `${gameInnerWidth}px`;
+        gameLandscapePromptSub.style.height = `${gameInnerWidth}px`;
+        gameLandscapePrompt.style.display = "block";
+    } else {
+        gameLandscapePrompt.style.display = "none";
+    }
+
 }
 
 function PlayAudio(_audio) {
@@ -176,6 +230,18 @@ function GetRandomNumbers(min, max, count) {
 }
 
 function BackToWeb() {
-    endGameUrl = 'yes';
-    ExitGameView();
+    if (!gameView) {
+        return;
+    }
+    window.removeEventListener("resize", ResizeGameView);
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    }
+    document.body.removeChild(gameView);
+    document.body.style.overflow = buffer_bodyStyleOverflow;
+    document.documentElement.style.overflow = buffer_documentElementStyleOverflow;
+    document.body.style.touchAction = buffer_bodyStyleTouchAction;
+    document.documentElement.style.touchAction = buffer_documentElementStyleTouchAction;
+    gameView = null;
+    window.location.href = "??";
 }
