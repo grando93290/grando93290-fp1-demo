@@ -229,7 +229,7 @@ function ShowGame2Panel(_layout) {
             desc.Update({text: question["ans"+question.correct[question.correct.length - 1]], left:'0', top:'56%', width:'100%', height:'10%'});
             btn1.Update({text: "確定", left:'41.55%', top:'64%', width:'16.9%', height:'9.36%'});
             if (gameSceneIndex == 3 && gameQuestionSelected[gameQuestionIndex] == 6) {
-                title.Update({text: "快與慢是很主觀的感受，無分對錯，謝謝你的分享!"});
+                title.Update({text: "快與慢是很主觀的感受，無分對錯，謝謝你的分享！"});
                 desc.Update({text: ""});
             }
             break;
@@ -239,7 +239,7 @@ function ShowGame2Panel(_layout) {
             btn1.SetEnabled(true); btn2.SetEnabled(false); btn3.SetEnabled(false); btn4.SetEnabled(false);
             title.Update({text: "鼓勵你更多觀察身邊的事物～", left:'0', top:'47%', width:'100%', height:'15%'});
             imgW.Update({left:'45.31%', top:'27%', width:'9.375%', height:'16.67%'});
-            desc.Update({text: question["ans"+question.correct[question.correct.length - 1]], left:'0', top:'56%', width:'100%', height:'10%'});
+            desc.Update({text: "正確答案：" + question["ans"+question.correct[question.correct.length - 1]], left:'0', top:'56%', width:'100%', height:'10%'});
             btn1.Update({text: "確定", left:'41.55%', top:'64%', width:'16.9%', height:'9.36%'});
             break;
         case 7: // correct emotional answer

@@ -419,7 +419,7 @@ function SetGame1UIState() {
         case 12: // 20 sec test finish (before 1 min), ppl talk to player for 4 seconds
         case 17: // 20 sec test finish (before 1 min), ppl talk to player for 4 seconds
             gameUITalkingBox.FadeIn();
-            gameUITalkingText.Update({text:(gameTime <= testTime + 1 && gameTime >= testTime - 1) ? "你做得很好!" : "你可以做得更好!", top: '37.5%'}); gameUITalkingText.FadeIn();
+            gameUITalkingText.Update({text:(gameTime <= testTime + 1 && gameTime >= testTime - 1) ? "你做得很好！" : "你可以做得更好！", top: '37.5%'}); gameUITalkingText.FadeIn();
             break;
         case 8: // 15 sec test finish (before 1 min), wait for end game or next round
         case 13: // 20 sec test finish (before 1 min), wait for end game or next round
