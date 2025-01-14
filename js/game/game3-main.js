@@ -61,9 +61,9 @@ function InitializeGame3UI() {
     gameUILibrary.AddUIElements({
         "ui-loading-bg": {transform:{left:'0%', top:'0%', width:'100%', height:'100%'}, image:{imgSrc:"img/gameCommon/loading-bg-min.png"}},
         // "ui-loading-title": {transform:{top:'15.4%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:52, letterSpacing:4, color:'#00693E', text:'「動」破激流'}},
-        "ui-loading-title": {transform:{left:'40.75%', top:'15.4%', width:'18.51%', height:'6.55%'}, image:{imgSrc:"img/game3ui/title-3-min.png"}},
-        "ui-loading-img-main": {transform:{left:'40.16%', top:'25.5%', width:'19.68%', height:'30.11%'}, image:{imgSrc:"img/game3ui/loading-main-min.png"}},
-        "ui-loading-img-compass": {transform:{left:'53.2%', top:'43.4%', width:'9.03%', height:'16.33%'}, image:{imgSrc:"img/gameCommon/loading-compass-min.png"}},
+        "ui-loading-title": {transform:{left:'37.61%', top:'13.66%', width:'25.01%', height:'8.88%'}, image:{imgSrc:"img/game3ui/title-3-min.png"}},
+        "ui-loading-img-main": {transform:{left:'40.68%', top:'25.88%', width:'19.68%', height:'30.11%'}, image:{imgSrc:"img/game3ui/loading-main-min.png"}},
+        // "ui-loading-img-compass": {transform:{left:'53.2%', top:'43.4%', width:'9.03%', height:'16.33%'}, image:{imgSrc:"img/gameCommon/loading-compass-min.png"}},
         "ui-loading-loadingbar": {transform:{left:'30%', top:'64%', width:'40%', height:'1.8%'}, loadingBar:{color1: '#fff', color2: '#F97930', round: 10}},
         "ui-loading-img-nail": {transform:{left:'28%', top:'60%', width:'4%', height:'7.22%'}, image:{imgSrc:"img/gameCommon/loading-nail-min.png"}},
         "ui-loading-img-sound": {transform:{left:'17.5%', top:'77.5%', width:'3.47%', height:'6.67%'}, image:{imgSrc:"img/gameCommon/loading-sound.gif"}},
@@ -156,7 +156,7 @@ function ShowGame3LoadingUI() {
     gameUILibrary.data["ui-loading-bg"].SetEnabled(true);
     gameUILibrary.data["ui-loading-title"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(true);
-    gameUILibrary.data["ui-loading-img-compass"].SetEnabled(true);
+    // gameUILibrary.data["ui-loading-img-compass"].SetEnabled(true);
     gameUILibrary.data["ui-loading-loadingbar"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-nail"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-sound"].SetEnabled(true);
@@ -174,7 +174,7 @@ function HideGame3LoadingUI() {
     gameUILibrary.data["ui-loading-bg"].SetEnabled(false);
     gameUILibrary.data["ui-loading-title"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(false);
-    gameUILibrary.data["ui-loading-img-compass"].SetEnabled(false);
+    // gameUILibrary.data["ui-loading-img-compass"].SetEnabled(false);
     gameUILibrary.data["ui-loading-loadingbar"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-nail"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-sound"].SetEnabled(false);

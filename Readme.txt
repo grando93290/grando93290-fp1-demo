@@ -1,4 +1,5 @@
 YMCA Web Game
+20250114 Update: Minor update ui image
 20250108 Update: Minor update fix "!" mark
 20250106 Update: Minor update and Add landscape prompt
 20241230 Update: Update loading UI title

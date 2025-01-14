@@ -75,9 +75,9 @@ function InitializeGame2UI() {
     gameUILibrary.AddUIElements({
         "ui-loading-bg": {transform:{left:'0%', top:'0%', width:'100%', height:'100%'}, image:{imgSrc:"img/gameCommon/loading-bg-min.png"}},
         // "ui-loading-title": {transform:{top:'17.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:46, letterSpacing:4, color:'#00693E', text:'「觀」官相識'}},
-        "ui-loading-title": {transform:{left:'40.59%', top:'15.4%', width:'18.81%', height:'7%'}, image:{imgSrc:"img/game2ui/title-2-min.png"}},
-        "ui-loading-img-main": {transform:{left:'37.375%', top:'24.5%', width:'25.25%', height:'35.89%'}, image:{imgSrc:"img/game2ui/loading-main-min.png"}},
-        "ui-loading-img-compass": {transform:{left:'55.7%', top:'48.2%', width:'9.75%', height:'16.33%'}, image:{imgSrc:"img/gameCommon/loading-compass-min.png"}},
+        "ui-loading-title": {transform:{left:'38.43%', top:'13.66%', width:'23.88%', height:'8.88%'}, image:{imgSrc:"img/game2ui/title-2-min.png"}},
+        "ui-loading-img-main": {transform:{left:'40.18%', top:'28%', width:'21.25%', height:'30.11%'}, image:{imgSrc:"img/game2ui/loading-main-min.png"}},
+        // "ui-loading-img-compass": {transform:{left:'55.7%', top:'48.2%', width:'9.75%', height:'16.33%'}, image:{imgSrc:"img/gameCommon/loading-compass-min.png"}},
         "ui-loading-loadingbar": {transform:{left:'28%', top:'70.5%', width:'44%', height:'1.8%'}, loadingBar:{color1: '#fff', color2: '#F97930', round: 10}},
         "ui-loading-img-nail": {transform:{left:'27%', top:'66.5%', width:'4%', height:'7.22%'}, image:{imgSrc:"img/gameCommon/loading-nail-min.png"}},
         "ui-loading-img-sound": {transform:{left:'17.5%', top:'77.5%', width:'2.8125%', height:'5%'}, image:{imgSrc:"img/gameCommon/loading-sound.gif"}},
@@ -98,7 +98,7 @@ function InitializeGame2UI() {
         "ui-main-button4": {transform:{left:'33.1%', top:'66.19%', width:'33.8%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:42, letterSpacing:4, color:'white', text:'', onclick:()=>{OnClickGame2UIButton(4);}}},
         "ui-main-image-correct": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/gameCommon/correct-min.png"}},
         "ui-main-image-wrong": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/gameCommon/wrong-min.png"}},
-        "ui-main-image-bird": {transform:{left:'42.53%', top:'29%', width:'14.94%', height:'19.83%'}, image:{imgSrc:"img/game2ui/bird-min.png"}},
+        "ui-main-image-bird": {transform:{left:'40.43%', top:'35.55%', width:'18.75%', height:'22.22%'}, image:{imgSrc:"img/game2ui/bird-min.png"}},
 
         // "ui-bg": {transform:{left:'0', top:'0', width:'100%', height:'100%'}, image:{imgSrc:"img/11.jpg"}},
     });
@@ -123,7 +123,7 @@ function ShowGame2LoadingUI() {
     gameUILibrary.data["ui-loading-bg"].SetEnabled(true);
     gameUILibrary.data["ui-loading-title"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(true);
-    gameUILibrary.data["ui-loading-img-compass"].SetEnabled(true);
+    // gameUILibrary.data["ui-loading-img-compass"].SetEnabled(true);
     gameUILibrary.data["ui-loading-loadingbar"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-nail"].SetEnabled(true);
     gameUILibrary.data["ui-loading-img-sound"].SetEnabled(true);
@@ -143,7 +143,7 @@ function HideGame2LoadingUI() {
     gameUILibrary.data["ui-loading-bg"].SetEnabled(false);
     gameUILibrary.data["ui-loading-title"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-main"].SetEnabled(false);
-    gameUILibrary.data["ui-loading-img-compass"].SetEnabled(false);
+    // gameUILibrary.data["ui-loading-img-compass"].SetEnabled(false);
     gameUILibrary.data["ui-loading-loadingbar"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-nail"].SetEnabled(false);
     gameUILibrary.data["ui-loading-img-sound"].SetEnabled(false);
