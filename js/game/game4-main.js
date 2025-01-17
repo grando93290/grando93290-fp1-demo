@@ -342,15 +342,27 @@ function StartGame4() {
     game_enemy = [[],[],[],[]];
     for (let i = 0; i < 4; i++) { // row3: 4 cat
         game_enemy[3].push(gameObjectLibrary.AddGameObject("enemy_row3_cat"+i, {transform:{posX:0, posY:gameGridY[2], sizeX:142*0.9, sizeY:140*0.9, anchorX: 0.5, anchorY: 0.95, flip:false}, sprite:{spriteSheet:catSpriteSheet, spriteIndices:[0,1,2,3,4,5]}}));
+        game_enemy[3][i].iPosX = i * 400 + (Math.random()-0.5) * 50;
+        game_enemy[3][i].iPosY = gameGridY[2] + (Math.random()-0.5) * 25;
+        game_enemy[3][i].spd = 150 + (Math.random()-0.5) * 20;
     }
     for (let i = 0; i < 5; i++) { // row2: 5 nail
         game_enemy[2].push(gameObjectLibrary.AddGameObject("enemy_row2_snail"+i, {transform:{posX:0, posY:gameGridY[4], sizeX:67, sizeY:54, anchorX: 0.5, anchorY: 1, flip:false}, bitmap:gameAssetLibrary.data["game4-snail"]}));
+        game_enemy[2][i].iPosX = i * 321.33 + (Math.random()-0.5) * 50;
+        game_enemy[2][i].iPosY = gameGridY[4] + (Math.random()-0.5) * 25;
+        game_enemy[2][i].spd = 100 + (Math.random()-0.5) * 10;
     }
     for (let i = 0; i < 5; i++) { // row1: 5 tortoise
         game_enemy[1].push(gameObjectLibrary.AddGameObject("enemy_row1_tortoise"+i, {transform:{posX:0, posY:gameGridY[10], sizeX:128*0.9, sizeY:87*0.9, anchorX: 0.5, anchorY: 1, flip:false}, sprite:{spriteSheet:tortoiseSpriteSheet, spriteIndices:[0,1,2,3,4,5,6,7]}}));
+        game_enemy[1][i].iPosX = i * 321.33 + (Math.random()-0.5) * 50;
+        game_enemy[1][i].iPosY = gameGridY[10] + (Math.random()-0.5) * 25;
+        game_enemy[1][i].spd = 50 + (Math.random()-0.5) * 10;
     }
     for (let i = 0; i < 3; i++) { // row0: 3 tortoise
         game_enemy[0].push(gameObjectLibrary.AddGameObject("enemy_row0_tortoise"+i, {transform:{posX:0, posY:gameGridY[12], sizeX:128, sizeY:87, anchorX: 0.5, anchorY: 1, flip:true}, sprite:{spriteSheet:tortoiseSpriteSheet, spriteIndices:[0,1,2,3,4,5,6,7]}}));
+        game_enemy[0][i].iPosX = i * 350 + (Math.random()-0.5) * 50;
+        game_enemy[0][i].iPosY = gameGridY[12] + (Math.random()-0.5) * 25;
+        game_enemy[0][i].spd = 50 + (Math.random()-0.5) * 10;
     }
 
     game_char.layer = -1;
@@ -401,7 +413,8 @@ function LoopGame4(_evt) {
     // row3
     for (let i = 0; i < game_enemy[3].length; i++) {
         let row3char = game_enemy[3][i];
-        row3char.transform.posX = (400 * i - time * 250) % (1728 + 200) - 100;
+        row3char.transform.posX = (row3char.iPosX - time * row3char.spd) % (1728 + 200) - 100;
+        row3char.transform.posY = row3char.iPosY;
         if (row3char.transform.posX < -100) row3char.transform.posX = 1728 + 200 + row3char.transform.posX;
         row3char.SetAnimationIndex(Math.floor(row3char.transform.posX/40%4));
         row3char.UpdatePosition();
@@ -410,7 +423,8 @@ function LoopGame4(_evt) {
     // row2
     for (let i = 0; i < game_enemy[2].length; i++) {
         let row2char = game_enemy[2][i];
-        row2char.transform.posX = (321.33 * i + time * 120) % (1728 + 200) - 100;
+        row2char.transform.posX = (row2char.iPosX + time * row2char.spd) % (1728 + 200) - 100;
+        row2char.transform.posY = row2char.iPosY;
         row2char.renderer.skewX = sinTime * 8;
         row2char.renderer.skewY = cosTime * 2;
         row2char.UpdatePosition();
@@ -419,7 +433,8 @@ function LoopGame4(_evt) {
     // row1
     for (let i = 0; i < game_enemy[1].length; i++) {
         let row1char = game_enemy[1][i];
-        row1char.transform.posX = (321.33 * i - time * 60) % (1728 + 200) - 100;
+        row1char.transform.posX = (row1char.iPosX - time * row1char.spd) % (1728 + 200) - 100;
+        row1char.transform.posY = row1char.iPosY;
         if (row1char.transform.posX < -100) row1char.transform.posX = 1728 + 200 + row1char.transform.posX;
         row1char.SetAnimationIndex(Math.floor(row1char.transform.posX/10%8));
         row1char.UpdatePosition();
@@ -428,7 +443,8 @@ function LoopGame4(_evt) {
     // row0
     for (let i = 0; i < game_enemy[0].length; i++) {
         let row0char = game_enemy[0][i];
-        row0char.transform.posX = (350 * i + time * 60) % (1728 + 200) - 100;
+        row0char.transform.posX = (row0char.iPosX + time * row0char.spd) % (1728 + 200) - 100;
+        row0char.transform.posY = row0char.iPosY;
         row0char.SetAnimationIndex(Math.floor(row0char.transform.posX/10%8));
         row0char.UpdatePosition();
     }
