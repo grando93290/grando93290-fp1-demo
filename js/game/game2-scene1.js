@@ -234,11 +234,14 @@ function StartGameScene1() {
 
     gameStage.update();
 
+    gameIsFirstFrame = true;
+    gameIsShowPopup = false;
+    gameIsFadePopup = false;
     gameTimeBuffer1 = true;
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", LoopGameScene1);
 
-    PlayAudio(gameAssetLibrary.data["game2-scene1-audio"].audio);
+    // PlayAudio(gameAssetLibrary.data["game2-scene1-audio"].audio);
 }
 
 function LoopGameScene1(_evt) {
@@ -249,15 +252,31 @@ function LoopGameScene1(_evt) {
     }
     let time = runTime - gameTimeBuffer2;
 
+    if (!gameIsShowPopup && !gameIsFirstFrame) {
+        if (!gameIsFadePopup) {
+            gamePopupUI.SetEnabled(true);
+        }
+        if (time > 2.7 && !gameIsFadePopup) {
+            gamePopupUI.FadeOut();
+            gameIsFadePopup = true;
+        }
+        if (time > 3) {
+            gameTimeBuffer1 = true;
+            PlayAudio(gameAssetLibrary.data["game2-scene1-audio"].audio);
+            gameIsShowPopup = true;
+        }
+        return;
+    }
+
     s1_grass.renderer.skewX = Math.sin(time * 0.5) * 3;
     s1_flower1.renderer.skewX = Math.sin(time * 0.6 + 1) * 9;
     s1_flower2.renderer.skewX = Math.sin(time * 0.8 + 2) * 10.5;
     s1_flower3.renderer.skewX = Math.sin(time * 0.3 + 3) * 7.5;
     s1_flower4.renderer.skewX = Math.sin(time * 0.5 + 4) * 12;
     s1_flower5.renderer.skewX = Math.sin(time * 0.7 + 5) * 6;
-    s1_cloud1.SetPosition({posX:-50+runTime*10});
-    s1_cloud2.SetPosition({posX:1200+runTime*4});
-    s1_cloud3.SetPosition({posX:250+runTime*22});
+    s1_cloud1.SetPosition({posX:-50+time*10});
+    s1_cloud2.SetPosition({posX:1200+time*4});
+    s1_cloud3.SetPosition({posX:250+time*22});
 
     s1_bird1.PlayAnimation(time);
     s1_bird1.SetAnimationIndex(Math.floor((Math.abs(s1_bird1.transform.posY) * 0.1) % 2));
@@ -295,6 +314,8 @@ function LoopGameScene1(_evt) {
     if (time > 15) {
         StopGameScene1();
     }
+
+    gameIsFirstFrame = false;
 }
 
 function StopGameScene1() {

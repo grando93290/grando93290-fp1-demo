@@ -51,10 +51,10 @@ function StartGameScene3() {
         "s3_bg": {transform:{posX:0, posY:0, sizeX:1920, sizeY:1080},bitmap:gameAssetLibrary.data["game2-scene3-bg"]},
         "s3_grass": {transform:{posX:0, posY:1080, sizeX:1920, sizeY:448, anchorX:0, anchorY:1},bitmap:gameAssetLibrary.data["game2-scene3-grass"]},
         "s3_flower1": {transform:{posX:142, posY:728+110, sizeX:480, sizeY:110, anchorX: 0, anchorY: 1},bitmap:gameAssetLibrary.data["game2-scene1-flower1"]},
-        "s3_duck4": {transform:{posX:1000, posY:830, sizeX:288, sizeY:143, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck2"]},
-        "s3_duck3": {transform:{posX:600, posY:830, sizeX:288, sizeY:147.8, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck1"]},
-        "s3_duck2": {transform:{posX:1000, posY:0, sizeX:288, sizeY:143, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck2"]},
-        "s3_duck1": {transform:{posX:600, posY:0, sizeX:288, sizeY:147.8, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck1"]},
+        "s3_duck4": {transform:{posX:1281, posY:727, sizeX:288, sizeY:143, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck2"]},
+        "s3_duck3": {transform:{posX:1251, posY:747, sizeX:288, sizeY:147.8, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck1"]},
+        "s3_duck2": {transform:{posX:1013-500, posY:818+60, sizeX:288, sizeY:143, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck2"]},
+        "s3_duck1": {transform:{posX:1053-500, posY:832+65, sizeX:288, sizeY:147.8, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game2-scene3-duck1"]},
     });
     s3_cloud1 = gameObjectLibrary.data["s3_cloud1"];
     s3_cloud2 = gameObjectLibrary.data["s3_cloud2"];
@@ -128,11 +128,14 @@ function StartGameScene3() {
 
     gameStage.update();
 
+    gameIsFirstFrame = true;
+    gameIsShowPopup = false;
+    gameIsFadePopup = false;
     gameTimeBuffer1 = true;
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", LoopGameScene3);
 
-    PlayAudio(gameAssetLibrary.data["game2-scene3-audio"].audio);
+    // PlayAudio(gameAssetLibrary.data["game2-scene3-audio"].audio);
 }
 
 function LoopGameScene3(_evt) {
@@ -142,6 +145,22 @@ function LoopGameScene3(_evt) {
         gameTimeBuffer1 = false;
     }
     let time = runTime - gameTimeBuffer2;
+
+    if (!gameIsShowPopup && !gameIsFirstFrame) {
+        if (!gameIsFadePopup) {
+            gamePopupUI.SetEnabled(true);
+        }
+        if (time > 2.7 && !gameIsFadePopup) {
+            gamePopupUI.FadeOut();
+            gameIsFadePopup = true;
+        }
+        if (time > 3) {
+            gameTimeBuffer1 = true;
+            PlayAudio(gameAssetLibrary.data["game2-scene3-audio"].audio);
+            gameIsShowPopup = true;
+        }
+        return;
+    }
 
     s3_grass.renderer.skewX = Math.sin(time * 0.8) * 7;
     s3_mushroom1.renderer.skewX = Math.sin(time * 0.6 + 1) * 28;
@@ -220,6 +239,8 @@ function LoopGameScene3(_evt) {
     if (time > 15) {
         StopGameScene3();
     }
+
+    gameIsFirstFrame = false;
 }
 
 function StopGameScene3() {

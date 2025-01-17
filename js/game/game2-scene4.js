@@ -63,11 +63,14 @@ function StartGameScene4() {
     s4_car2_audio_hasPlay = false;
     s4_bus_audio_hasPlay = false;
 
+    gameIsFirstFrame = true;
+    gameIsShowPopup = false;
+    gameIsFadePopup = false;
     gameTimeBuffer1 = true;
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", LoopGameScene4);
 
-    PlayAudio(gameAssetLibrary.data["game2-scene4-audio"].audio);
+    // PlayAudio(gameAssetLibrary.data["game2-scene4-audio"].audio);
 }
 
 function LoopGameScene4(_evt) {
@@ -77,6 +80,22 @@ function LoopGameScene4(_evt) {
         gameTimeBuffer1 = false;
     }
     let time = runTime - gameTimeBuffer2;
+
+    if (!gameIsShowPopup && !gameIsFirstFrame) {
+        if (!gameIsFadePopup) {
+            gamePopupUI.SetEnabled(true);
+        }
+        if (time > 2.7 && !gameIsFadePopup) {
+            gamePopupUI.FadeOut();
+            gameIsFadePopup = true;
+        }
+        if (time > 3) {
+            gameTimeBuffer1 = true;
+            PlayAudio(gameAssetLibrary.data["game2-scene4-audio"].audio);
+            gameIsShowPopup = true;
+        }
+        return;
+    }
 
     if (time < 5) {
         let s4_bus_targetPosY = 680;
@@ -106,7 +125,7 @@ function LoopGameScene4(_evt) {
 
     if (time > 6 && time < 15) {
         s4_bicycle.SetPosition({posX:660 + (time - 6) * 100});
-        s4_bicycle.SetAnimationIndex(Math.floor((Math.abs(runTime * 4)) % 2));
+        s4_bicycle.SetAnimationIndex(Math.floor((Math.abs(time * 4)) % 2));
     }
 
     let t = time % 3;
@@ -150,6 +169,8 @@ function LoopGameScene4(_evt) {
     if (time > 15) {
         StopGameScene4();
     }
+
+    gameIsFirstFrame = false;
 }
 
 function StopGameScene4() {

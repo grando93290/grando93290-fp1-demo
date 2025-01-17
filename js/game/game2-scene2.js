@@ -111,11 +111,14 @@ function StartGameScene2() {
 
     gameStage.update();
 
+    gameIsFirstFrame = true;
+    gameIsShowPopup = false;
+    gameIsFadePopup = false;
     gameTimeBuffer1 = true;
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", LoopGameScene2);
 
-    PlayAudio(gameAssetLibrary.data["game2-scene2-audio"].audio);
+    // PlayAudio(gameAssetLibrary.data["game2-scene2-audio"].audio);
 }
 
 function LoopGameScene2(_evt) {
@@ -125,6 +128,22 @@ function LoopGameScene2(_evt) {
         gameTimeBuffer1 = false;
     }
     let time = runTime - gameTimeBuffer2;
+
+    if (!gameIsShowPopup && !gameIsFirstFrame) {
+        if (!gameIsFadePopup) {
+            gamePopupUI.SetEnabled(true);
+        }
+        if (time > 2.7 && !gameIsFadePopup) {
+            gamePopupUI.FadeOut();
+            gameIsFadePopup = true;
+        }
+        if (time > 3) {
+            gameTimeBuffer1 = true;
+            PlayAudio(gameAssetLibrary.data["game2-scene2-audio"].audio);
+            gameIsShowPopup = true;
+        }
+        return;
+    }
 
     s2_tree.renderer.skewX = Math.sin(time * 0.6 + 1) * 2;
     s2_cloud1.SetPosition({posX: 0 - time*12});
@@ -141,7 +160,7 @@ function LoopGameScene2(_evt) {
         s2_crab.transform.flip = true;
     }
     if ((time >= 3 && time <= 7) || (time >= 9)) {
-        s2_crab.SetAnimationIndex(Math.floor((Math.abs(runTime * 25)) % 4));
+        s2_crab.SetAnimationIndex(Math.floor((Math.abs(time * 25)) % 4));
         s2_crab.PlayAnimation(time);
     }
 
@@ -167,6 +186,8 @@ function LoopGameScene2(_evt) {
     if (time > 15) {
         StopGameScene2();
     }
+
+    gameIsFirstFrame = false;
 }
 
 function StopGameScene2() {

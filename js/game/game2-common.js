@@ -7,11 +7,15 @@ var gameTrueAudio;
 var gameLoadingBar, gameLoadingBarNail;
 var gameQuestionBallon, gameScoreBallon, gameBackBallon;
 var gameLoadGame2SceneAction;
+var gamePopupUI;
 
 var gameAssetLibrary;
 var gameObjectLibrary;
 var gameTimeBuffer1, gameTimeBuffer2;
 var gameSceneIndex;
+var gameIsFadePopup;
+var gameIsShowPopup;
+var gameIsFirstFrame;
 
 var gameQuestionLibrary;
 var gameQuestionSelected;
@@ -36,6 +40,7 @@ function InitializeGame2(_data) {
         "ui-correct": {image:"img/gameCommon/correct-min.png"},
         "ui-wrong": {image:"img/gameCommon/wrong-min.png"},
         "ui-bird": {image:"img/game2ui/bird-min.png"},
+        "ui-popup": {image:"img/game2ui/popup-min.png"},
 
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
@@ -100,6 +105,7 @@ function InitializeGame2UI() {
         "ui-main-image-wrong": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/gameCommon/wrong-min.png"}},
         "ui-main-image-bird": {transform:{left:'40.43%', top:'35.55%', width:'18.75%', height:'22.22%'}, image:{imgSrc:"img/game2ui/bird-min.png"}},
 
+        "ui-popup": {transform:{left:'28.44%', top:'28.66%', width:'43.12%', height:'33%'}, image:{imgSrc:"img/game2ui/popup-min.png"}},
         // "ui-bg": {transform:{left:'0', top:'0', width:'100%', height:'100%'}, image:{imgSrc:"img/11.jpg"}},
     });
     gameUILibrary.AddUIResizeEvent();
@@ -111,6 +117,7 @@ function InitializeGame2UI() {
     gameScoreBallon.AddCoveredBallon({imgSrc2:"img/gameCommon/heartBallon2-min.png"});
     gameBackBallon = gameUILibrary.data["ui-back-ballon"];
     gameBackBallon.dom.addEventListener('click', BackToWeb);
+    gamePopupUI = gameUILibrary.data["ui-popup"];
 
     // gameUILibrary.data["ui-bg"].SetEnabled(true);
     // gameUILibrary.data["ui-bg"].dom.style.opacity = '50%';
