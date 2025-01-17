@@ -202,7 +202,7 @@ function InitializeGame4Scene() {
         "game4-snail": {image:"img/game4/game4-snail-min.png"},
 
         "game4-woman1": {image:"img/game4/game4-woman1-min.png"},
-        "game4-woman2": {image:"img/game4/game4-woman2-min.png"},
+        // "game4-woman2": {image:"img/game4/game4-woman2-min.png"},
 
         "game4-grand1": {image:"img/game4/game4-grand1-min.png"},
         "game4-grand2": {image:"img/game4/game4-grand2-min.png"},
@@ -228,22 +228,13 @@ function StartGame4() {
     SetGame4UIState();
     gameBackBallon.SetEnabled(true);
 
-    let womanSpriteSheet = [
-        new createjs.SpriteSheet({ 
-            images: [gameAssetLibrary.data["game4-woman1"].image], 
-            frames: {width:78, height:165},
-            animations: {'a0':0,'a1':1,}
-        }), 
-        new createjs.SpriteSheet({ 
-            images: [gameAssetLibrary.data["game4-woman2"].image], 
-            frames: {width:108, height:147},
-            animations: {'a0':0,'a1':1,}
-        })
-    ];
-    womanSpriteSheet[0].width = 78;
-    womanSpriteSheet[0].height = 165;
-    womanSpriteSheet[1].width = 108;
-    womanSpriteSheet[1].height = 147;
+    let womanSpriteSheet = new createjs.SpriteSheet({
+        images: [gameAssetLibrary.data["game4-woman1"].image], 
+        frames: {width:74, height:170},
+        animations: {'a0':0,'a1':1,'a2':2,'a3':3}
+    });
+    womanSpriteSheet.width = 74;
+    womanSpriteSheet.height = 170;
 
     let catSpriteSheet = new createjs.SpriteSheet({ 
         images: [gameAssetLibrary.data["game4-cat"].image], 
@@ -307,10 +298,16 @@ function StartGame4() {
     game_grand = [];
     let gameGrandIndices = GetRandomNumbers(1, 6, 6);
     for (let i = 0; i < 6; i++) {
-        let grandImage = gameAssetLibrary.data["game4-grand"+gameGrandIndices[i]];
-        let grandWidth = grandImage.width, grandHeight = grandImage.height;
-        let grand = gameObjectLibrary.AddGameObject("grand", {transform:{posX:-200, posY:-200, sizeX:grandWidth * charScale, sizeY:grandHeight * charScale, anchorX: 0, anchorY: 1, flip:false}, bitmap: grandImage});
-        grand.w = grandWidth; grand.h = grandHeight; grand.dx = -10;
+        let grandSpriteSheet = new createjs.SpriteSheet({
+            images: [gameAssetLibrary.data["game4-grand"+gameGrandIndices[i]].image], 
+            frames: {width:101, height:170},
+            animations: {'a0':0,'a1':1,'a2':2,'a3':3}
+        });
+        grandSpriteSheet.width = 101;
+        grandSpriteSheet.height = 170;
+        let grandWidth = grandSpriteSheet.width, grandHeight = grandSpriteSheet.height;
+        let grand = gameObjectLibrary.AddGameObject("grand", {transform:{posX:-200, posY:-200, sizeX:grandWidth * charScale, sizeY:grandHeight * charScale, anchorX: 0, anchorY: 1, flip:false}, sprite:{spriteSheet:grandSpriteSheet, spriteIndices:[0,1,2]}});
+        grand.w = grandWidth; grand.h = grandHeight; grand.dx = -12;
         grand.renderer.alpha = 0;
         game_grand.push(grand);
     }
@@ -318,10 +315,9 @@ function StartGame4() {
     game_char.grand = game_grand[gameGrandIndex];
     game_char.grand.renderer.alpha = 1;
 
-    game_char.womanIndex = Math.random() > 0.5 ? 0 : 1;
-    let womanWidth = womanSpriteSheet[game_char.womanIndex].width * 0.9, womanHeight = womanSpriteSheet[game_char.womanIndex].height * 0.9;
-    game_char.woman = gameObjectLibrary.AddGameObject("woman", {transform:{posX:864+10, posY:895, sizeX:womanWidth * charScale, sizeY:womanHeight * charScale, anchorX: 0, anchorY: 1, flip:true}, sprite:{spriteSheet:womanSpriteSheet[game_char.womanIndex], spriteIndices:[0,1]}});
-    game_char.woman.w = womanWidth; game_char.woman.h = womanHeight; game_char.woman.dx = 10;
+    let womanWidth = womanSpriteSheet.width * 0.9, womanHeight = womanSpriteSheet.height * 0.9;
+    game_char.woman = gameObjectLibrary.AddGameObject("woman", {transform:{posX:864+10, posY:895, sizeX:womanWidth * charScale, sizeY:womanHeight * charScale, anchorX: 0, anchorY: 1, flip:true}, sprite:{spriteSheet:womanSpriteSheet, spriteIndices:[0,1,2,3]}});
+    game_char.woman.w = womanWidth; game_char.woman.h = womanHeight; game_char.woman.dx = 12;
 
     game_char.SetPosition = function(_posX, _posY) {
         game_char.posX = _posX; game_char.posY = _posY;
@@ -329,12 +325,12 @@ function StartGame4() {
         let grand = game_char.grand;
         grand.transform.posX = game_char.posX + grand.dx;
         grand.transform.posY = game_char.posY;
-        grand.transform.sizeX = grand.w * charScale;
-        grand.transform.sizeY = grand.h * charScale;
+        grand.transform.sizeX = grand.w * charScale * 0.9;
+        grand.transform.sizeY = grand.h * charScale * 0.9;
         grand.UpdatePosition();
         let woman = game_char.woman;
         woman.transform.posX = game_char.posX + woman.dx;
-        woman.transform.posY = game_char.posY;
+        woman.transform.posY = game_char.posY + 10;
         woman.transform.sizeX = woman.w * charScale;
         woman.transform.sizeY = woman.h * charScale;
         woman.UpdatePosition();
@@ -465,10 +461,16 @@ function LoopGame4(_evt) {
         let grand = game_grand[gameGrandIndex];
         grand.transform.posX = 864 + grand.dx;
         grand.transform.posY = 895 + grand.h * (1 - grandComingTime);
+        let grandScale = 0.65 + (grand.transform.posY / 900) * 0.35;
+        grand.transform.sizeX = grand.w * grandScale * 0.9;
+        grand.transform.sizeY = grand.h * grandScale * 0.9;
         grand.UpdatePosition();
+        let grandAnimIdx = 1 + Math.floor(Math.abs(grand.transform.posX + grand.transform.posY) * 0.07) % 2;
+        grand.SetAnimationIndex(grandAnimIdx);
         grand.renderer.alpha = 1;
         if (grandComingTime >= 1) {
             gameIsGrandComing = false;
+            grand.SetAnimationIndex(0);
         }
     }
 
@@ -600,6 +602,16 @@ function LoopGame4(_evt) {
                 }
             }
         }
+    }
+
+    if (game_char.target) {
+        let womanAnimIdx = 2 + Math.floor(Math.abs(game_char.woman.transform.posX + game_char.woman.transform.posY) * 0.075) % 2;
+        game_char.woman.SetAnimationIndex(womanAnimIdx);
+        let grandAnimIdx = 1 + Math.floor(Math.abs(game_char.grand.transform.posX + game_char.grand.transform.posY) * 0.07) % 2;
+        game_char.grand.SetAnimationIndex(grandAnimIdx);
+    } else {
+        let womanAnimIdx = 0 + Math.floor(Math.abs(game_char.woman.transform.posX + game_char.woman.transform.posY) * 0.075) % 2;
+        game_char.woman.SetAnimationIndex(womanAnimIdx);
     }
 
     gameStage.update();
