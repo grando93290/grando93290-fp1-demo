@@ -256,9 +256,9 @@ function StartGame3() {
         "wave2_2": {transform:{posX:1300, posY:450, sizeX:750, sizeY:160, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave2"]},
         "wave2_3": {transform:{posX:1300, posY:450, sizeX:750, sizeY:160, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave2"]},
 
-        "swim": {transform:{posX:864, posY:920, sizeX:340, sizeY:421, anchorX:0.5, anchorY:0.5},sprite:{spriteSheet:swimSpriteSheet, spriteIndices:[0,1,2]}},
+        "swim": {transform:{posX:864, posY:840, sizeX:340, sizeY:421, anchorX:0.5, anchorY:0.5},sprite:{spriteSheet:swimSpriteSheet, spriteIndices:[0,1,2]}},
         "swim_blur": {transform:{posX:864, posY:850, sizeX:360, sizeY:441, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-swim-blur"]},
-        "swim_wave": {transform:{posX:864, posY:870, sizeX:440, sizeY:160, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-swim-wave"]},
+        "swim_wave": {transform:{posX:864, posY:850, sizeX:440, sizeY:200, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-swim-wave"]},
 
         "rubbish1": {transform:{posX:-300, posY:450, sizeX:300, sizeY:139, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-rubbish1"]},
         "rubbish2": {transform:{posX:-500, posY:550, sizeX:60, sizeY:75, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-rubbish2"]},
@@ -406,7 +406,7 @@ function LoopGame3(_evt) {
         let diveTime = gameDivingTimeBuffer / gameDivingInterval;
         let diveScale = Math.sin(diveTime*Math.PI);
         let diveBlurValue = diveScale * 0.5;
-        let divePosY = 920 - diveScale * diveScale * 100;
+        let divePosY = 840 - diveScale * diveScale * 75;
         let diveAlpha = 1 - diveScale;
         diveScale = (2.5 - diveScale * diveScale) / 2.5;
         game_swim.transform.posY = divePosY;
