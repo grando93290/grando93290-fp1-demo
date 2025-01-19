@@ -342,30 +342,30 @@ function StartGame4() {
     game_enemy = [[],[],[],[]];
     let randomSet = GetRandomNumbers(0, 3, 4);
     for (let i = 0; i < 4; i++) { // row3: 4 cat
-        game_enemy[3].push(gameObjectLibrary.AddGameObject("enemy_row3_cat"+i, {transform:{posX:0, posY:gameGridY[2], sizeX:142*0.9, sizeY:140*0.9, anchorX: 0.5, anchorY: 0.95, flip:false}, sprite:{spriteSheet:catSpriteSheet, spriteIndices:[0,1,2,3,4,5]}}));
+        game_enemy[3].push(gameObjectLibrary.AddGameObject("enemy_row3_cat"+i, {transform:{posX:0, posY:gameGridY[2], sizeX:142*0.8, sizeY:140*0.8, anchorX: 0.5, anchorY: 0.95, flip:false}, sprite:{spriteSheet:catSpriteSheet, spriteIndices:[0,1,2,3,4,5]}}));
         game_enemy[3][i].iPosX = randomSet[i] * 400 + (Math.random()-0.5) * 50;
-        game_enemy[3][i].iPosY = gameGridY[2] - 20 + 13.33 * i;
+        game_enemy[3][i].iPosY = gameGridY[2] - 10 + 6.667 * i;
         game_enemy[3][i].spd = 150 + (Math.random()-0.5) * 20;
     }
     randomSet = GetRandomNumbers(0, 4, 5);
     for (let i = 0; i < 5; i++) { // row2: 5 nail
         game_enemy[2].push(gameObjectLibrary.AddGameObject("enemy_row2_snail"+i, {transform:{posX:0, posY:gameGridY[4], sizeX:67, sizeY:54, anchorX: 0.5, anchorY: 1, flip:false}, bitmap:gameAssetLibrary.data["game4-snail"]}));
         game_enemy[2][i].iPosX = randomSet[i] * 321.33 + (Math.random()-0.5) * 50;
-        game_enemy[2][i].iPosY = gameGridY[4] - 20 + 10 * i;
+        game_enemy[2][i].iPosY = gameGridY[4] - 12 + 6 * i;
         game_enemy[2][i].spd = 100 + (Math.random()-0.5) * 10;
     }
     randomSet = GetRandomNumbers(0, 4, 5);
     for (let i = 0; i < 5; i++) { // row1: 5 tortoise
         game_enemy[1].push(gameObjectLibrary.AddGameObject("enemy_row1_tortoise"+i, {transform:{posX:0, posY:gameGridY[10], sizeX:128*0.9, sizeY:87*0.9, anchorX: 0.5, anchorY: 1, flip:false}, sprite:{spriteSheet:tortoiseSpriteSheet, spriteIndices:[0,1,2,3,4,5,6,7]}}));
         game_enemy[1][i].iPosX = randomSet[i] * 321.33 + (Math.random()-0.5) * 50;
-        game_enemy[1][i].iPosY = gameGridY[10] - 20 + 10 * i;
+        game_enemy[1][i].iPosY = gameGridY[10] - 15 + 7.5 * i;
         game_enemy[1][i].spd = 50 + (Math.random()-0.5) * 10;
     }
     randomSet = GetRandomNumbers(0, 2, 3);
     for (let i = 0; i < 3; i++) { // row0: 3 tortoise
         game_enemy[0].push(gameObjectLibrary.AddGameObject("enemy_row0_tortoise"+i, {transform:{posX:0, posY:gameGridY[12], sizeX:128, sizeY:87, anchorX: 0.5, anchorY: 1, flip:true}, sprite:{spriteSheet:tortoiseSpriteSheet, spriteIndices:[0,1,2,3,4,5,6,7]}}));
         game_enemy[0][i].iPosX = randomSet[i] * 350 + (Math.random()-0.5) * 50;
-        game_enemy[0][i].iPosY = gameGridY[12] - 20 + 20 * i;
+        game_enemy[0][i].iPosY = gameGridY[12] - 19 + 19 * i;
         game_enemy[0][i].spd = 50 + (Math.random()-0.5) * 10;
     }
 
