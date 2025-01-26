@@ -32,7 +32,7 @@ var gameBtnPressed = false, gameBtnLongPressed = false, gameBtnPressedTime = 0, 
 var gameIsDiving = false, gameIsDivingCD = false, gameDivingTimeBuffer = 0;
 
 const gameRubbishFlowInterval = 2.5, gamePenaltyTimeInterval = 1.5;
-var gameRubbishFlowedCount, gameIsRubbishFlow = false, gameRubbishTimeBuffer, gameRubbishDirection, gameRubbishIsCheckCollide;
+var gameRubbishFlowedCount, gameIsRubbishFlow = false, gameRubbishTimeBuffer, gameRubbishDirection, gameRubbishAttack, gameRubbishFlowAngle, gameRubbishIsCheckCollide;
 var gameIsPenaltyTime = false, gamePenaltyTimeBuffer = 0;
 
 function InitializeGame3(_data) {
@@ -249,12 +249,12 @@ function StartGame3() {
         "bird1": {transform:{posX:-100, posY:143, sizeX:72, sizeY:30, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-bird"]},
         "bird2": {transform:{posX:-100, posY:143, sizeX:72, sizeY:30, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-bird"]},
 
-        "wave1_1": {transform:{posX:500, posY:400, sizeX:754, sizeY:118, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave1"]},
-        "wave1_2": {transform:{posX:500, posY:400, sizeX:754, sizeY:118, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave1"]},
-        "wave1_3": {transform:{posX:500, posY:400, sizeX:754, sizeY:118, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave1"]},
-        "wave2_1": {transform:{posX:1300, posY:450, sizeX:750, sizeY:160, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave2"]},
-        "wave2_2": {transform:{posX:1300, posY:450, sizeX:750, sizeY:160, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave2"]},
-        "wave2_3": {transform:{posX:1300, posY:450, sizeX:750, sizeY:160, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave2"]},
+        "wave1_1": {transform:{posX:500, posY:400, sizeX:1000, sizeY:235, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave1"]},
+        "wave1_2": {transform:{posX:500, posY:400, sizeX:1000, sizeY:235, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave1"]},
+        "wave1_3": {transform:{posX:500, posY:400, sizeX:1000, sizeY:235, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave1"]},
+        "wave2_1": {transform:{posX:1300, posY:450, sizeX:1000, sizeY:317, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave2"]},
+        "wave2_2": {transform:{posX:1300, posY:450, sizeX:1000, sizeY:317, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave2"]},
+        "wave2_3": {transform:{posX:1300, posY:450, sizeX:1000, sizeY:317, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-wave2"]},
 
         "swim": {transform:{posX:864, posY:840, sizeX:340, sizeY:421, anchorX:0.5, anchorY:0.5},sprite:{spriteSheet:swimSpriteSheet, spriteIndices:[0,1,2]}},
         "swim_blur": {transform:{posX:864, posY:850, sizeX:360, sizeY:441, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-swim-blur"]},
@@ -329,13 +329,14 @@ function LoopGame3(_evt) {
     // rubbish
     if (gameIsRubbishFlow) {
         let rubbishObj = game_rubbish[gameRubbishFlowedCount%5];
-        let rubbishTime = (time - gameRubbishTimeBuffer) / gameRubbishFlowInterval;
+        let realGameRubbishFlowInterval = (!gameRubbishAttack && gameRubbishFlowAngle>0) ? gameRubbishFlowInterval * 2 : gameRubbishFlowInterval;
+        let rubbishTime = (time - gameRubbishTimeBuffer) / realGameRubbishFlowInterval;
         if (rubbishTime > 1) {
             gameIsRubbishFlow = false;
             rubbishObj.transform.posX = -1000;
             rubbishObj.transform.posY = -1000;
             rubbishObj.UpdatePosition();
-        } else {
+        } else if (gameRubbishAttack) {
             rubbishObj.transform.posY = 450 + 600 * rubbishTime;
             if (gameRubbishDirection) {
                 rubbishObj.transform.posX = -200 + 1150 * (1 - (1-rubbishTime) * (1-rubbishTime));
@@ -356,12 +357,31 @@ function LoopGame3(_evt) {
                     gamePenaltyTimeBuffer = time;
                 }
             }
+        } else {
+            if (gameRubbishFlowAngle > 0) {
+                rubbishObj.transform.posY = 450 + 600 * rubbishTime * 0.4;
+                if (gameRubbishDirection) {
+                    rubbishObj.transform.posX = -200 + 2200 * (1 - (1-rubbishTime) * (1-rubbishTime));
+                } else {
+                    rubbishObj.transform.posX = 1928 - 2200 * (1 - (1-rubbishTime) * (1-rubbishTime));
+                }
+            } else {
+                rubbishObj.transform.posY = 450 + 600 * rubbishTime * 2.5;
+                if (gameRubbishDirection) {
+                    rubbishObj.transform.posX = -200 + 1150 * (1 - (1-rubbishTime) * (1-rubbishTime));
+                } else {
+                    rubbishObj.transform.posX = 1928 - 1150 * (1 - (1-rubbishTime) * (1-rubbishTime));
+                }
+            }
+            rubbishObj.UpdatePosition();
         }
     } else if (gameDistance < gameInitialDistance - 1 - gameRubbishFlowedCount && gameDistance > 0) {
         gameRubbishFlowedCount++;
         gameIsRubbishFlow = true;
         gameRubbishTimeBuffer = time;
         gameRubbishDirection = Math.random() > 0.5;
+        gameRubbishAttack = Math.random() > 0.5;
+        gameRubbishFlowAngle = (Math.random() - 0.5) * 2;
         gameRubbishIsCheckCollide = false;
     }
 
@@ -511,17 +531,17 @@ function LoopGame3(_evt) {
         if (distance > 0.5) {
             wave.renderer.alpha = 0;
             continue;
-        } else if (distance < -0.04) {
-            wave.wavePos -= 0.5 - Math.random() * 0.01;
+        } else if (distance < -0.1) {
+            wave.wavePos -= 0.56 - Math.random() * 0.01;
             wave.waveSpd = Math.random() - 0.5;
-            wave.waveSpd = wave.waveSpd > 0 ? (50 + 100 * wave.waveSpd) : (-50 + 100 * wave.waveSpd);
+            wave.waveSpd = wave.waveSpd > 0 ? (25 + 50 * wave.waveSpd) : (-25 + 50 * wave.waveSpd);
             wave.transform.posX = 648 + Math.random() * 432;
         }
         if (wave.wavePos < 0.4) {
             wave.renderer.alpha = 0;
             continue;
         }
-        wave.renderer.skewX = sinTime * 15;
+        wave.renderer.skewX = sinTime * 5;
         wave.renderer.skewY = cosTime;
         let posY = 1 - distance * 2;
         posY = 1 - posY * posY;
