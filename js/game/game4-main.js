@@ -14,6 +14,8 @@ var gameAssetLibrary;
 var gameObjectLibrary;
 var gameTimeBuffer1, gameTimeBuffer2, gameTimeBuffer3;
 
+var gameWalkAudio;
+
 function InitializeGame4(_data) {
     gameSharedAssetLibrary = new AssetLibrary({
         "ui-back-ballon": {image:"img/gameCommon/backBallon-min.png"},
@@ -26,6 +28,7 @@ function InitializeGame4(_data) {
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
         "game-true-audio": {audio:"audio/game/true.wav"},
+
     }, null, InitializeGame4Scene);
     gamePopupAudio = gameSharedAssetLibrary.data["game-popup-audio"].audio;
     gamePressAudio = gameSharedAssetLibrary.data["game-press-audio"].audio;
@@ -210,7 +213,12 @@ function InitializeGame4Scene() {
         "game4-grand4": {image:"img/game4/game4-grand4-min.png"},
         "game4-grand5": {image:"img/game4/game4-grand5-min.png"},
         "game4-grand6": {image:"img/game4/game4-grand6-min.png"},
+
+        "game4-bg-audio": {audio:"audio/game/game4bg.mp3"},
+        "game4-walk-audio": {audio:"audio/game/game4walk.mp3"},
+
     }, UpdateGame4LoadingBar, StartGame4);
+    gameWalkAudio = gameAssetLibrary.data["game4-walk-audio"].audio;
 }
 
 var game_wave, game_bridge, game_vegetation;
@@ -286,7 +294,6 @@ function StartGame4() {
         gameGrid[i][bridgeNumber*2] = 1;
     }
 
-
     // CHARACTER
 
     game_char = {};
@@ -352,7 +359,7 @@ function StartGame4() {
         game_enemy[2].push(gameObjectLibrary.AddGameObject("enemy_row2_snail"+i, {transform:{posX:0, posY:gameGridY[4], sizeX:67, sizeY:54, anchorX: 0.5, anchorY: 1, flip:false}, bitmap:gameAssetLibrary.data["game4-snail"]}));
         game_enemy[2][i].iPosX = randomSet[i] * 321.33 + (Math.random()-0.5) * 50;
         game_enemy[2][i].iPosY = gameGridY[4] - 12 + 6 * i;
-        game_enemy[2][i].spd = 100 + (Math.random()-0.5) * 10;
+        game_enemy[2][i].spd = 60 + (Math.random()-0.5) * 10;
     }
     randomSet = GetRandomNumbers(0, 4, 5);
     for (let i = 0; i < 5; i++) { // row1: 5 tortoise
@@ -385,6 +392,9 @@ function StartGame4() {
     gameTimeBuffer1 = true;
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", LoopGame4);
+
+    gameAssetLibrary.data["game4-bg-audio"].audio.loop = true;
+    PlayAudio(gameAssetLibrary.data["game4-bg-audio"].audio);
 }
 
 function LoopGame4(_evt) {
@@ -590,6 +600,7 @@ function LoopGame4(_evt) {
         if (gameMoveBuffer) {
             gameMoveTimeBuffer = time;
             gameMoveBuffer = false;
+            PlayAudio(gameWalkAudio);
         }
         let gridX = game_char.gridX, gridY = game_char.gridY;
         if (game_move == 0) gridY-=1;

@@ -24,6 +24,8 @@ var gameCardImageLibrary, gameCardLibrary, gameCardStatusList;
 var gameLevel, gamePlayer, gameScore, gameCardFlipped;
 var isPlayFlipAnimation, isShowPopup, isShowEndScenePanel, isGame5WaitInterval;
 
+var gameFlipAudio;
+
 function UpdateGame5UI() {
     gameQuestionBallon.SetEnabled(true);
     gamePlayerABallon.SetEnabled(true); gamePlayerABallon_icon.SetEnabled(true); gamePlayerABallon_text.SetEnabled(true); gamePlayerABallon_score.SetEnabled(true);
@@ -110,6 +112,7 @@ function InitializeGame5(_data) {
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
         "game-true-audio": {audio:"audio/game/true.wav"},
+
     }, null, gameLoadSceneAction);
     gamePopupAudio = gameSharedAssetLibrary.data["game-popup-audio"].audio;
     gamePressAudio = gameSharedAssetLibrary.data["game-press-audio"].audio;
@@ -363,7 +366,12 @@ function InitializeGame5Scene() {
         "game5-card-n1": {image:"img/game5/card_n1-min.png"},
         "game5-card-o1": {image:"img/game5/card_o1-min.png"},
         "game5-card-p1": {image:"img/game5/card_p1-min.png"},
+
+        "game5-bg-audio": {audio:"audio/game/game5bg.mp3"},
+        "game5-flip-audio": {audio:"audio/game/game5flip.mp3"},
+
     }, UpdateGame5LoadingBar, StartGame5);
+    gameFlipAudio = gameAssetLibrary.data["game5-flip-audio"].audio;
 
     gameCardStatusList = [];
     gameTimeBuffer1 = true;
@@ -378,6 +386,9 @@ function StartGame5() {
     gameLevel = 0;
     GameLevel();
     gameBackBallon.SetEnabled(true);
+
+    gameAssetLibrary.data["game5-bg-audio"].audio.loop = true;
+    PlayAudio(gameAssetLibrary.data["game5-bg-audio"].audio);
 }
 
 function GameLevel() {
@@ -502,6 +513,7 @@ function FlipCard(_cardIndex) {
     gameCardStatus.flipCardAnimation = (_evt) => FlipCardAnimation(_evt,_cardIndex);
     createjs.Ticker.addEventListener("tick", gameCardStatus.flipCardAnimation);
     isPlayFlipAnimation = true;
+    PlayAudio(gameFlipAudio);
 }
 
 function FlipCardAnimation(_evt, _cardIndex) {
@@ -538,6 +550,7 @@ function FlipCardAnimation(_evt, _cardIndex) {
             let gameCardStatus0 = gameCardStatusList[cardIndex0];
             if (gameCardStatus.id == gameCardStatus0.id) {
                 gameScore[gamePlayer]++;
+                PlayAudio(gameTrueAudio);
                 if (gameCardStatusList.length == gameCardFlipped.length) {
                     isShowEndScenePanel = true;
                 }
@@ -561,6 +574,7 @@ function FlipBackCard(_cardIndex0, _cardIndex1) {
     gameCardStatus.flipCardAnimation = (_evt) => FlipBackCardAnimation(_evt,_cardIndex0, _cardIndex1);
     createjs.Ticker.addEventListener("tick", gameCardStatus.flipCardAnimation);
     isPlayFlipAnimation = true;
+    PlayAudio(gameFlipAudio);
 }
 
 function FlipBackCardAnimation(_evt, _cardIndex0, _cardIndex1) {

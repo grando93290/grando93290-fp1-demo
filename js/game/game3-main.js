@@ -31,7 +31,7 @@ var gameDistance, gameSpeed, gameTargetSpeed;
 var gameBtnPressed = false, gameBtnLongPressed = false, gameBtnPressedTime = 0, gameBtnPressedCount = 0, gameBtnPressedTimeBuffer = 0;
 var gameIsDiving = false, gameIsDivingCD = false, gameDivingTimeBuffer = 0;
 
-const gameRubbishFlowInterval = 2.5, gamePenaltyTimeInterval = 1.5;
+const gameRubbishFlowInterval = 2.5, gamePenaltyTimeInterval = 2.5;
 var gameRubbishFlowedCount, gameIsRubbishFlow = false, gameRubbishTimeBuffer, gameRubbishDirection, gameRubbishAttack, gameRubbishFlowAngle, gameRubbishIsCheckCollide;
 var gameIsPenaltyTime = false, gamePenaltyTimeBuffer = 0;
 
@@ -48,6 +48,7 @@ function InitializeGame3(_data) {
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
         "game-true-audio": {audio:"audio/game/true.wav"},
+
     }, null, InitializeGame3Scene);
     gamePopupAudio = gameSharedAssetLibrary.data["game-popup-audio"].audio;
     gamePressAudio = gameSharedAssetLibrary.data["game-press-audio"].audio;
@@ -211,7 +212,17 @@ function InitializeGame3Scene() {
         "game3-rubbish3": {image:"img/game3/game3-rubbish3-min.png"},
         "game3-rubbish4": {image:"img/game3/game3-rubbish4-min.png"},
         "game3-rubbish5": {image:"img/game3/game3-rubbish5-min.png"},
+
+        "game3-bg-audio": {audio:"audio/game/game3bg.mp3"},
+        "game3-crash-audio": {audio:"audio/game/game3crash.mp3"},
+        "game3-dive-audio": {audio:"audio/game/game3dive.mp3"},
+        "game3-swim-audio": {audio:"audio/game/game3swim.mp3"},
+        "game3-win-audio": {audio:"audio/game/game3win.mp3"},
     }, UpdateGame3LoadingBar, StartGame3);
+    gameCrashAudio = gameAssetLibrary.data["game3-crash-audio"].audio;
+    gameDiveAudio = gameAssetLibrary.data["game3-dive-audio"].audio;
+    gameSwimAudio = gameAssetLibrary.data["game3-swim-audio"].audio;
+    gameWinAudio = gameAssetLibrary.data["game3-win-audio"].audio;
 }
 
 function StartGame3() {
@@ -313,6 +324,9 @@ function StartGame3() {
     gameTimeBuffer1 = true;
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", LoopGame3);
+
+    gameAssetLibrary.data["game3-bg-audio"].audio.loop = true;
+    PlayAudio(gameAssetLibrary.data["game3-bg-audio"].audio);
 }
 
 function LoopGame3(_evt) {
@@ -355,6 +369,7 @@ function LoopGame3(_evt) {
                     gameTargetSpeed = 0;
                     gameIsPenaltyTime = true;
                     gamePenaltyTimeBuffer = time;
+                    PlayAudio(gameCrashAudio);
                 }
             }
         } else {
@@ -404,7 +419,10 @@ function LoopGame3(_evt) {
             if (!gameIsDiving && !gameIsDivingCD && !gameIsPenaltyTime) {
                 gameIsDiving = true;
                 gameDivingTimeBuffer = 0;
+                PlayAudio(gameDiveAudio);
             }
+        } else {
+            PlayAudio(gameSwimAudio);
         }
     }
     gameBtnPressedTimeBuffer += deltaTime;
@@ -561,6 +579,7 @@ function LoopGame3(_evt) {
     gameStage.update();
 
     if (gameDistance < 0) {
+        PlayAudio(gameWinAudio);
         gameUIState = 2;
         SetGame3UIState();
         createjs.Ticker.removeEventListener("tick", LoopGame3);
