@@ -14,7 +14,7 @@ var gameAssetLibrary;
 var gameObjectLibrary;
 var gameTimeBuffer1, gameTimeBuffer2, gameTimeBuffer3;
 
-var gameWalkAudio;
+var gameWalkAudio, gameWalkAudioBuffer;
 
 function InitializeGame4(_data) {
     gameSharedAssetLibrary = new AssetLibrary({
@@ -233,6 +233,7 @@ function StartGame4() {
     game_move = -1;
     gameIsGrandComing = false;
     gameMoveBuffer = false;
+    gameWalkAudioBuffer = false;
     SetGame4UIState();
     gameBackBallon.SetEnabled(true);
 
@@ -600,7 +601,7 @@ function LoopGame4(_evt) {
         if (gameMoveBuffer) {
             gameMoveTimeBuffer = time;
             gameMoveBuffer = false;
-            PlayAudio(gameWalkAudio);
+            gameWalkAudioBuffer = true;
         }
         let gridX = game_char.gridX, gridY = game_char.gridY;
         if (game_move == 0) gridY-=1;
@@ -612,6 +613,10 @@ function LoopGame4(_evt) {
         } else if (!gameGrid[gridY][gridX]) {
             game_move = -1;
         } else {
+            if (gameWalkAudioBuffer) {
+                PlayAudio(gameWalkAudio);
+                gameWalkAudioBuffer = false;
+            }
             let moveTime = (time - gameMoveTimeBuffer) * 1;
             let oldPosX = gameGridX[game_char.gridX], oldPosY = gameGridY[game_char.gridY];
             let newPosX = gameGridX[gridX], newPosY = gameGridY[gridY];

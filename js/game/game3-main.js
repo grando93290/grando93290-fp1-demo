@@ -35,6 +35,9 @@ const gameRubbishFlowInterval = 2.5, gamePenaltyTimeInterval = 2.5;
 var gameRubbishFlowedCount, gameIsRubbishFlow = false, gameRubbishTimeBuffer, gameRubbishDirection, gameRubbishAttack, gameRubbishFlowAngle, gameRubbishIsCheckCollide;
 var gameIsPenaltyTime = false, gamePenaltyTimeBuffer = 0;
 
+var gameCrashAudio, gameDiveAudio, gameSwimAudio, gameWinAudio;
+var gameSwimAudioBuffer1, gameSwimAudioBuffer2;
+
 function InitializeGame3(_data) {
     isGameQuestionDebugging = 'forceScene' in _data;
     gameSharedAssetLibrary = new AssetLibrary({
@@ -235,6 +238,8 @@ function StartGame3() {
     gameIsRubbishFlow = false;
     gameRubbishFlowedCount = 0;
     gameBtnPressedCount = 0
+    gameSwimAudioBuffer1 = false;
+    gameSwimAudioBuffer2 = 0;
     HideGame3LoadingUI();
     SetGame3UIState();
     gameBackBallon.SetEnabled(true);
@@ -422,7 +427,11 @@ function LoopGame3(_evt) {
                 PlayAudio(gameDiveAudio);
             }
         } else {
-            PlayAudio(gameSwimAudio);
+            if (!gameSwimAudioBuffer1 || time > gameSwimAudioBuffer2 + 1.75) {
+                gameSwimAudioBuffer1 = true;
+                gameSwimAudioBuffer2 = time;
+                PlayAudio(gameSwimAudio);
+            }
         }
     }
     gameBtnPressedTimeBuffer += deltaTime;
