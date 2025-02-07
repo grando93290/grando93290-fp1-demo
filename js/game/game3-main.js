@@ -35,6 +35,9 @@ const gameRubbishFlowInterval = 2.5, gamePenaltyTimeInterval = 2.5;
 var gameRubbishFlowedCount, gameIsRubbishFlow = false, gameRubbishTimeBuffer, gameRubbishDirection, gameRubbishAttack, gameRubbishFlowAngle, gameRubbishIsCheckCollide;
 var gameIsPenaltyTime = false, gamePenaltyTimeBuffer = 0;
 
+var game_heart;
+var gameIsHeartAnim = false, gameHeartAnimBuffer = 0;
+
 var gameCrashAudio, gameDiveAudio, gameSwimAudio, gameWinAudio;
 var gameSwimAudioBuffer1, gameSwimAudioBuffer2;
 
@@ -90,7 +93,6 @@ function InitializeGame3UI() {
         "ui-main-image": {transform:{left:'37.7%', top:'40%', width:'27.25%', height:'12.44%'}, image:{imgSrc:"img/game3ui/swim-min.png"}},
         "ui-main-button1": {transform:{left:'33.1%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickGame3UIButton(1);}}},
         "ui-main-button2": {transform:{left:'50.9%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickGame3UIButton(2);}}},
-        "ui-main-button3": {transform:{left:'42%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickGame3UIButton(1);}}},
 
         // "ui-test": {transform:{left:'0', top:'0', width:'100%', height:'100%'}, image:{imgSrc:"img/game3ui/2.jpg"}},
     });
@@ -118,7 +120,6 @@ function InitializeGame3UI() {
     gameUIMainImage = gameUILibrary.data["ui-main-image"];
     gameUIMainButton1 = gameUILibrary.data["ui-main-button1"];
     gameUIMainButton2 = gameUILibrary.data["ui-main-button2"];
-    gameUIMainButton3 = gameUILibrary.data["ui-main-button3"];
 
     gameMainButton = gameUILibrary.data["ui-button-main"];
     gameMainButton.dom.addEventListener("pointerdown", OnKeyDownGameBtn);
@@ -218,6 +219,8 @@ function InitializeGame3Scene() {
         "game3-rubbish4": {image:"img/game3/game3-rubbish4-min.png"},
         "game3-rubbish5": {image:"img/game3/game3-rubbish5-min.png"},
 
+        "game3-heart": {image:"img/game3/game3-heart-min.png"},
+
         "game3-bg-audio": {audio:"audio/game/game3bg.mp3"},
         "game3-crash-audio": {audio:"audio/game/game3crash.mp3"},
         "game3-dive-audio": {audio:"audio/game/game3dive.mp3"},
@@ -232,7 +235,7 @@ function InitializeGame3Scene() {
 
 function StartGame3() {
     gameUIState = 1;
-    gameScore = 3;
+    gameScore = 0;
     gameTestIndex = 0;
     gameDistance = gameInitialDistance;
     gameSpeed = 0;
@@ -248,6 +251,9 @@ function StartGame3() {
     gameDivingTimeBuffer = 0;
     gameIsPenaltyTime = false;
     gamePenaltyTimeBuffer = 0;
+
+    gameIsHeartAnim = false;
+    gameHeartAnimBuffer = 0;
 
     HideGame3LoadingUI();
     SetGame3UIState();
@@ -294,6 +300,7 @@ function StartGame3() {
         "swim_blur": {transform:{posX:864, posY:850, sizeX:360, sizeY:441, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-swim-blur"]},
         "swim_wave": {transform:{posX:864, posY:850, sizeX:440, sizeY:200, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-swim-wave"]},
 
+        "heart": {transform:{posX:-1000, posY:-1000, sizeX:57, sizeY:46, anchorX:0.5, anchorY:0.5},bitmap:gameAssetLibrary.data["game3-heart"]},
     });
 
     game_swim = gameObjectLibrary.data["swim"];
@@ -333,10 +340,13 @@ function StartGame3() {
         rubbish.enabled = true;
         rubbish.collider = true;
         rubbish.rubbishPosX = 864 + randomValue;
-        rubbish.rubbishPosY = gameInitialDistance - (0.5 * (i + 1.0));
+        rubbish.rubbishPosY = gameInitialDistance - 0.1 - (0.4 * (i + 1.0));
         rubbish.rubbishSpd = Math.max(Math.abs(randomValue * 0.35),35) * Math.sign(-randomValue);
         rubbish.transform.posX = 864;
     }
+
+    game_heart = gameObjectLibrary.data["heart"];
+    game_heart.renderer.alpha = 0;
 
     // const colorFilter = new createjs.ColorFilter(1, 0, 0, 1); // Red channel boosted
     // game_cloud4.renderer.filters = [colorFilter];
@@ -376,6 +386,31 @@ function LoopGame3(_evt) {
         if (penaltyTime > 1) {
             gameIsPenaltyTime = false;
             game_swim.renderer.alpha = 1;
+        }
+    }
+
+    if (gameIsHeartAnim) {
+        let heartTime = (time - gameHeartAnimBuffer) / 2.5;
+        // heart anim effect
+        if (heartTime < 0.75) {
+            let ht = heartTime / 0.75;
+            ht = 3 * ht * ht - 2 * ht * ht * ht;
+            game_heart.renderer.alpha = 1;
+            game_heart.transform.posX = 864;
+            game_heart.transform.posY = 850 - ht * 400;
+        } else {
+            let ht = (heartTime - 0.75) / 0.25;
+            ht = ht * ht;
+            game_heart.transform.posX = 864 + 800 * ht;
+            game_heart.transform.posY = 450 - 420 * ht;
+            game_heart.renderer.alpha = 1 - ht;
+        }
+        game_heart.UpdatePosition();
+        if (heartTime > 1) {
+            gameIsHeartAnim = false;
+            game_heart.renderer.alpha = 0;
+            gameScore++;
+            gameScoreBallon.Update({text: gameScore});
         }
     }
 
@@ -549,7 +584,7 @@ function LoopGame3(_evt) {
     game_swim_wave.renderer.skewY = cosTime * (1 + gameSpeed * 20);
 
     // rubbish
-    for (let i = 0; i < game_wave.length; i++) {
+    for (let i = 0; i < game_rubbish.length; i++) {
         let rubbish = game_rubbish[i];
         let distance = (gameDistance - rubbish.rubbishPosY);
         if (distance > 0.5 || !rubbish.enabled) {
@@ -567,26 +602,19 @@ function LoopGame3(_evt) {
         rubbish.transform.posX = rubbish.rubbishPosX + rubbish.rubbishSpd * (time - rubbish.time);
         rubbish.transform.posY = 900 - posY * 578;
         rubbish.UpdatePosition();
-        if (rubbish.collider && rubbish.transform.posY > 820 && (rubbish.transform.posX > 864 - rubbish.transform.width && rubbish.transform.posX < 864 + rubbish.transform.width)) {
-            if (gameIsDiving) {
-                // Dodge
-                // gameScore++;
-                // gameScoreBallon.Update({text: gameScore});
-                rubbish.collider = false;
-            } else {
+        if (rubbish.collider && gameIsDiving && rubbish.transform.posY > 820 && (rubbish.transform.posX > 864 - rubbish.transform.width * 2 && rubbish.transform.posX < 864 + rubbish.transform.width * 2)) {
+            // Dodge
+            rubbish.collider = false;
+            gameIsHeartAnim = true;
+            gameHeartAnimBuffer = time;
+        } else if (rubbish.collider && rubbish.transform.posY > 820 && (rubbish.transform.posX > 864 - rubbish.transform.width && rubbish.transform.posX < 864 + rubbish.transform.width)) {
+            if (!gameIsDiving) {
                 // Hit
-                gameScore--;
-                gameScoreBallon.Update({text: gameScore});
                 gameTargetSpeed = 0;
                 gameIsPenaltyTime = true;
                 gamePenaltyTimeBuffer = time;
                 rubbish.enabled = false;
                 PlayAudio(gameCrashAudio);
-                if (gameScore == 0) {
-                    gameUIState = 3;
-                    SetGame3UIState();
-                    createjs.Ticker.removeEventListener("tick", LoopGame3);
-                }
             }
         }
     }
@@ -616,7 +644,6 @@ function SetGame3UIState() {
             gameUIMainImage.SetEnabled(false);
             gameUIMainButton1.SetEnabled(false);
             gameUIMainButton2.SetEnabled(false);
-            gameUIMainButton3.SetEnabled(false);
             break;
         case 1:
             gameScoreBallon.SetEnabled(true);
@@ -631,7 +658,6 @@ function SetGame3UIState() {
             gameUIMainImage.SetEnabled(false);
             gameUIMainButton1.SetEnabled(false);
             gameUIMainButton2.SetEnabled(false);
-            gameUIMainButton3.SetEnabled(false);
             break;
         case 2:
             gameScoreBallon.SetEnabled(true);
@@ -646,22 +672,6 @@ function SetGame3UIState() {
             gameUIMainImage.SetEnabled(true);
             gameUIMainButton1.SetEnabled(true);
             gameUIMainButton2.SetEnabled(true);
-            gameUIMainButton3.SetEnabled(false);
-            break;
-        case 3:
-            gameScoreBallon.SetEnabled(true);
-            gameScoreBallon.Update({text:gameScore+""});
-            gameMainButton.SetEnabled(true);
-            gameDistanceBallon.SetEnabled(true);
-            gameDistanceBallon_upperText.SetEnabled(true);
-            gameDistanceBallon_lowerText.SetEnabled(true);
-            gameDistanceBallon_arrow.SetEnabled(true);
-            gameUIMainBox.SetEnabled(true);
-            gameUIMainTitle.SetEnabled(false);
-            gameUIMainImage.SetEnabled(true);
-            gameUIMainButton1.SetEnabled(false);
-            gameUIMainButton2.SetEnabled(false);
-            gameUIMainButton3.SetEnabled(true);
             break;
     }
 }
