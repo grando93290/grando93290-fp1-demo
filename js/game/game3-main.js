@@ -440,7 +440,7 @@ function LoopGame3(_evt) {
             // if (gameTargetSpeed < gameSpeed - gameAcceleration * 1) gameTargetSpeed = gameSpeed - gameAcceleration * 1;
         }
         if (gameIsDiving) {
-            gameTargetSpeed = gameSpeed;
+            gameTargetSpeed = Math.max(gameSpeed, 0.08);
         }
         gameBtnPressedTimeBuffer = 0;
         gameBtnPressedCount = 0;

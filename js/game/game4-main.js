@@ -15,6 +15,7 @@ var gameObjectLibrary;
 var gameTimeBuffer1, gameTimeBuffer2, gameTimeBuffer3;
 
 var gameWalkAudio, gameWalkAudioBuffer;
+var gameCrashAudio, gameWinAudio;
 
 function InitializeGame4(_data) {
     gameSharedAssetLibrary = new AssetLibrary({
@@ -216,9 +217,13 @@ function InitializeGame4Scene() {
 
         "game4-bg-audio": {audio:"audio/game/game4bg.mp3"},
         "game4-walk-audio": {audio:"audio/game/game4walk.mp3"},
+        "game3-crash-audio": {audio:"audio/game/game3crash.mp3"},
+        "game3-win-audio": {audio:"audio/game/game3win.mp3"},
 
     }, UpdateGame4LoadingBar, StartGame4);
     gameWalkAudio = gameAssetLibrary.data["game4-walk-audio"].audio;
+    gameCrashAudio = gameAssetLibrary.data["game3-crash-audio"].audio;
+    gameWinAudio = gameAssetLibrary.data["game3-win-audio"].audio;
 }
 
 var game_wave, game_bridge, game_vegetation;
@@ -483,6 +488,7 @@ function LoopGame4(_evt) {
                 gameUIState = 2;
                 SetGame4UIState();
                 createjs.Ticker.removeEventListener("tick", LoopGame4);
+                PlayAudio(gameWinAudio);
             }
         }
     }
@@ -526,6 +532,7 @@ function LoopGame4(_evt) {
             game_char.hitBackGridX = targetGridX;
             game_char.hitBackGridY = targetGridY;
             game_char.hitCheckBuffer = false;
+            PlayAudio(gameCrashAudio);
         }
         game_move = -1;
         let hitTime = (time - game_char.hitTimeBuffer) / 2;
