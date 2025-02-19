@@ -351,9 +351,9 @@ function StartGame3() {
         rubbish.time = 0;
         rubbish.enabled = true;
         rubbish.collider = true;
-        rubbish.rubbishPosX = 864 + randomValue;
+        rubbish.rubbishPosX = 864 + Math.max(Math.abs(randomValue),100) * Math.sign(randomValue);
         rubbish.rubbishPosY = gameInitialDistance - 0.1 - (0.4 * (i + 1.0));
-        rubbish.rubbishSpd = Math.max(Math.abs(randomValue * 0.35),35) * Math.sign(-randomValue);
+        rubbish.rubbishSpd = Math.max(Math.abs(randomValue * 0.35),25) * Math.sign(-randomValue);
         rubbish.transform.posX = 864;
     }
 
@@ -629,12 +629,14 @@ function LoopGame3(_evt) {
         rubbish.transform.posX = rubbish.rubbishPosX + rubbish.rubbishSpd * (time - rubbish.time);
         rubbish.transform.posY = 900 - posY * 578;
         rubbish.UpdatePosition();
-        if (rubbish.collider && gameIsDiving && rubbish.transform.posY > 820 && (rubbish.transform.posX > 864 - rubbish.transform.width * 2 && rubbish.transform.posX < 864 + rubbish.transform.width * 2)) {
+        if (rubbish.collider && gameIsDiving && rubbish.transform.posY > 800 && (rubbish.transform.posX > 864 - rubbish.transform.width * 0.5 - 160 && rubbish.transform.posX < 864 + rubbish.transform.width * 0.5 + 160)) {
             // Dodge
             rubbish.collider = false;
             gameIsHeartAnim = true;
             gameHeartAnimBuffer = time;
-        } else if (rubbish.collider && rubbish.transform.posY > 820 && (rubbish.transform.posX > 864 - rubbish.transform.width && rubbish.transform.posX < 864 + rubbish.transform.width)) {
+        } else if (
+            (rubbish.collider && rubbish.transform.posY > 800) && 
+            ((rubbish.transform.posX > 864 - rubbish.transform.width * 0.5 - 80) && (rubbish.transform.posX < 864 + rubbish.transform.width * 0.5 + 80))) {
             if (!gameIsDiving) {
                 // Hit
                 gameTargetSpeed = 0;
