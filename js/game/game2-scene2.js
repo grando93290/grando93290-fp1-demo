@@ -132,9 +132,11 @@ function LoopGameScene2(_evt) {
     if (!gameIsShowPopup && !gameIsFirstFrame) {
         if (!gameIsFadePopup) {
             gamePopupUI.SetEnabled(true);
+            gamePopupUITitle.SetEnabled(true);
         }
         if (time > 2.7 && !gameIsFadePopup) {
             gamePopupUI.FadeOut();
+            gamePopupUITitle.FadeOut();
             gameIsFadePopup = true;
         }
         if (time > 3) {
@@ -207,21 +209,21 @@ function InitializeGameScene2Question() {
       "q7": {"question": "沙灘上有多少個帳篷？", "ans1": "1個", "ans2": "2個", "ans3": "3個", "ans4": "沒有", "correct":[4], "isEmotional":false, "layout":4},
       "q8": {"question": "海面上有多少艘帆船？", "ans1": "1艘", "ans2": "2艘", "ans3": "3艘", "ans4": "沒有", "correct":[1], "isEmotional":false, "layout":4},
       "q9": {"question": "沙灘上有人在日光浴嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[2], "isEmotional":false, "layout":2},
-      "q10": {"question": "您在場景中聽到海鷗的聲音嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[1], "isEmotional":false, "layout":2},
-      "q11": {"question": "您在場景中聽到甚麼聲音？", "ans1": "鳥鳴聲", "ans2": "海浪聲", "ans3": "風聲", "ans4": "以上皆有", "correct":[2], "isEmotional":false, "layout":4},
-      "q12": {"question": "您覺得海浪撞擊沙灘的聲音如何？", "ans1": "輕快柔和", "ans2": "平穩厚重", "ans3": "劇烈激昂", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-      "q13": {"question": "看到海灘時，您的感覺是甚麼？", "ans1": "寧靜", "ans2": "興奮", "ans3": "放鬆", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-      "q14": {"question": "聽到海浪聲時，您的心情如何？", "ans1": "平靜", "ans2": "愉悅", "ans3": "感慨", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-      "q15": {"question": "如果置身此場景中，您最想做的事是甚麼？", "ans1": "沿著海邊散步", "ans2": "坐在沙灘欣賞海景", "ans3": "收集貝殼", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-      "q16": {"question": "觀察場景時，您最想觸摸的是甚麼？", "ans1": "細軟的沙子", "ans2": "清涼的海水", "ans3": "溫暖的陽光", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-      "q17": {"question": "這個場景讓您聯想到甚麼？", "ans1": "自由", "ans2": "度假", "ans3": "冒險", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-      "q18": {"question": "觀察場景時，您注意到自己的身體有甚麼變化嗎？", "ans1": "更放鬆", "ans2": "更專注", "ans3": "更緊張", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-      "q19": {"question": "您覺得場景中最能代表「變化」的是甚麼？", "ans1": "起伏的海浪", "ans2": "飄動的雲彩", "ans3": "流動的沙粒", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-      "q20": {"question": "您覺得場景中最能代表「永恆」的是甚麼？", "ans1": "無邊的大海", "ans2": "廣闊的天空", "ans3": "溫柔的清風", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-      "q21": {"question": "觀察場景時，您注意到自己的表情有甚麼變化嗎？", "ans1": "放鬆", "ans2": "愉悅", "ans3": "專注", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-      "q22": {"question": "您最想到訪此場景的時間是甚麼？", "ans1": "日出時分", "ans2": "正午時分", "ans3": "黃昏時分", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-      "q23": {"question": "觀察場景後，您對時間流逝的感覺如何？", "ans1": "時間似乎停止了", "ans2": "時間過得很慢", "ans3": "時間過得很快", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-      "q24": {"question": "這個場景為您帶來甚麼情緒？", "ans1": "平和", "ans2": "愉悅", "ans3": "感恩", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+      "q10": {"question": "你在場景中聽到海鷗的聲音嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[1], "isEmotional":false, "layout":2},
+      "q11": {"question": "你在場景中聽到甚麼聲音？", "ans1": "鳥鳴聲", "ans2": "海浪聲", "ans3": "風聲", "ans4": "以上皆有", "correct":[2], "isEmotional":false, "layout":4},
+      "q12": {"question": "你覺得海浪撞擊沙灘的聲音如何？", "ans1": "輕快柔和", "ans2": "平穩厚重", "ans3": "劇烈激昂", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+      "q13": {"question": "看到海灘時，你的感覺是甚麼？", "ans1": "寧靜", "ans2": "興奮", "ans3": "放鬆", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+      "q14": {"question": "聽到海浪聲時，你的心情如何？", "ans1": "平靜", "ans2": "愉悅", "ans3": "感慨", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+      "q15": {"question": "如果置身此場景中，你最想做的事是甚麼？", "ans1": "沿著海邊散步", "ans2": "坐在沙灘欣賞海景", "ans3": "收集貝殼", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+      "q16": {"question": "觀察場景時，你最想觸摸的是甚麼？", "ans1": "細軟的沙子", "ans2": "清涼的海水", "ans3": "溫暖的陽光", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+      "q17": {"question": "這個場景讓你聯想到甚麼？", "ans1": "自由", "ans2": "度假", "ans3": "冒險", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+      "q18": {"question": "觀察場景時，你注意到自己的身體有甚麼變化嗎？", "ans1": "更放鬆", "ans2": "更專注", "ans3": "更緊張", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+      "q19": {"question": "你覺得場景中最能代表「變化」的是甚麼？", "ans1": "起伏的海浪", "ans2": "飄動的雲彩", "ans3": "流動的沙粒", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+      "q20": {"question": "你覺得場景中最能代表「永恆」的是甚麼？", "ans1": "無邊的大海", "ans2": "廣闊的天空", "ans3": "溫柔的清風", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+      "q21": {"question": "觀察場景時，你注意到自己的表情有甚麼變化嗎？", "ans1": "放鬆", "ans2": "愉悅", "ans3": "專注", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+      "q22": {"question": "你最想到訪此場景的時間是甚麼？", "ans1": "日出時分", "ans2": "正午時分", "ans3": "黃昏時分", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+      "q23": {"question": "觀察場景後，你對時間流逝的感覺如何？", "ans1": "時間似乎停止了", "ans2": "時間過得很慢", "ans3": "時間過得很快", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+      "q24": {"question": "這個場景為你帶來甚麼情緒？", "ans1": "平和", "ans2": "愉悅", "ans3": "感恩", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
     });
     gameQuestionSelected = isGameQuestionDebugging ? GetSequentialInteger(24) : GetRandomNumbers(1, 11, 3).concat(GetRandomNumbers(12, 24, 2));
     gameQuestionIndex = 0;

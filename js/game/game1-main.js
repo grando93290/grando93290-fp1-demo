@@ -405,7 +405,7 @@ function SetGame1UIState() {
         case 10: // 20 sec test
         case 15: // 30 sec test
             gameUIClockTitle.Update({text:"進入自我覺察環節"}); gameUIClockTitle.SetEnabled(true);
-            gameUIClockDesc.Update({text:"畫面的倒數即將消失，請判斷<br/>何時過了"+testTime+"秒"}); gameUIClockDesc.SetEnabled(true);
+            gameUIClockDesc.Update({text:"畫面的計時即將消失，請判斷<br/>何時過了"+testTime+"秒"}); gameUIClockDesc.SetEnabled(true);
             gameUIClockTimer.Update({text:""}); gameUIClockTimer.SetEnabled(true);
             break;
         case 6: // 15 sec test (after half of time)

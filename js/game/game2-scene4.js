@@ -84,9 +84,11 @@ function LoopGameScene4(_evt) {
     if (!gameIsShowPopup && !gameIsFirstFrame) {
         if (!gameIsFadePopup) {
             gamePopupUI.SetEnabled(true);
+            gamePopupUITitle.SetEnabled(true);
         }
         if (time > 2.7 && !gameIsFadePopup) {
             gamePopupUI.FadeOut();
+            gamePopupUITitle.FadeOut();
             gameIsFadePopup = true;
         }
         if (time > 3) {
@@ -185,26 +187,26 @@ function InitializeGameScene4Question() {
         "q2": {"question": "大樓上有廣告招牌嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[1], "isEmotional":false, "layout":2},
         "q3": {"question": "場景中有噴泉嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[2], "isEmotional":false, "layout":2},
         "q4": {"question": "場景中有藝術裝置或雕塑嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[2], "isEmotional":false, "layout":2},
-        "q5": {"question": "您在場景中看到什麼車輛？", "ans1": "巴士", "ans2": "單車", "ans3": "的士", "ans4": "以上皆有", "correct":[1,2,3,4], "isEmotional":false, "layout":4},
+        "q5": {"question": "你在場景中看到什麼車輛？", "ans1": "巴士", "ans2": "單車", "ans3": "的士", "ans4": "以上皆有", "correct":[1,2,3,4], "isEmotional":false, "layout":4},
         "q6": {"question": "有多少輛車經過（包括單車）", "ans1": "2輛", "ans2": "3輛", "ans3": "4輛", "ans4": "沒有", "correct":[3], "isEmotional":false, "layout":4},
         "q7": {"question": "街道上有多少張長椅？", "ans1": "1張", "ans2": "2張", "ans3": "3張", "ans4": "沒有", "correct":[4], "isEmotional":false, "layout":4},
         "q8": {"question": "街道上有多少個垃圾桶？", "ans1": "1個", "ans2": "2個", "ans3": "3個", "ans4": "沒有", "correct":[1], "isEmotional":false, "layout":4},
         "q9": {"question": "道路上有多少根燈柱？", "ans1": "1根", "ans2": "2根", "ans3": "3根", "ans4": "沒有", "correct":[2], "isEmotional":false, "layout":4},
         "q10": {"question": "道路上的交通標誌是什麼形狀？", "ans1": "圓形", "ans2": "三角形", "ans3": "正方形", "ans4": "沒有", "correct":[4], "isEmotional":false, "layout":4},
-        "q11": {"question": "您在場景中聽到甚麼聲音？", "ans1": "車輛聲", "ans2": "風吹聲", "ans3": "鳥鳴聲", "ans4": "以上皆是", "correct":[1], "isEmotional":false, "layout":4},
-        "q12": {"question": "您在場景中聽到警車或救護車的聲音嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[2], "isEmotional":false, "layout":2},
-        "q13": {"question": "聽到城市的聲音時，您的心情如何？", "ans1": "熟悉", "ans2": "充滿活力", "ans3": "緊張", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q11": {"question": "你在場景中聽到甚麼聲音？", "ans1": "車輛聲", "ans2": "風吹聲", "ans3": "鳥鳴聲", "ans4": "以上皆是", "correct":[1], "isEmotional":false, "layout":4},
+        "q12": {"question": "你在場景中聽到警車或救護車的聲音嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[2], "isEmotional":false, "layout":2},
+        "q13": {"question": "聽到城市的聲音時，你的心情如何？", "ans1": "熟悉", "ans2": "充滿活力", "ans3": "緊張", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
         "q14": {"question": "你覺得道路的清潔狀況如何？", "ans1": "乾淨", "ans2": "一般", "ans3": "骯髒", "ans4": "其他", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q15": {"question": "看到繁忙的街道時，您的感覺是甚麼？", "ans1": "興奮", "ans2": "緊張", "ans3": "好奇", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q16": {"question": "看到高樓大廈時，您的感覺是甚麼？", "ans1": "人類的創造力", "ans2": "現代化的進程", "ans3": "城市的發展", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q17": {"question": "如果置身此場景中，您最想做的事是甚麼？", "ans1": "在咖啡店坐下", "ans2": "漫步街頭", "ans3": "觀察人群、車輛", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q18": {"question": "這個場景讓您聯想到甚麼？", "ans1": "繁華", "ans2": "忙碌", "ans3": "現代", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q19": {"question": "您覺得場景中最能代表「變化」的是甚麼？", "ans1": "川流不息的車輛", "ans2": "變換的交通信號", "ans3": "行走往來的行人", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q20": {"question": "您覺得場景中最能代表「秩序」的是甚麼？", "ans1": "整齊的道路", "ans2": "有序的交通", "ans3": "具規劃的建築群", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q21": {"question": "觀察場景時，您注意到自己的身體有甚麼變化嗎？", "ans1": "更放鬆", "ans2": "更專注", "ans3": "更緊張", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q22": {"question": "觀察場景時，您注意到自己的表情有甚麼變化嗎？", "ans1": "放鬆", "ans2": "愉悅", "ans3": "專注", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q23": {"question": "觀察場景後，您對時間流逝的感覺如何？", "ans1": "時間似乎停止了", "ans2": "時間過得很慢", "ans3": "時間過得很快", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q24": {"question": "您認為這個場景最能表達什麼主題？", "ans1": "現代生活", "ans2": "人類文明", "ans3": "社會發展", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q15": {"question": "看到繁忙的街道時，你的感覺是甚麼？", "ans1": "興奮", "ans2": "緊張", "ans3": "好奇", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q16": {"question": "看到高樓大廈時，你的感覺是甚麼？", "ans1": "人類的創造力", "ans2": "現代化的進程", "ans3": "城市的發展", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q17": {"question": "如果置身此場景中，你最想做的事是甚麼？", "ans1": "在咖啡店坐下", "ans2": "漫步街頭", "ans3": "觀察人群、車輛", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q18": {"question": "這個場景讓你聯想到甚麼？", "ans1": "繁華", "ans2": "忙碌", "ans3": "現代", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q19": {"question": "你覺得場景中最能代表「變化」的是甚麼？", "ans1": "川流不息的車輛", "ans2": "變換的交通信號", "ans3": "行走往來的行人", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q20": {"question": "你覺得場景中最能代表「秩序」的是甚麼？", "ans1": "整齊的道路", "ans2": "有序的交通", "ans3": "具規劃的建築群", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q21": {"question": "觀察場景時，你注意到自己的身體有甚麼變化嗎？", "ans1": "更放鬆", "ans2": "更專注", "ans3": "更緊張", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q22": {"question": "觀察場景時，你注意到自己的表情有甚麼變化嗎？", "ans1": "放鬆", "ans2": "愉悅", "ans3": "專注", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q23": {"question": "觀察場景後，你對時間流逝的感覺如何？", "ans1": "時間似乎停止了", "ans2": "時間過得很慢", "ans3": "時間過得很快", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q24": {"question": "你認為這個場景最能表達什麼主題？", "ans1": "現代生活", "ans2": "人類文明", "ans3": "社會發展", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
     });
     gameQuestionSelected = isGameQuestionDebugging ? GetSequentialInteger(24) : GetRandomNumbers(1, 12, 3).concat(GetRandomNumbers(13, 24, 2));
     gameQuestionIndex = 0;

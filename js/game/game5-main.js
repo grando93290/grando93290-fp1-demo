@@ -219,8 +219,8 @@ function InitializeGame5UI() {
 
         "ui-main-bg": {transform:{left:'15.28%', top:'11.11%', width:'69.44%', height:'77.78%'}, roundRect:{color:'white', round:150}},
         "ui-main-title": {transform:{top:'23.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:40, letterSpacing:4, color:'#00693E', text:'完成遊戲', lineHeight: 70}},
-        "ui-main-winner-a": {transform:{left:'41.29%', top:'31.5%', width:'17.41%', height:'6.67%'}, image:{imgSrc:"img/game5ui/playera-win-min.png"}},
-        "ui-main-winner-b": {transform:{left:'41.29%', top:'31.5%', width:'17.41%', height:'6.67%'}, image:{imgSrc:"img/game5ui/playerb-win-min.png"}},
+        "ui-main-winner-a": {transform:{left:'34.92%', top:'31.5%', width:'30.15%', height:'6.67%'}, image:{imgSrc:"img/game5ui/playera-win-min.png"}},
+        "ui-main-winner-b": {transform:{left:'34.92%', top:'31.5%', width:'30.15%', height:'6.67%'}, image:{imgSrc:"img/game5ui/playerb-win-min.png"}},
         "ui-main-no-winner": {transform:{left:'41.29%', top:'31.5%', width:'17.41%', height:'6.67%'}, image:{imgSrc:"img/game5ui/no-win-min.png"}},
         "ui-main-button1": {transform:{left:'33.1%', top:'65.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnGame5ClickUIButton(1);}}},
         "ui-main-button2": {transform:{left:'50.9%', top:'65.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnGame5ClickUIButton(2);}}},

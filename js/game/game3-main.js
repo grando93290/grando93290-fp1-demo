@@ -7,6 +7,9 @@ var gameTrueAudio;
 var gameLoadingBar, gameLoadingBarNail;
 var gameLoadSceneAction;
 
+var gamePopupUI;
+var gameIsShowPopup, gameIsFadePopup, gameIsFirstFrame;
+
 var gameAssetLibrary;
 var gameObjectLibrary;
 var gameTimeBuffer1, gameTimeBuffer2, gameTimeBuffer3;
@@ -94,6 +97,8 @@ function InitializeGame3UI() {
         "ui-main-button1": {transform:{left:'33.1%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickGame3UIButton(1);}}},
         "ui-main-button2": {transform:{left:'50.9%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickGame3UIButton(2);}}},
 
+        "ui-popup": {transform:{left:'30%', top:'28.66%', width:'40%', height:'33%'}, image:{imgSrc:"img/game3ui/popup-min.png"}},
+
         // "ui-test": {transform:{left:'0', top:'0', width:'100%', height:'100%'}, image:{imgSrc:"img/game3ui/2.jpg"}},
     });
 
@@ -120,6 +125,8 @@ function InitializeGame3UI() {
     gameUIMainImage = gameUILibrary.data["ui-main-image"];
     gameUIMainButton1 = gameUILibrary.data["ui-main-button1"];
     gameUIMainButton2 = gameUILibrary.data["ui-main-button2"];
+
+    gamePopupUI = gameUILibrary.data["ui-popup"];
 
     gameMainButton = gameUILibrary.data["ui-button-main"];
     gameMainButton.dom.addEventListener("pointerdown", OnKeyDownGameBtn);
@@ -197,6 +204,7 @@ function InitializeGame3Scene() {
         "ui-distance-ballon": {image:"img/game3ui/ballon-min.png"},
         "ui-distance-ballon-arrow": {image:"img/game3ui/arrow-min.png"},
         "ui-main-button": {image:"img/game3ui/button-min.png"},
+        "ui-popui": {image:"img/game3ui/popup-min.png"},
 
         "game3-sky": {image:"img/game3/game3-sky-min.png"},
         "game3-cloud1": {image:"img/game3/game3-cloud1-min.png"},
@@ -245,6 +253,10 @@ function StartGame3() {
     gameBtnPressedCount = 0
     gameSwimAudioBuffer1 = false;
     gameSwimAudioBuffer2 = 0;
+
+    gameIsFirstFrame = true;
+    gameIsShowPopup = false;
+    gameIsFadePopup = false;
 
     gameIsDiving = false;
     gameIsDivingCD = false;
@@ -377,6 +389,21 @@ function LoopGame3(_evt) {
     let time = runTime - gameTimeBuffer2;
     let deltaTime = time - gameTimeBuffer3;
     gameTimeBuffer3 = time;
+
+    if (!gameIsShowPopup && !gameIsFirstFrame) {
+        if (!gameIsFadePopup) {
+            gamePopupUI.SetEnabled(true);
+        }
+        if (time > 2.7 && !gameIsFadePopup) {
+            gamePopupUI.FadeOut();
+            gameIsFadePopup = true;
+        }
+        if (time > 3) {
+            gameTimeBuffer1 = true;
+            gameIsShowPopup = true;
+        }
+        return;
+    }
 
     if (gameIsPenaltyTime) {
         let penaltyTime = (time - gamePenaltyTimeBuffer) / gamePenaltyTimeInterval;
@@ -627,6 +654,8 @@ function LoopGame3(_evt) {
         SetGame3UIState();
         createjs.Ticker.removeEventListener("tick", LoopGame3);
     }
+
+    gameIsFirstFrame = false;
 
 }
 

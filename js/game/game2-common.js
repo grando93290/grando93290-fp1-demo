@@ -8,6 +8,7 @@ var gameLoadingBar, gameLoadingBarNail;
 var gameQuestionBallon, gameScoreBallon, gameBackBallon;
 var gameLoadGame2SceneAction;
 var gamePopupUI;
+var gamePopupUITitle;
 
 var gameAssetLibrary;
 var gameObjectLibrary;
@@ -40,7 +41,7 @@ function InitializeGame2(_data) {
         "ui-correct": {image:"img/gameCommon/correct-min.png"},
         "ui-wrong": {image:"img/gameCommon/wrong-min.png"},
         "ui-bird": {image:"img/game2ui/bird-min.png"},
-        "ui-popup": {image:"img/game2ui/popup-min.png"},
+        "ui-popup": {image:"img/gameCommon/popup-min.png"},
 
         "game-popup-audio": {audio:"audio/game/popup.wav"},
         "game-press-audio": {audio:"audio/game/press.mp3"},
@@ -105,7 +106,8 @@ function InitializeGame2UI() {
         "ui-main-image-wrong": {transform:{left:'45.31%', top:'29%', width:'9.375%', height:'16.67%'}, image:{imgSrc:"img/gameCommon/wrong-min.png"}},
         "ui-main-image-bird": {transform:{left:'40.43%', top:'35.55%', width:'18.75%', height:'22.22%'}, image:{imgSrc:"img/game2ui/bird-min.png"}},
 
-        "ui-popup": {transform:{left:'28.44%', top:'28.66%', width:'43.12%', height:'33%'}, image:{imgSrc:"img/game2ui/popup-min.png"}},
+        "ui-popup": {transform:{left:'28.44%', top:'28.66%', width:'43.12%', height:'33%'}, image:{imgSrc:"img/gameCommon/popup-min.png"}},
+        "ui-popup-title": {transform:{top:'42.5%', height:'33%'}, text:{fontFamily:'CustomFont', fontSize:36, letterSpacing:4, color:'#161616', text:'請觀察場景中各項細節，</br>並於20秒後回答問題。', lineHeight: 50}},
         // "ui-bg": {transform:{left:'0', top:'0', width:'100%', height:'100%'}, image:{imgSrc:"img/11.jpg"}},
     });
     gameUILibrary.AddUIResizeEvent();
@@ -118,6 +120,7 @@ function InitializeGame2UI() {
     gameBackBallon = gameUILibrary.data["ui-back-ballon"];
     gameBackBallon.dom.addEventListener('click', BackToWeb);
     gamePopupUI = gameUILibrary.data["ui-popup"];
+    gamePopupUITitle = gameUILibrary.data["ui-popup-title"];
 
     // gameUILibrary.data["ui-bg"].SetEnabled(true);
     // gameUILibrary.data["ui-bg"].dom.style.opacity = '50%';
@@ -253,7 +256,7 @@ function ShowGame2Panel(_layout) {
             bg.SetEnabled(true); title.SetEnabled(true); desc.SetEnabled(false);
             imgC.SetEnabled(true); imgW.SetEnabled(false); imgB.SetEnabled(false);
             btn1.SetEnabled(true); btn2.SetEnabled(false); btn3.SetEnabled(false); btn4.SetEnabled(false);
-            title.Update({text: "無需批判自己的感受，<br/>謝謝您的分享！", left:'0', top:'48%', width:'100%', height:'15%'});
+            title.Update({text: "無需批判自己的感受，<br/>謝謝你的分享！", left:'0', top:'48%', width:'100%', height:'15%'});
             imgB.Update({left:'42.53%', top:'26%', width:'14.94%', height:'19.83%'});
             btn1.Update({text: "確定", left:'41.55%', top:'66.2%', width:'16.9%', height:'9.36%'});
             break;

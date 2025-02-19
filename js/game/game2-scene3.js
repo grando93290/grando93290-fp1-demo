@@ -149,9 +149,11 @@ function LoopGameScene3(_evt) {
     if (!gameIsShowPopup && !gameIsFirstFrame) {
         if (!gameIsFadePopup) {
             gamePopupUI.SetEnabled(true);
+            gamePopupUITitle.SetEnabled(true);
         }
         if (time > 2.7 && !gameIsFadePopup) {
             gamePopupUI.FadeOut();
+            gamePopupUITitle.FadeOut();
             gameIsFadePopup = true;
         }
         if (time > 3) {
@@ -261,20 +263,20 @@ function InitializeGameScene3Question() {
         "q8": {"question": "草地是甚麼顏色？", "ans1": "綠色", "ans2": "黃色", "ans3": "紅色", "ans4": "", "correct":[1], "isEmotional":false, "layout":3},
         "q9": {"question": "草地上有蘑菇嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[1], "isEmotional":false, "layout":2},
         "q10": {"question": "楓樹的葉子是什麼顏色？", "ans1": "紅色", "ans2": "黃色", "ans3": "綠色", "ans4": "以上皆有", "correct":[1,2,3,4], "isEmotional":false, "layout":4},
-        "q11": {"question": "您在場景中聽到青蛙發出的聲音嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[1], "isEmotional":false, "layout":2},
-        "q12": {"question": "您在場景中聽到甚麼聲音？", "ans1": "河水流動聲", "ans2": "青蛙的聲音", "ans3": "微風吹拂聲", "ans4": "以上皆有", "correct":[1,2,3,4], "isEmotional":false, "layout":4},
-        "q13": {"question": "聽到河流的聲音時，您的心情如何？", "ans1": "平靜", "ans2": "愉悅", "ans3": "放鬆", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q14": {"question": "看到楓葉時，您的心情如何？", "ans1": "平靜", "ans2": "愉悅", "ans3": "感嘆", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q15": {"question": "秋天的氛圍為您帶來甚麼感覺？", "ans1": "溫馨", "ans2": "感慨", "ans3": "期待", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q16": {"question": "如果置身此場景中，您最想做的事是甚麼？", "ans1": "撿拾楓葉", "ans2": "沿著河邊散步", "ans3": "坐下來欣賞風景", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q17": {"question": "觀察場景時，您最想觸摸的是甚麼？", "ans1": "楓葉", "ans2": "河水", "ans3": "草地", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q18": {"question": "這個場景讓您聯想到甚麼？", "ans1": "豐收", "ans2": "變遷", "ans3": "美麗", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q19": {"question": "觀察場景時，您注意到自己的身體有甚麼變化嗎？", "ans1": "更放鬆", "ans2": "更專注", "ans3": "更緊張", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q20": {"question": "您覺得場景中最能代表「生命週期」的是甚麼？", "ans1": "變色的楓葉", "ans2": "流動的河水", "ans3": "行走的動物", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q21": {"question": "觀察場景後，您對時間流逝的感覺如何？", "ans1": "時間似乎停止了", "ans2": "時間過得很慢", "ans3": "時間過得很快", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q22": {"question": "觀察場景時，您注意到自己的表情有甚麼變化嗎？", "ans1": "放鬆", "ans2": "愉悅", "ans3": "專注", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q23": {"question": "這個場景為您帶來甚麼情緒？", "ans1": "平和", "ans2": "愉悅", "ans3": "感恩", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
-        "q24": {"question": "您認為這個場景最能表達什麼主題？", "ans1": "生命的變遷", "ans2": "自然的美麗", "ans3": "時間的流逝", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q11": {"question": "你在場景中聽到青蛙發出的聲音嗎？", "ans1": "有", "ans2": "沒有", "ans3": "", "ans4": "", "correct":[1], "isEmotional":false, "layout":2},
+        "q12": {"question": "你在場景中聽到甚麼聲音？", "ans1": "河水流動聲", "ans2": "青蛙的聲音", "ans3": "微風吹拂聲", "ans4": "以上皆有", "correct":[1,2,3,4], "isEmotional":false, "layout":4},
+        "q13": {"question": "聽到河流的聲音時，你的心情如何？", "ans1": "平靜", "ans2": "愉悅", "ans3": "放鬆", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q14": {"question": "看到楓葉時，你的心情如何？", "ans1": "平靜", "ans2": "愉悅", "ans3": "感嘆", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q15": {"question": "秋天的氛圍為你帶來甚麼感覺？", "ans1": "溫馨", "ans2": "感慨", "ans3": "期待", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q16": {"question": "如果置身此場景中，你最想做的事是甚麼？", "ans1": "撿拾楓葉", "ans2": "沿著河邊散步", "ans3": "坐下來欣賞風景", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q17": {"question": "觀察場景時，你最想觸摸的是甚麼？", "ans1": "楓葉", "ans2": "河水", "ans3": "草地", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q18": {"question": "這個場景讓你聯想到甚麼？", "ans1": "豐收", "ans2": "變遷", "ans3": "美麗", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q19": {"question": "觀察場景時，你注意到自己的身體有甚麼變化嗎？", "ans1": "更放鬆", "ans2": "更專注", "ans3": "更緊張", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q20": {"question": "你覺得場景中最能代表「生命週期」的是甚麼？", "ans1": "變色的楓葉", "ans2": "流動的河水", "ans3": "行走的動物", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q21": {"question": "觀察場景後，你對時間流逝的感覺如何？", "ans1": "時間似乎停止了", "ans2": "時間過得很慢", "ans3": "時間過得很快", "ans4": "其他/沒有特別感覺", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q22": {"question": "觀察場景時，你注意到自己的表情有甚麼變化嗎？", "ans1": "放鬆", "ans2": "愉悅", "ans3": "專注", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q23": {"question": "這個場景為你帶來甚麼情緒？", "ans1": "平和", "ans2": "愉悅", "ans3": "感恩", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
+        "q24": {"question": "你認為這個場景最能表達什麼主題？", "ans1": "生命的變遷", "ans2": "自然的美麗", "ans3": "時間的流逝", "ans4": "其他/沒有", "correct":[1,2,3,4], "isEmotional":true, "layout":1},
     });
     gameQuestionSelected = isGameQuestionDebugging ? GetSequentialInteger(24) : GetRandomNumbers(1, 11, 3).concat(GetRandomNumbers(12, 24, 2));
     gameQuestionIndex = 0;
