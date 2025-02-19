@@ -1,4 +1,5 @@
 YMCA Web Game
+20250220 Update: minor update Game1, game2, game3 and game5 (game 1 change text, game 2 change popup, game 3 add popup and adjust collision, game 5 change text)
 20250214 Update: Update Game 3 and Game 4
 20250127 Update: minor update game 3 
 20250120 Update: update game 2 popup (renove "請注意")
