@@ -112,7 +112,7 @@ function InitializeGame1UI() {
     gameUIMainButton2 = gameUILibrary.data["ui-main-button2"];
 
     gameUIDebug = gameUILibrary.data["ui-debug"];
-    gameUIDebug.SetEnabled(true);
+    // gameUIDebug.SetEnabled(true);
 }
 
 function ShowLoadingGame1UI() {

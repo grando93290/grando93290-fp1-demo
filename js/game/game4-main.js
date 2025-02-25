@@ -64,7 +64,7 @@ function InitializeGame4UI() {
 
         "ui-main-bg": {transform:{left:'15.28%', top:'11.11%', width:'69.44%', height:'77.78%'}, roundRect:{color:'white', round:150}},
         "ui-main-title": {transform:{top:'27.5%', height:'10%'}, text:{fontFamily:'CustomFont', fontSize:40, letterSpacing:4, color:'#00693E', text:'完成遊戲', lineHeight: 70}},
-        "ui-main-image": {transform:{left:'40.45%', top:'38.89%', width:'19.09%', height:'12.89%'}, image:{imgSrc:"img/game4ui/elder-min.png"}},
+        "ui-main-image": {transform:{left:'41.43%', top:'36.33%', width:'16.78%', height:'23.66%'}, image:{imgSrc:"img/game4ui/elder-min.png"}},
         "ui-main-button1": {transform:{left:'33.1%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'再玩一次', onclick:()=>{OnClickGame4UIButton(1);}}},
         "ui-main-button2": {transform:{left:'50.9%', top:'61.5%', width:'16%', height:'9.36%'}, button:{imgSrc:"img/gameCommon/button-min.png", round:10, fontFamily:'CustomFont', fontSize:38, letterSpacing:4, color:'white', text:'離開遊戲', onclick:()=>{OnClickGame4UIButton(2);}}},
 
