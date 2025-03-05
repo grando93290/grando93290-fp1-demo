@@ -59,6 +59,15 @@ function OpenGameView(_data) {
     gameView.style.touchAction = 'none';
     document.body.appendChild(gameView);
 
+    gameView.style.userSelect = 'none';
+    gameView.style.webkitUserSelect = 'none';
+    gameView.style.msUserSelect = 'none';
+    gameView.style.mozUserSelect = 'none';
+    gameView.style.touchAction = 'none';
+    gameView.style.webkitTouchCallout = 'none';
+    gameView.style.webkitUserDrag = 'none';
+    gameView.setAttribute('tabindex', '-1');
+
     gameCanvas = document.createElement('canvas');
     gameCanvas.style.position = 'fixed';
     gameCanvas.style.display = 'block';
