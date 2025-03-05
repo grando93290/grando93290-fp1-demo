@@ -1,4 +1,5 @@
 YMCA Web Game
+20250305 Update: popup from 3 s to 5s, fix mobile browser behaviour.
 20250225 Update: remove game 1 debug timer, update all game loading panel and win panel image (2x image size), update game 3 popup
 20250220 Update: minor update Game1, game2, game3 and game5 (game 1 change text, game 2 change popup, game 3 add popup and adjust collision, game 5 change text)
 20250214 Update: Update Game 3 and Game 4
