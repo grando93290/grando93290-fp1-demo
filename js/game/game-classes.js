@@ -652,6 +652,7 @@ class UIElement {
         this.dom.style.webkitTouchCallout = 'none';
         this.dom.style.webkitUserDrag = 'none';
         this.dom.setAttribute('tabindex', '-1');
+        this.dom.style.webkitTapHighlightColor = 'transparent';
 
         this.dom.innerHTML = this.text;
         if (this.transform.parent == '') {
