@@ -66,6 +66,15 @@ function OpenGameView(_data) {
     gameView.appendChild(gameCanvas);
     gameStage = new createjs.Stage(gameCanvas);
 
+    gameCanvas.style.userSelect = 'none';
+    gameCanvas.style.webkitUserSelect = 'none';
+    gameCanvas.style.msUserSelect = 'none';
+    gameCanvas.style.mozUserSelect = 'none';
+    gameCanvas.style.touchAction = 'none';
+    gameCanvas.style.webkitTouchCallout = 'none';
+    gameCanvas.style.webkitUserDrag = 'none';
+    gameCanvas.setAttribute('tabindex', '-1');
+
     // gameOriginalWidth = _data.width;
     // gameOriginalHeight = _data.height;
     gameOriginalWidth = gameId == 2 ? 1920 : 1728;
@@ -76,6 +85,15 @@ function OpenGameView(_data) {
     gameUI.style.position = 'fixed';
     gameUI.style.display = 'block';
     gameView.appendChild(gameUI);
+
+    gameUI.style.userSelect = 'none';
+    gameUI.style.webkitUserSelect = 'none';
+    gameUI.style.msUserSelect = 'none';
+    gameUI.style.mozUserSelect = 'none';
+    gameUI.style.touchAction = 'none';
+    gameUI.style.webkitTouchCallout = 'none';
+    gameUI.style.webkitUserDrag = 'none';
+    gameUI.setAttribute('tabindex', '-1');
 
     gameLandscapePrompt = document.createElement('div');
     gameLandscapePrompt.style.position = 'fixed';
