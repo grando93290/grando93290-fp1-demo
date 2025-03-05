@@ -134,12 +134,12 @@ function LoopGameScene2(_evt) {
             gamePopupUI.SetEnabled(true);
             gamePopupUITitle.SetEnabled(true);
         }
-        if (time > 2.7 && !gameIsFadePopup) {
+        if (time > gamePopupFadeOutTime && !gameIsFadePopup) {
             gamePopupUI.FadeOut();
             gamePopupUITitle.FadeOut();
             gameIsFadePopup = true;
         }
-        if (time > 3) {
+        if (time > gamePopupExitTime) {
             gameTimeBuffer1 = true;
             PlayAudio(gameAssetLibrary.data["game2-scene2-audio"].audio);
             gameIsShowPopup = true;

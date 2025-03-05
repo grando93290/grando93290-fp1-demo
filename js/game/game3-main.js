@@ -394,11 +394,11 @@ function LoopGame3(_evt) {
         if (!gameIsFadePopup) {
             gamePopupUI.SetEnabled(true);
         }
-        if (time > 2.7 && !gameIsFadePopup) {
+        if (time > gamePopupFadeOutTime && !gameIsFadePopup) {
             gamePopupUI.FadeOut();
             gameIsFadePopup = true;
         }
-        if (time > 3) {
+        if (time > gamePopupExitTime) {
             gameTimeBuffer1 = true;
             gameIsShowPopup = true;
         }

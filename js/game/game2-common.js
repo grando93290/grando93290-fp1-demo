@@ -14,9 +14,7 @@ var gameAssetLibrary;
 var gameObjectLibrary;
 var gameTimeBuffer1, gameTimeBuffer2;
 var gameSceneIndex;
-var gameIsFadePopup;
-var gameIsShowPopup;
-var gameIsFirstFrame;
+var gameIsFadePopup, gameIsShowPopup, gameIsFirstFrame;
 
 var gameQuestionLibrary;
 var gameQuestionSelected;

@@ -22,6 +22,9 @@ var gameCanvasScale = 1;
 // New Fix
 var endGameUrl;
 
+// Common variable
+const gamePopupFadeOutTime = 4.7, gamePopupExitTime = 5;
+
 function OpenGameView(_data) {
     gameId = _data.gameId;
     if ('gameColor' in _data) {
