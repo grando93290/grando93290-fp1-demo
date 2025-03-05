@@ -442,6 +442,14 @@ class UIElement {
         this.dom.style.top = this.transform.top;
         this.dom.style.width = this.transform.width;
         this.dom.style.height = this.transform.height;
+
+        this.dom.style.userSelect = 'none';
+        this.dom.style.webkitUserSelect = 'none';
+        this.dom.style.msUserSelect = 'none';
+        this.dom.style.touchAction = 'none';
+        this.dom.style.webkitTouchCallout = 'none';
+        this.dom.style.webkitUserDrag = 'none';
+
         // this.dom.style.opacity = '50%';
         if (this.transform.parent == '') {
             gameUI.appendChild(this.dom);
@@ -469,7 +477,14 @@ class UIElement {
         this.dom.style.height = this.transform.height;
         this.dom.style.fontFamily = this.fontFamily;
         this.dom.style.fontWeight = 100;
+
         this.dom.style.userSelect = 'none';
+        this.dom.style.webkitUserSelect = 'none';
+        this.dom.style.msUserSelect = 'none';
+        this.dom.style.touchAction = 'none';
+        this.dom.style.webkitTouchCallout = 'none';
+        this.dom.style.webkitUserDrag = 'none';
+
         this.dom.style.color = this.color;
         this.dom.innerHTML = this.text;
         if (this.transform.parent == '') {
@@ -511,7 +526,14 @@ class UIElement {
         this.dom.style.fontWeight = 100;
         this.dom.style.color = this.color;
         this.dom.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
+
         this.dom.style.userSelect = 'none';
+        this.dom.style.webkitUserSelect = 'none';
+        this.dom.style.msUserSelect = 'none';
+        this.dom.style.touchAction = 'none';
+        this.dom.style.webkitTouchCallout = 'none';
+        this.dom.style.webkitUserDrag = 'none';
+
         this.dom.innerHTML = this.text;
         this.dom.addEventListener('click', this.onclick);
         if (this.transform.parent == '') {
@@ -537,6 +559,14 @@ class UIElement {
         this.dom.style.backgroundPosition = 'center';
         this.dom.style.backgroundRepeat = 'no-repeat';
         this.dom.style.backgroundImage = "url("+this.imgSrc+")";
+
+        this.dom.style.userSelect = 'none';
+        this.dom.style.webkitUserSelect = 'none';
+        this.dom.style.msUserSelect = 'none';
+        this.dom.style.touchAction = 'none';
+        this.dom.style.webkitTouchCallout = 'none';
+        this.dom.style.webkitUserDrag = 'none';
+
         if (this.transform.parent == '') {
             gameUI.appendChild(this.dom);
         } else {
@@ -560,6 +590,14 @@ class UIElement {
         this.dom.style.backgroundPosition = 'center';
         this.dom.style.backgroundRepeat = 'no-repeat';
         this.dom.style.backgroundImage = "url("+this.imgSrc+")";
+
+        this.dom.style.userSelect = 'none';
+        this.dom.style.webkitUserSelect = 'none';
+        this.dom.style.msUserSelect = 'none';
+        this.dom.style.touchAction = 'none';
+        this.dom.style.webkitTouchCallout = 'none';
+        this.dom.style.webkitUserDrag = 'none';
+
         if (this.transform.parent == '') {
             gameUI.appendChild(this.dom);
         } else {
@@ -595,7 +633,14 @@ class UIElement {
         this.dom.style.fontSize = (gameCanvasScale * this.fontSize) + 'px';
         this.dom.style.color = this.color;
         this.dom.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
+
         this.dom.style.userSelect = 'none';
+        this.dom.style.webkitUserSelect = 'none';
+        this.dom.style.msUserSelect = 'none';
+        this.dom.style.touchAction = 'none';
+        this.dom.style.webkitTouchCallout = 'none';
+        this.dom.style.webkitUserDrag = 'none';
+
         this.dom.innerHTML = this.text;
         if (this.transform.parent == '') {
             gameUI.appendChild(this.dom);
@@ -626,7 +671,14 @@ class UIElement {
         this.dom2.style.fontSize = (gameCanvasScale * this.fontSize) + 'px';
         this.dom2.style.color = this.color;
         this.dom2.style.letterSpacing = (gameCanvasScale * this.letterSpacing) + 'px';
+
         this.dom.style.userSelect = 'none';
+        this.dom.style.webkitUserSelect = 'none';
+        this.dom.style.msUserSelect = 'none';
+        this.dom.style.touchAction = 'none';
+        this.dom.style.webkitTouchCallout = 'none';
+        this.dom.style.webkitUserDrag = 'none';
+
         this.dom2.innerHTML = this.text;
         if (this.transform.parent == '') {
             gameUI.appendChild(this.dom2);
@@ -650,6 +702,14 @@ class UIElement {
         this.dom.style.height = this.transform.height;
         this.dom.style.background = this.color1;
         this.dom.style.borderRadius = (gameCanvasScale * this.round) + 'px';
+
+        this.dom.style.userSelect = 'none';
+        this.dom.style.webkitUserSelect = 'none';
+        this.dom.style.msUserSelect = 'none';
+        this.dom.style.touchAction = 'none';
+        this.dom.style.webkitTouchCallout = 'none';
+        this.dom.style.webkitUserDrag = 'none';
+
         if (this.transform.parent == '') {
             gameUI.appendChild(this.dom);
         } else {
@@ -684,6 +744,14 @@ class UIElement {
         this.dom.style.top = this.transform.top;
         this.dom.style.width = this.transform.width;
         this.dom.style.height = this.transform.height;
+
+        this.dom.style.userSelect = 'none';
+        this.dom.style.webkitUserSelect = 'none';
+        this.dom.style.msUserSelect = 'none';
+        this.dom.style.touchAction = 'none';
+        this.dom.style.webkitTouchCallout = 'none';
+        this.dom.style.webkitUserDrag = 'none';
+
         if (this.transform.parent == '') {
             gameUI.appendChild(this.dom);
         } else {
