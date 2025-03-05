@@ -446,9 +446,11 @@ class UIElement {
         this.dom.style.userSelect = 'none';
         this.dom.style.webkitUserSelect = 'none';
         this.dom.style.msUserSelect = 'none';
+        this.dom.style.mozUserSelect = 'none';
         this.dom.style.touchAction = 'none';
         this.dom.style.webkitTouchCallout = 'none';
         this.dom.style.webkitUserDrag = 'none';
+        this.dom.setAttribute('tabindex', '-1');
 
         // this.dom.style.opacity = '50%';
         if (this.transform.parent == '') {
@@ -481,9 +483,11 @@ class UIElement {
         this.dom.style.userSelect = 'none';
         this.dom.style.webkitUserSelect = 'none';
         this.dom.style.msUserSelect = 'none';
+        this.dom.style.mozUserSelect = 'none';
         this.dom.style.touchAction = 'none';
         this.dom.style.webkitTouchCallout = 'none';
         this.dom.style.webkitUserDrag = 'none';
+        this.dom.setAttribute('tabindex', '-1');
 
         this.dom.style.color = this.color;
         this.dom.innerHTML = this.text;
@@ -530,9 +534,11 @@ class UIElement {
         this.dom.style.userSelect = 'none';
         this.dom.style.webkitUserSelect = 'none';
         this.dom.style.msUserSelect = 'none';
+        this.dom.style.mozUserSelect = 'none';
         this.dom.style.touchAction = 'none';
         this.dom.style.webkitTouchCallout = 'none';
         this.dom.style.webkitUserDrag = 'none';
+        this.dom.setAttribute('tabindex', '-1');
 
         this.dom.innerHTML = this.text;
         this.dom.addEventListener('click', this.onclick);
@@ -563,9 +569,11 @@ class UIElement {
         this.dom.style.userSelect = 'none';
         this.dom.style.webkitUserSelect = 'none';
         this.dom.style.msUserSelect = 'none';
+        this.dom.style.mozUserSelect = 'none';
         this.dom.style.touchAction = 'none';
         this.dom.style.webkitTouchCallout = 'none';
         this.dom.style.webkitUserDrag = 'none';
+        this.dom.setAttribute('tabindex', '-1');
 
         if (this.transform.parent == '') {
             gameUI.appendChild(this.dom);
@@ -594,9 +602,11 @@ class UIElement {
         this.dom.style.userSelect = 'none';
         this.dom.style.webkitUserSelect = 'none';
         this.dom.style.msUserSelect = 'none';
+        this.dom.style.mozUserSelect = 'none';
         this.dom.style.touchAction = 'none';
         this.dom.style.webkitTouchCallout = 'none';
         this.dom.style.webkitUserDrag = 'none';
+        this.dom.setAttribute('tabindex', '-1');
 
         if (this.transform.parent == '') {
             gameUI.appendChild(this.dom);
@@ -637,9 +647,11 @@ class UIElement {
         this.dom.style.userSelect = 'none';
         this.dom.style.webkitUserSelect = 'none';
         this.dom.style.msUserSelect = 'none';
+        this.dom.style.mozUserSelect = 'none';
         this.dom.style.touchAction = 'none';
         this.dom.style.webkitTouchCallout = 'none';
         this.dom.style.webkitUserDrag = 'none';
+        this.dom.setAttribute('tabindex', '-1');
 
         this.dom.innerHTML = this.text;
         if (this.transform.parent == '') {
@@ -675,9 +687,11 @@ class UIElement {
         this.dom.style.userSelect = 'none';
         this.dom.style.webkitUserSelect = 'none';
         this.dom.style.msUserSelect = 'none';
+        this.dom.style.mozUserSelect = 'none';
         this.dom.style.touchAction = 'none';
         this.dom.style.webkitTouchCallout = 'none';
         this.dom.style.webkitUserDrag = 'none';
+        this.dom.setAttribute('tabindex', '-1');
 
         this.dom2.innerHTML = this.text;
         if (this.transform.parent == '') {
@@ -706,9 +720,11 @@ class UIElement {
         this.dom.style.userSelect = 'none';
         this.dom.style.webkitUserSelect = 'none';
         this.dom.style.msUserSelect = 'none';
+        this.dom.style.mozUserSelect = 'none';
         this.dom.style.touchAction = 'none';
         this.dom.style.webkitTouchCallout = 'none';
         this.dom.style.webkitUserDrag = 'none';
+        this.dom.setAttribute('tabindex', '-1');
 
         if (this.transform.parent == '') {
             gameUI.appendChild(this.dom);
@@ -748,9 +764,11 @@ class UIElement {
         this.dom.style.userSelect = 'none';
         this.dom.style.webkitUserSelect = 'none';
         this.dom.style.msUserSelect = 'none';
+        this.dom.style.mozUserSelect = 'none';
         this.dom.style.touchAction = 'none';
         this.dom.style.webkitTouchCallout = 'none';
         this.dom.style.webkitUserDrag = 'none';
+        this.dom.setAttribute('tabindex', '-1');
 
         if (this.transform.parent == '') {
             gameUI.appendChild(this.dom);
